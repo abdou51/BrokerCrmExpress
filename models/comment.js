@@ -6,6 +6,11 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isDrafted: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
   { versionKey: false }
 );

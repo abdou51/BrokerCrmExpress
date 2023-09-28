@@ -7,6 +7,11 @@ const specialtySchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    isDrafted: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
   { versionKey: false }
 );

@@ -12,6 +12,10 @@ const visitSchema = new mongoose.Schema(
       ref: "Client",
       required: true,
     },
+    rapport: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Rapport",
+    },
     visitLocation: {
       type: String,
     },

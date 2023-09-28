@@ -26,6 +26,11 @@ const supplierSchema = new mongoose.Schema(
     phoneNumberTwo: {
       type: Number,
     },
+    isDrafted: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
   { versionKey: false }
 );

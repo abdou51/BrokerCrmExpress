@@ -32,6 +32,11 @@ const productSchema = new mongoose.Schema(
     DDP: {
       type: String,
     },
+    isDrafted: {
+      type: Boolean,
+      default: false,
+      select: false,
+    },
   },
   { versionKey: false }
 );

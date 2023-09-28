@@ -7,6 +7,13 @@ const createRapport = async (req, res) => {
 
     const userId = req.user.userId;
     const userVisit = await Visit.findById(visit);
+    console.log(userVisit);
+
+    if (userVisit.isDone == true) {
+      return res.status(400).json({
+        error: "A Rapport already exists for this visit.",
+      });
+    }
 
     if (!userVisit || userVisit.user.toString() !== userId) {
       return res.status(403).json({
@@ -27,6 +34,9 @@ const createRapport = async (req, res) => {
     });
 
     const createdRapport = await newRapport.save();
+    userVisit.isDone = true;
+    userVisit.rapport = createdRapport;
+    await userVisit.save();
 
     res.status(201).json(createdRapport);
   } catch (error) {
