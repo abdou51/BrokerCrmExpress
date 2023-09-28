@@ -9,6 +9,11 @@ router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
 router.put("/:id", userJwt, userController.updateUser);
 router.get("/", userController.getAllUsers);
-router.post("/portfolio/add/:id", userController.addClientToPortfolio);
+router.post("/portfolio/add", userJwt, userController.addClientToPortfolio);
+router.delete(
+  "/portfolio/remove",
+  userJwt,
+  userController.removeClientFromPortfolio
+);
 
 module.exports = router;

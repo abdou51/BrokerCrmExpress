@@ -8,12 +8,13 @@ const createClient = async (req, res) => {
     res.status(201).json(createdClient);
   } catch (error) {
     res.status(500).json({ error: "Error creating Client" });
+    console.log(error);
   }
 };
 const getClientById = async (req, res) => {
   try {
     const clientId = req.params.id;
-    console.log(clientId);
+
     const client = await Client.findById(clientId)
       .populate("speciality")
       .populate("wilaya");

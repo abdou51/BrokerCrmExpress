@@ -61,7 +61,6 @@ const loginUser = async (req, res) => {
     if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
       try {
         const token = generateToken(user.id, user.role);
-        console.log(token);
         const userWithoutPassword = {
           id: user.id,
           username: user.username,
@@ -161,7 +160,39 @@ const getAllUsers = async (req, res) => {
   }
 };
 const addClientToPortfolio = async (req, res, next) => {
-  const userId = req.params.id;
+  try {
+    const userId = req.user.userId;
+    const clientId = req.body.clientId;
+
+    const user = await User.findById(userId);
+    const client = await Client.findById(clientId);
+
+    if (!user || !client) {
+      return res.status(404).json({ message: "User or client not found" });
+    }
+
+    const isClientInPortfolio = user.portfolio.some(
+      (item) => item.client && item.client.toString() === clientId
+    );
+
+    if (isClientInPortfolio) {
+      return res
+        .status(400)
+        .json({ message: "Client is already in the user's portfolio" });
+    }
+
+    user.portfolio.push({ client: clientId });
+
+    await user.save();
+
+    res.status(200).json({ message: "Client added to the user's portfolio" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "An error occurred" });
+  }
+};
+const removeClientFromPortfolio = async (req, res, next) => {
+  const userId = req.user.userId;
   const clientId = req.body.clientId;
 
   try {
@@ -171,27 +202,26 @@ const addClientToPortfolio = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const client = await Client.findById(clientId);
+    const clientIndex = user.portfolio.findIndex(
+      (item) => item.client && item.client.toString() === clientId
+    );
 
-    if (!client) {
-      return res.status(404).json({ message: "Client not found" });
-    }
-
-    if (!user.portfolio.includes(clientId)) {
-      user.portfolio.push(clientId);
-      await user.save();
-
-      return res.status(200).json({ message: "Client added to the portfolio" });
-    } else {
+    if (clientIndex === -1) {
       return res
         .status(400)
-        .json({ message: "Client is already in the portfolio" });
+        .json({ message: "Client not found in the user's portfolio" });
     }
+
+    user.portfolio.splice(clientIndex, 1);
+
+    await user.save();
+
+    res
+      .status(200)
+      .json({ message: "Client removed from the user's portfolio" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "An error occurred while adding the client to the portfolio",
-    });
+    res.status(500).json({ error: "An error occurred" });
   }
 };
 
@@ -201,4 +231,5 @@ module.exports = {
   updateUser,
   getAllUsers,
   addClientToPortfolio,
+  removeClientFromPortfolio,
 };

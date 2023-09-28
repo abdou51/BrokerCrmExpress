@@ -1,6 +1,5 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -29,12 +28,30 @@ const userRoutes = require("./routes/userRoutes");
 const wilayaRoutes = require("./routes/wilayaRoutes");
 const specialityRoutes = require("./routes/specialityRoutes");
 const clientRoutes = require("./routes/clientRoutes");
+const taskRoutes = require("./routes/taskRoutes");
+const companyRoutes = require("./routes/companyRoutes");
+const productRoutes = require("./routes/productRoutes");
+const coproductRoutes = require("./routes/coproductRoutes");
+const commentRoutes = require("./routes/commentRoutes");
+const motvationRoutes = require("./routes/motivationRoutes");
+const supplierRoutes = require("./routes/supplierRoutes");
+const visitRoutes = require("./routes/visitRoutes");
+const rapportRoutes = require("./routes/rapportRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
 app.use("/wilayas", wilayaRoutes);
 app.use("/specialities", specialityRoutes);
 app.use("/clients", clientRoutes);
+app.use("/tasks", taskRoutes);
+app.use("/companies", companyRoutes);
+app.use("/products", productRoutes);
+app.use("/coproducts", coproductRoutes);
+app.use("/comments", commentRoutes);
+app.use("/motivations", motvationRoutes);
+app.use("/suppliers", supplierRoutes);
+app.use("/visits", visitRoutes);
+app.use("/rapports", rapportRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {
