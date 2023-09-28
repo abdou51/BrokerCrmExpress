@@ -2,16 +2,29 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const visitSchema = new mongoose.Schema(
   {
-    task: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
+      ref: "User",
+      required: true,
+    },
+    client: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Client",
       required: true,
     },
     visitLocation: {
       type: String,
     },
-    createdDate: {
+    visitDate: {
       type: String,
+    },
+    isDone: {
+      type: Boolean,
+      default: false,
+    },
+    hasCommand: {
+      type: Boolean,
+      default: false,
     },
   },
   { versionKey: false }

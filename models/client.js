@@ -17,8 +17,7 @@ const clientSchema = new mongoose.Schema(
       required: true,
     },
     wilaya: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Wilaya",
+      type: String,
     },
     speciality: {
       type: mongoose.Schema.Types.ObjectId,

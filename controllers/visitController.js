@@ -1,27 +1,15 @@
 const Visit = require("../models/visit");
-const Task = require("../models/task");
 
 const createVisit = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { task: taskId, visitLocation, createdDate } = req.body;
-
-    const task = await Task.findById(taskId);
-
-    if (!task) {
-      return res.status(404).json({ error: "Task not found." });
-    }
-    console.log(task.user.toString());
-    if (task.user.toString() !== userId) {
-      return res
-        .status(403)
-        .json({ error: "You can only create visits for your own tasks." });
-    }
+    const { visitLocation, visitDate, client } = req.body;
 
     const newVisit = new Visit({
-      task: taskId,
+      user: userId,
       visitLocation,
-      createdDate,
+      visitDate,
+      client,
     });
 
     const createdVisit = await newVisit.save();

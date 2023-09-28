@@ -30,26 +30,6 @@ const RapportSchema = new mongoose.Schema(
         },
       },
     ],
-    coproducts: [
-      {
-        coproduct: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Coproduct",
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-        rotations: {
-          type: Number,
-        },
-        availability: {
-          type: Boolean,
-          default: true,
-        },
-      },
-    ],
     suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Supplier" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
