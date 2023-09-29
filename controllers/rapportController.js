@@ -3,7 +3,7 @@ const Visit = require("../models/visit");
 const Client = require("../models/client");
 const createRapport = async (req, res) => {
   try {
-    const { visit, note, products, suppliers, comments } = req.body;
+    const { visit, note, objectif, products, suppliers, comments } = req.body;
 
     const userId = req.user.userId;
     const userVisit = await Visit.findById(visit);
@@ -28,6 +28,7 @@ const createRapport = async (req, res) => {
     const newRapport = new Rapport({
       visit,
       note,
+      objectif,
       products,
       suppliers,
       comments,
@@ -87,7 +88,7 @@ const getRapportById = async (req, res) => {
 
 const updateRapport = async (req, res) => {
   try {
-    const { visit, note, products, suppliers, comments } = req.body;
+    const { visit, note, objectif, products, suppliers, comments } = req.body;
     const rapportId = req.params.id;
 
     const existingRapport = await Rapport.findById(rapportId).populate({
@@ -107,6 +108,7 @@ const updateRapport = async (req, res) => {
         }
       );
     }
+    existingRapport.objectif = objectif;
     existingRapport.note = note;
     existingRapport.products = products;
     existingRapport.suppliers = suppliers;

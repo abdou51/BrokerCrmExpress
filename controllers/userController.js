@@ -82,6 +82,7 @@ const loginUser = async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("An error occurred while finding the user.");
+    console.log(error);
   }
 };
 const updateUser = async (req, res) => {

@@ -10,6 +10,9 @@ const RapportSchema = new mongoose.Schema(
     note: {
       type: String,
     },
+    objectif: {
+      type: String,
+    },
     products: [
       {
         product: {

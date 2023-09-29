@@ -1,0 +1,74 @@
+Date : 2023-09-29 03:17:05
+Directory : e:\NodeJs Express Projects\Broker Crm
+Total : 43 files,  3042 codes, 80 comments, 214 blanks, all 3336 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |      2,015 |          0 |          3 |      2,018 |
+| JavaScript |         39 |      1,022 |         80 |        207 |      1,309 |
+| Properties |          1 |          5 |          0 |          4 |          9 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                      | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                         |         43 |      3,042 |         80 |        214 |      3,336 |
+| . (Files)                                                                 |          5 |      2,077 |          6 |         15 |      2,098 |
+| controllers                                                               |         12 |        505 |          2 |         95 |        602 |
+| middlewares                                                               |          2 |         32 |          0 |          9 |         41 |
+| models                                                                    |         12 |        341 |         61 |         46 |        448 |
+| routes                                                                    |         12 |         87 |         11 |         49 |        147 |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                  | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| e:\NodeJs Express Projects\Broker Crm\.env                                | Properties |          5 |          0 |          4 |          9 |
+| e:\NodeJs Express Projects\Broker Crm\app.js                              | JavaScript |         57 |          6 |          8 |         71 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\clientController.js     | JavaScript |         30 |          0 |          7 |         37 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\commandController.js    | JavaScript |         24 |          0 |          4 |         28 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\commentController.js    | JavaScript |         16 |          0 |          5 |         21 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\companyController.js    | JavaScript |         17 |          0 |          5 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\motivationController.js | JavaScript |         16 |          0 |          5 |         21 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\productController.js    | JavaScript |         14 |          0 |          4 |         18 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\rapportController.js    | JavaScript |        115 |          0 |         14 |        129 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\specialityController.js | JavaScript |         16 |          1 |          5 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\supplierController.js   | JavaScript |         14 |          0 |          4 |         18 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\userController.js       | JavaScript |        206 |          0 |         31 |        237 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\visitController.js      | JavaScript |         21 |          0 |          6 |         27 |
+| e:\NodeJs Express Projects\Broker Crm\controllers\wilayaController.js     | JavaScript |         16 |          1 |          5 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\middlewares\jwtMiddleware.js        | JavaScript |         13 |          0 |          3 |         16 |
+| e:\NodeJs Express Projects\Broker Crm\middlewares\userJwt.js              | JavaScript |         19 |          0 |          6 |         25 |
+| e:\NodeJs Express Projects\Broker Crm\models\client.js                    | JavaScript |         54 |          0 |          4 |         58 |
+| e:\NodeJs Express Projects\Broker Crm\models\command.js                   | JavaScript |         11 |         61 |          4 |         76 |
+| e:\NodeJs Express Projects\Broker Crm\models\comment.js                   | JavaScript |         17 |          0 |          4 |         21 |
+| e:\NodeJs Express Projects\Broker Crm\models\company.js                   | JavaScript |         18 |          0 |          4 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\models\motivation.js                | JavaScript |         17 |          0 |          4 |         21 |
+| e:\NodeJs Express Projects\Broker Crm\models\product.js                   | JavaScript |         43 |          0 |          4 |         47 |
+| e:\NodeJs Express Projects\Broker Crm\models\rapport.js                   | JavaScript |         41 |          0 |          4 |         45 |
+| e:\NodeJs Express Projects\Broker Crm\models\speciality.js                | JavaScript |         18 |          0 |          4 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\models\supplier.js                  | JavaScript |         37 |          0 |          4 |         41 |
+| e:\NodeJs Express Projects\Broker Crm\models\user.js                      | JavaScript |         33 |          0 |          4 |         37 |
+| e:\NodeJs Express Projects\Broker Crm\models\visit.js                     | JavaScript |         38 |          0 |          2 |         40 |
+| e:\NodeJs Express Projects\Broker Crm\models\wilaya.js                    | JavaScript |         14 |          0 |          4 |         18 |
+| e:\NodeJs Express Projects\Broker Crm\package-lock.json                   | JSON       |      1,755 |          0 |          1 |      1,756 |
+| e:\NodeJs Express Projects\Broker Crm\package.json                        | JSON       |         26 |          0 |          1 |         27 |
+| e:\NodeJs Express Projects\Broker Crm\routes\clientRoutes.js              | JavaScript |          6 |          1 |          4 |         11 |
+| e:\NodeJs Express Projects\Broker Crm\routes\commandRoutes.js             | JavaScript |         17 |          0 |          5 |         22 |
+| e:\NodeJs Express Projects\Broker Crm\routes\commentRoutes.js             | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\companyRoutes.js             | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\motivationRoutes.js          | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\productRoutes.js             | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\rapportRoutes.js             | JavaScript |          8 |          1 |          4 |         13 |
+| e:\NodeJs Express Projects\Broker Crm\routes\specialityRoutes.js          | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\supplierRoutes.js            | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\routes\userRoutes.js                | JavaScript |         15 |          1 |          4 |         20 |
+| e:\NodeJs Express Projects\Broker Crm\routes\visitRoutes.js               | JavaScript |          6 |          1 |          4 |         11 |
+| e:\NodeJs Express Projects\Broker Crm\routes\wilayaRoutes.js              | JavaScript |          5 |          1 |          4 |         10 |
+| e:\NodeJs Express Projects\Broker Crm\wilayas.json                        | JSON       |        234 |          0 |          1 |        235 |
+| Total                                                                     |            |      3,042 |         80 |        214 |      3,336 |
++---------------------------------------------------------------------------+------------+------------+------------+------------+------------+

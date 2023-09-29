@@ -18,7 +18,6 @@ const userSchema = new mongoose.Schema(
     passwordHash: {
       type: String,
       required: true,
-      select: false,
     },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     wilayas: [{ type: mongoose.Schema.Types.ObjectId, ref: "Wilaya" }],

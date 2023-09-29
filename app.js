@@ -35,6 +35,7 @@ const motvationRoutes = require("./routes/motivationRoutes");
 const supplierRoutes = require("./routes/supplierRoutes");
 const visitRoutes = require("./routes/visitRoutes");
 const rapportRoutes = require("./routes/rapportRoutes");
+const commandRoutes = require("./routes/commandRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -48,6 +49,8 @@ app.use("/motivations", motvationRoutes);
 app.use("/suppliers", supplierRoutes);
 app.use("/visits", visitRoutes);
 app.use("/rapports", rapportRoutes);
+app.use("/commands", commandRoutes);
+app.use("/uploads/commands", express.static("uploads/commands"));
 
 // Handle 404 errors
 app.use((req, res, next) => {
