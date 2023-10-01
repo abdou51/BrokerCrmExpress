@@ -5,6 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
 require("dotenv").config();
+// require("./cronjobs/expensesUser");
+require("./cronjobs/expensesDay");
 
 // Connect to the database
 mongoose
@@ -36,6 +38,8 @@ const supplierRoutes = require("./routes/supplierRoutes");
 const visitRoutes = require("./routes/visitRoutes");
 const rapportRoutes = require("./routes/rapportRoutes");
 const commandRoutes = require("./routes/commandRoutes");
+const expensesConfigRoutes = require("./routes/expensesConfigRoutes");
+const expensesDayRoutes = require("./routes/expensesDayRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -50,6 +54,8 @@ app.use("/suppliers", supplierRoutes);
 app.use("/visits", visitRoutes);
 app.use("/rapports", rapportRoutes);
 app.use("/commands", commandRoutes);
+app.use("/expensesconfig", expensesConfigRoutes);
+app.use("/expensesday", expensesDayRoutes);
 app.use("/uploads/commands", express.static("uploads/commands"));
 
 // Handle 404 errors
