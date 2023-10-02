@@ -5,13 +5,10 @@ const clientSchema = new mongoose.Schema(
     fullName: {
       type: String,
     },
-    localization: {
+    location: {
       type: String,
     },
-    firstName: {
-      type: String,
-    },
-    domainType: {
+    type: {
       type: String,
       enum: ["doctor", "pharmacy", "wholesaler"],
       required: true,
@@ -23,7 +20,7 @@ const clientSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Speciality",
     },
-    commun: {
+    city: {
       type: String,
     },
     zipCode: {
@@ -47,6 +44,12 @@ const clientSchema = new mongoose.Schema(
     },
     email: {
       type: String,
+    },
+    phoneNumberOne: {
+      type: Number,
+    },
+    phoneNumberTwo: {
+      type: Number,
     },
   },
   { versionKey: false }

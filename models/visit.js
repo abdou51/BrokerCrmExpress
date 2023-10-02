@@ -12,9 +12,9 @@ const visitSchema = new mongoose.Schema(
       ref: "Client",
       required: true,
     },
-    rapport: {
+    report: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Rapport",
+      ref: "Report",
     },
     visitLocation: {
       type: String,

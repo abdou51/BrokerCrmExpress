@@ -42,15 +42,19 @@ const expensesDaySchema = new mongoose.Schema(
     },
     startWilaya: {
       type: String,
+      default: null,
     },
     endWilaya: {
       type: String,
+      default: null,
     },
-    startCommun: {
+    startCity: {
       type: String,
+      default: null,
     },
-    endCommun: {
+    endCity: {
       type: String,
+      default: null,
     },
   },
   { versionKey: false }

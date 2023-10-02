@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const RapportSchema = new mongoose.Schema(
+const reportSchema = new mongoose.Schema(
   {
     visit: {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,12 +33,12 @@ const RapportSchema = new mongoose.Schema(
         },
       },
     ],
-    suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Supplier" }],
+    suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Client" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
   { versionKey: false }
 );
 
-const Rapport = mongoose.model("Rapport", RapportSchema);
+const Report = mongoose.model("Report", reportSchema);
 
-module.exports = Rapport;
+module.exports = Report;
