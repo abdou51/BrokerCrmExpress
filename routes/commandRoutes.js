@@ -1,21 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const commandController = require("../controllers/commandController");
+const userJwt = require("../middlewares/userJwt");
 const multer = require("multer");
-const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./uploads/commands");
+    cb(null, "uploads/commands");
   },
   filename: (req, file, cb) => {
-    const uniqueSuffix = Math.round(Math.random() * 1e10);
-    cb(null, file.fieldname + uniqueSuffix + path.extname(file.originalname));
+    const filename = `${Date.now()}_${file.originalname}`;
+    cb(null, filename);
   },
 });
 
 const upload = multer({ storage });
 
-router.post("/", upload.single("image"), commandController.createCommand);
+router.post(
+  "/",
+  userJwt,
+  upload.single("signature"),
+  commandController.createCommand
+);
+router.get("/:id", userJwt, commandController.getCommandById);
 
 module.exports = router;

@@ -16,6 +16,10 @@ const visitSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Report",
     },
+    command: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Command",
+    },
     visitLocation: {
       type: String,
     },
