@@ -3,12 +3,9 @@ const Visit = require("../models/visit");
 
 const createCommand = async (req, res) => {
   try {
-    const commandData = { ...req.body };
     const signatureFileName = req.file.filename;
-
     const userId = req.user.userId;
-    const userVisit = await Visit.findById(commandData.visit);
-    console.log(userVisit);
+    const userVisit = await Visit.findById(req.body.visit);
     if (!userVisit || userVisit.user.toString() !== userId) {
       return res.status(403).json({
         error: "You are not allowed to create a Command for this Visit.",
@@ -23,7 +20,7 @@ const createCommand = async (req, res) => {
     const signatureUrl = `${baseUrl}/uploads/commands/${signatureFileName}`;
     const newCommand = new Command({
       signature: signatureUrl, // Store the complete URL
-      ...commandData,
+      visit: req.body.visit,
     });
 
     const savedCommand = await newCommand.save();

@@ -9,7 +9,8 @@ const storage = multer.diskStorage({
     cb(null, "uploads/commands");
   },
   filename: (req, file, cb) => {
-    const filename = `${Date.now()}_${file.originalname}`;
+    const originalname = file.originalname;
+    const filename = `${Date.now()}_${originalname.replace(/ /g, "_")}`;
     cb(null, filename);
   },
 });
