@@ -8,22 +8,31 @@ const planDeTournee = async (req, res) => {
     const month = req.query.month;
 
     const monthYear = new RegExp(`^${year}-${month}`);
-    const visits = await Visit.find({
+
+    const totalVisitsCount = await Visit.countDocuments({
       user: userId,
       visitDate: {
         $regex: monthYear,
       },
     });
-    const isDoneVisits = visits.filter((visit) => visit.isDone === true);
 
-    res
-      .status(200)
-      .json({ percentage: (isDoneVisits.length / visits.length) * 100 });
+    const doneVisitsCount = await Visit.countDocuments({
+      user: userId,
+      visitDate: {
+        $regex: monthYear,
+      },
+      isDone: true,
+    });
+
+    const percentage = (doneVisitsCount / totalVisitsCount) * 100;
+
+    res.status(200).json({ percentage });
   } catch (error) {
     res.status(500).json({ error: "Error" });
     console.log(error);
   }
 };
+
 const moyenneVisitesParJour = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -31,27 +40,30 @@ const moyenneVisitesParJour = async (req, res) => {
     const month = req.query.month;
 
     const monthYear = new RegExp(`^${year}-${month}`);
-    const visits = await Visit.find({
+    const uniqueDaysWithVisitsCount = await Visit.distinct("visitDate", {
       user: userId,
       visitDate: {
         $regex: monthYear,
       },
     });
-    console.log(visits);
-    const uniqueDatesWithVisits = {};
-    for (const visit of visits) {
-      const date = visit.visitDate;
-      uniqueDatesWithVisits[date] = true;
-    }
-    const numberOfDaysWithVisits = Object.keys(uniqueDatesWithVisits).length;
-    res
-      .status(200)
-      .json({ moyenneVisitesParJour: visits.length / numberOfDaysWithVisits });
+
+    const numberOfDaysWithVisits = uniqueDaysWithVisitsCount.length;
+    const totalVisitsCount = await Visit.countDocuments({
+      user: userId,
+      visitDate: {
+        $regex: monthYear,
+      },
+    });
+
+    res.status(200).json({
+      moyenneVisitesParJour: totalVisitsCount / numberOfDaysWithVisits,
+    });
   } catch (error) {
     res.status(500).json({ error: "Error" });
     console.log(error);
   }
 };
+
 const objectifVisites = async (req, res) => {
   try {
     const userId = req.user.userId;
