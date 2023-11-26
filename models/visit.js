@@ -26,9 +26,10 @@ const visitSchema = new mongoose.Schema(
     visitDate: {
       type: String,
     },
-    isDone: {
-      type: Boolean,
-      default: false,
+    state: {
+      type: String,
+      enum: ["Planned", "Done", "Hold"],
+      default: "Planned",
     },
     hasCommand: {
       type: Boolean,

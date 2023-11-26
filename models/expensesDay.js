@@ -3,7 +3,7 @@ const expensesDaySchema = new mongoose.Schema(
   {
     userExpense: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserExpense", // Reference to the UserExpense model
+      ref: "UserExpense",
     },
     totalVisitsDoctor: {
       type: Number,

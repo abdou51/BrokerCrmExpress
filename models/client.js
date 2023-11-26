@@ -10,8 +10,15 @@ const clientSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["doctor", "pharmacy", "wholesaler"],
+      enum: ["Doctor", "Pharmacy", "Wholesaler"],
       required: true,
+    },
+    sector: {
+      type: String,
+      enum: ["Private", "State"],
+    },
+    grade: {
+      type: String,
     },
     wilaya: {
       type: String,
@@ -19,12 +26,6 @@ const clientSchema = new mongoose.Schema(
     speciality: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Speciality",
-    },
-    city: {
-      type: String,
-    },
-    zipCode: {
-      type: Number,
     },
     totalSellers: {
       type: Number,
@@ -46,10 +47,10 @@ const clientSchema = new mongoose.Schema(
       type: String,
     },
     phoneNumberOne: {
-      type: Number,
+      type: String,
     },
     phoneNumberTwo: {
-      type: Number,
+      type: String,
     },
   },
   { versionKey: false }

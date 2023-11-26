@@ -4,7 +4,7 @@ const supplierSchema = new mongoose.Schema(
   {
     type: {
       type: String,
-      enum: ["pharm", "parapharm"],
+      enum: ["Pharm", "Parapharm"],
       required: true,
     },
     name: {
@@ -21,10 +21,10 @@ const supplierSchema = new mongoose.Schema(
       type: String,
     },
     phoneNumberOne: {
-      type: Number,
+      type: String,
     },
     phoneNumberTwo: {
-      type: Number,
+      type: String,
     },
     isDrafted: {
       type: Boolean,

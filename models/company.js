@@ -9,7 +9,7 @@ const companySchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["Gros", "Laboratory"],
+      enum: ["Wholesaler", "Laboratory"],
       required: true,
     },
   },

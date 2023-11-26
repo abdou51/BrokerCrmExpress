@@ -7,7 +7,9 @@ const registerUser = async (req, res) => {
   try {
     let { password, ...userData } = req.body;
 
-    let user = await User.findOne({ username: userData.username });
+    let user = await User.findOne({
+      username: userData.username.toLowerCase(),
+    });
 
     if (user) {
       return res.status(400).json({

@@ -15,13 +15,10 @@ const expensesUserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    userValidation: {
-      type: Boolean,
-      default: false,
-    },
-    adminValidation: {
-      type: Boolean,
-      default: false,
+    validation: {
+      type: String,
+      enum: ["Hold", "Sent", "Approved"],
+      default: "Hold",
     },
     total: {
       type: Number,

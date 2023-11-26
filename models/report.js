@@ -27,10 +27,6 @@ const reportSchema = new mongoose.Schema(
         rotations: {
           type: Number,
         },
-        availability: {
-          type: Boolean,
-          default: true,
-        },
       },
     ],
     suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Client" }],

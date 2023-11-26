@@ -67,7 +67,11 @@ const createReport = async (req, res) => {
     } else if (userVisit.client.type === "wholesaler") {
       update.$inc.totalVisitsWholesaler = 1;
     }
-
+    const expensesUser = await ExpensesUser.findOne({
+      user: userId,
+      createdDate: `${year}-${month}`,
+    });
+    console.log(expensesUser);
     const updatedExpensesDay = await ExpensesDay.findOneAndUpdate(
       { userExpense: expensesUser.id, createdDate: formattedDate },
       update,

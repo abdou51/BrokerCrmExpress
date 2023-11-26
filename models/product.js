@@ -8,7 +8,7 @@ const productSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["product", "coproduct"],
+      enum: ["Product", "Coproduct"],
       required: true,
     },
     ug: {
@@ -17,16 +17,16 @@ const productSchema = new mongoose.Schema(
     remise: {
       type: Number,
     },
-    grossistPriceUnit: {
+    wholesalerPriceUnit: {
       type: Number,
     },
     pharmacyPriceUnit: {
       type: Number,
     },
-    superGrossistPriceUnit: {
+    superWholesalerPriceUnit: {
       type: Number,
     },
-    collisage: {
+    collision: {
       type: Number,
     },
     DDP: {

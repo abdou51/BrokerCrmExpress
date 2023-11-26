@@ -7,12 +7,12 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    firstName: {
+    fullName: {
       type: String,
     },
     role: {
       type: String,
-      enum: ["Admin", "CAM", "Supervisor", "Delegate"],
+      enum: ["Admin", "Cam", "Supervisor", "Delegate"],
       required: true,
     },
     passwordHash: {
@@ -24,7 +24,6 @@ const userSchema = new mongoose.Schema(
     portfolio: [
       {
         client: { type: mongoose.Schema.Types.ObjectId, ref: "Client" },
-        addedAt: { type: Date, default: Date.now },
       },
     ],
   },
