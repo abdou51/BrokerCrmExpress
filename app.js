@@ -42,6 +42,8 @@ const expensesConfigRoutes = require("./routes/expensesConfigRoutes");
 const expensesDayRoutes = require("./routes/expensesDayRoutes");
 const statsRoutes = require("./routes/statsRoutes");
 const goalRoutes = require("./routes/goalRoutes");
+const establishmentRoutes = require("./routes/establishmentRoutes");
+const serviceRoutes = require("./routes/serviceRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -60,6 +62,8 @@ app.use("/expensesconfig", expensesConfigRoutes);
 app.use("/expensesday", expensesDayRoutes);
 app.use("/stats", statsRoutes);
 app.use("/goals", goalRoutes);
+app.use("/establishments", establishmentRoutes);
+app.use("/services", serviceRoutes);
 app.use("/uploads/commands", express.static("uploads/commands"));
 
 // Handle 404 errors

@@ -8,6 +8,14 @@ const clientSchema = new mongoose.Schema(
     location: {
       type: String,
     },
+    service: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Service",
+    },
+    establishment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Establishment",
+    },
     type: {
       type: String,
       enum: ["Doctor", "Pharmacy", "Wholesaler"],
@@ -42,6 +50,7 @@ const clientSchema = new mongoose.Schema(
     potential: {
       type: String,
       enum: ["A", "B", "C"],
+      default: "A",
     },
     email: {
       type: String,

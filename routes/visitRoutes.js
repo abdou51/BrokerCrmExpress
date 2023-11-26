@@ -6,6 +6,6 @@ const userJwt = require("../middlewares/userJwt");
 // Define routes
 
 router.post("/", userJwt, visitController.createVisit);
-router.delete("/:id", userJwt, visitController.deleteVisit);
+router.delete("/:id/", userJwt, visitController.deleteVisit);
 
 module.exports = router;

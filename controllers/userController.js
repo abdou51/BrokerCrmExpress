@@ -8,7 +8,7 @@ const registerUser = async (req, res) => {
     let { password, ...userData } = req.body;
 
     let user = await User.findOne({
-      username: userData.username.toLowerCase(),
+      username: userData.username,
     });
 
     if (user) {
@@ -57,7 +57,9 @@ const loginUser = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(400).send("The user not found");
+      return res
+        .status(400)
+        .json({ success: false, message: "Utilisateur N'existe Pas" });
     }
 
     if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
@@ -80,10 +82,15 @@ const loginUser = async (req, res) => {
         res.status(500).send("An error occurred while generating the token.");
       }
     } else {
-      res.status(400).send("Password is wrong!");
+      res.status(400).json({
+        success: false,
+        message: "Nom d'utilisateur ou mot de passe incorrect",
+      });
     }
   } catch (error) {
-    res.status(500).send("An error occurred while finding the user.");
+    res
+      .status(500)
+      .send("Une erreur s'est produite lors de la recherche de l'utilisateur.");
     console.log(error);
   }
 };

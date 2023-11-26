@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const clientController = require("../controllers/clientController");
+const userJwt = require("../middlewares/userJwt");
 
 // Define routes
 
-router.post("/", clientController.createClient);
+router.post("/", userJwt, clientController.createClient);
 router.get("/:id", clientController.getClientById);
+router.put("/:id", userJwt, clientController.updateClient);
 
 module.exports = router;
