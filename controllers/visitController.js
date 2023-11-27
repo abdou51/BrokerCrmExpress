@@ -84,13 +84,13 @@ const cloneVisits = async (req, res) => {
 };
 const deleteVisit = async (req, res) => {
   try {
-    const visitId = req.params.id;
-    const visits = await Visit.deleteMany({ _id: { $in: idsToDelete } });
-    if (visit.report) {
+    const visitsToDelete = req.body;
+    const visits = await Visit.deleteMany({ _id: { $in: visitsToDelete } });
+    if (visits.length > 0) {
       await Report.findOneAndDelete({ _id: visit.report });
     }
 
-    if (visit.command) {
+    if (visits.length > 0) {
       await Command.findOneAndDelete({ _id: visit.command });
     }
 

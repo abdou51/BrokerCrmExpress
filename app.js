@@ -44,6 +44,7 @@ const statsRoutes = require("./routes/statsRoutes");
 const goalRoutes = require("./routes/goalRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
+const fileRoutes = require("./routes/fileRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -64,7 +65,8 @@ app.use("/stats", statsRoutes);
 app.use("/goals", goalRoutes);
 app.use("/establishments", establishmentRoutes);
 app.use("/services", serviceRoutes);
-app.use("/uploads/commands", express.static("uploads/commands"));
+app.use("/upload", fileRoutes);
+app.use("/uploads", express.static("uploads"));
 
 // Handle 404 errors
 app.use((req, res, next) => {
