@@ -8,7 +8,7 @@ const createClient = async (req, res) => {
     const createdClient = await Client.create(clientData);
 
     res.status(201).json(createdClient);
-    if (user.role === "Delegate") {
+    if (user.role === "Delegate" || user.role === "Cam") {
       const delegate = await User.findById(user.userId);
       delegate.portfolio.push(createdClient.id);
       await delegate.save();
@@ -16,6 +16,15 @@ const createClient = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Error creating Client" });
     console.log(error);
+  }
+};
+const getAllClients = async (req, res) => {
+  try {
+    const clients = await Client.find();
+    res.json(clients);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving Clients.");
   }
 };
 const getClientById = async (req, res) => {
@@ -68,6 +77,7 @@ const updateClient = async (req, res) => {
 
 module.exports = {
   createClient,
+  getAllClients,
   getClientById,
   updateClient,
 };

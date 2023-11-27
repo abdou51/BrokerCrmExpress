@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
         ref: "Wilaya",
       },
     ],
-    portfolio: [
+    clients: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Client",

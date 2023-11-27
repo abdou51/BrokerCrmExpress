@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const clientSchema = new mongoose.Schema(
   {
@@ -29,6 +30,9 @@ const clientSchema = new mongoose.Schema(
       type: String,
     },
     wilaya: {
+      type: String,
+    },
+    commune: {
       type: String,
     },
     speciality: {
@@ -64,6 +68,7 @@ const clientSchema = new mongoose.Schema(
   },
   { versionKey: false }
 );
+clientSchema.plugin(mongoosePaginate);
 
 const Client = mongoose.model("Client", clientSchema);
 

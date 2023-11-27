@@ -7,5 +7,7 @@ const userJwt = require("../middlewares/userJwt");
 
 router.post("/", userJwt, visitController.createVisit);
 router.delete("/:id/", userJwt, visitController.deleteVisit);
+router.post("/clone", userJwt, visitController.cloneVisits);
+router.get("/getTasks", userJwt, visitController.getTasks);
 
 module.exports = router;

@@ -18,20 +18,74 @@ const createVisit = async (req, res) => {
 
     res.status(201).json(createdVisit);
   } catch (error) {
-    res.status(400).json({ error: "Failed to create the Visit." });
+    res.status(500).json({ error: "Failed to create the Visit." });
     console.log(error);
   }
 };
-const deleteVisit = async (req, res, next) => {
-  const visitId = req.params.id;
+const getTasks = async (req, res) => {
   try {
-    const visit = await Visit.findOneAndDelete({ _id: visitId });
-    if (!visit) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Visit not found" });
+    const userId = req.user.userId;
+    const date = req.query.date;
+    const { page = 1, limit = 10 } = req.query;
+    if (!date) {
+      res.status(400).json({ error: "Missing date in query params" });
     }
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(limit, 10),
+      select: "-user",
+      populate: {
+        path: "client",
+        select: "fullName wilaya commune location type",
+        populate: {
+          path: "speciality",
+        },
+      },
+    };
+    const visits = await Visit.paginate(
+      {
+        user: userId,
+        visitDate: date,
+        state: "Planned",
+      },
+      options
+    );
+    console.log(visits.docs);
+    if (visits.docs.length == 0) {
+      res.status(404).json({ error: "No task found" });
+    } else {
+      res.status(200).json(visits);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to Get Tasks." });
+    console.log(error);
+  }
+};
+const cloneVisits = async (req, res) => {
+  try {
+    const { visitDate, clients } = req.body;
+    const userId = req.user.userId;
 
+    const visits = clients.map((client) => ({
+      user: userId,
+      visitLocation: client.visitLocation,
+      visitDate: visitDate,
+      client: client.client,
+    }));
+
+    await Visit.insertMany(visits);
+    res
+      .status(200)
+      .json({ success: true, message: "Visits cloned Successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to clone visits." });
+    console.log(error);
+  }
+};
+const deleteVisit = async (req, res) => {
+  try {
+    const visitId = req.params.id;
+    const visits = await Visit.deleteMany({ _id: { $in: idsToDelete } });
     if (visit.report) {
       await Report.findOneAndDelete({ _id: visit.report });
     }
@@ -40,7 +94,7 @@ const deleteVisit = async (req, res, next) => {
       await Command.findOneAndDelete({ _id: visit.command });
     }
 
-    return res.json({
+    return res.status(200).json({
       success: true,
       message: "Visit, report, and command deleted successfully",
     });
@@ -52,4 +106,6 @@ const deleteVisit = async (req, res, next) => {
 module.exports = {
   createVisit,
   deleteVisit,
+  cloneVisits,
+  getTasks,
 };

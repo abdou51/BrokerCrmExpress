@@ -12,7 +12,6 @@ const createReport = async (req, res) => {
     const day = currentDate.getDate().toString().padStart(2, "0");
     const formattedDate = `${year}-${month}-${day}`;
 
-    // Validate and authenticate the user
     const userId = req.user.userId;
     const { visit, note, objectif, products, suppliers, comments, client } =
       req.body;
@@ -29,13 +28,9 @@ const createReport = async (req, res) => {
         error: "A Report already exists for this visit.",
       });
     }
-
-    // Update client data if provided
     if (client) {
       await Client.findByIdAndUpdate(userVisit.client, client);
     }
-
-    // Create a new report
     const newReport = new Report({
       visit,
       note,
@@ -45,13 +40,9 @@ const createReport = async (req, res) => {
       comments,
     });
     const createdReport = await newReport.save();
-
-    // Update userVisit
     userVisit.isDone = true;
     userVisit.report = createdReport;
     await userVisit.save();
-
-    // Update expenses
     const update = {
       $inc: {
         totalVisitsDoctor: 0,
@@ -60,11 +51,11 @@ const createReport = async (req, res) => {
       },
     };
 
-    if (userVisit.client.type === "doctor") {
+    if (userVisit.client.type === "Doctor") {
       update.$inc.totalVisitsDoctor = 1;
-    } else if (userVisit.client.type === "pharmacy") {
+    } else if (userVisit.client.type === "Pharmacy") {
       update.$inc.totalVisitsPharmacy = 1;
-    } else if (userVisit.client.type === "wholesaler") {
+    } else if (userVisit.client.type === "Wholesaler") {
       update.$inc.totalVisitsWholesaler = 1;
     }
     const expensesUser = await ExpensesUser.findOne({

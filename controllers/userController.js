@@ -169,6 +169,46 @@ const getAllUsers = async (req, res) => {
     res.status(500).send("Error retrieving users.");
   }
 };
+
+const getPortfolio = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId).populate("clients");
+
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    const { page = 1, limit = 10 } = req.query;
+
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(limit, 10),
+      populate: [
+        {
+          path: "speciality",
+        },
+        {
+          path: "service",
+          select: "-establishments",
+        },
+        {
+          path: "establishment",
+          select: "-services",
+        },
+      ],
+    };
+    const result = await Client.paginate(
+      { _id: { $in: user.clients } },
+      options
+    );
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving portfolio.");
+  }
+};
+
 const addClientToPortfolio = async (req, res, next) => {
   try {
     const userId = req.user.userId;
@@ -202,10 +242,9 @@ const addClientToPortfolio = async (req, res, next) => {
   }
 };
 const removeClientFromPortfolio = async (req, res, next) => {
-  const userId = req.user.userId;
-  const clientId = req.body.clientId;
-
   try {
+    const userId = req.user.userId;
+    const clientId = req.body.clientId;
     const user = await User.findById(userId);
 
     if (!user) {
@@ -242,4 +281,5 @@ module.exports = {
   getAllUsers,
   addClientToPortfolio,
   removeClientFromPortfolio,
+  getPortfolio,
 };
