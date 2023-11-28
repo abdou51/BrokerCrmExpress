@@ -5,7 +5,8 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
 require("dotenv").config();
-// require("./cronjobs/expensesUser");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger");
 require("./cronjobs/expensesDay");
 
 // Connect to the database
@@ -47,6 +48,7 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 
 const api = process.env.API_URL;
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/users", userRoutes);
 app.use("/wilayas", wilayaRoutes);
 app.use("/specialities", specialityRoutes);

@@ -33,7 +33,7 @@ const getTasks = async (req, res) => {
     const options = {
       page: parseInt(page, 10),
       limit: parseInt(limit, 10),
-      select: "-user",
+      select: "-user -visitDate",
       populate: {
         path: "client",
         select: "fullName wilaya commune location type",
@@ -50,7 +50,8 @@ const getTasks = async (req, res) => {
       },
       options
     );
-    console.log(visits.docs);
+    const now = new Date();
+    console.log(now);
     if (visits.docs.length == 0) {
       res.status(404).json({ error: "No task found" });
     } else {

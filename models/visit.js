@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
+const { utcToZonedTime } = require("date-fns-tz");
+
+function getCurrentDateInAlgeria() {
+  const timeZone = "Africa/Algiers";
+  const now = new Date();
+  const dateInAlgeria = utcToZonedTime(now, timeZone);
+  return dateInAlgeria;
+}
 const visitSchema = new mongoose.Schema(
   {
     user: {
@@ -24,7 +32,8 @@ const visitSchema = new mongoose.Schema(
       type: String,
     },
     visitDate: {
-      type: String,
+      type: Date,
+      default: getCurrentDateInAlgeria(),
     },
     state: {
       type: String,

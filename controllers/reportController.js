@@ -62,7 +62,6 @@ const createReport = async (req, res) => {
       user: userId,
       createdDate: `${year}-${month}`,
     });
-    console.log(expensesUser);
     const updatedExpensesDay = await ExpensesDay.findOneAndUpdate(
       { userExpense: expensesUser.id, createdDate: formattedDate },
       update,

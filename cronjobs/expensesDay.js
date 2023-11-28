@@ -3,8 +3,9 @@ const ExpensesDay = require("../models/expensesDay");
 const User = require("../models/user");
 const cron = require("node-cron");
 const ExpensesConfig = require("../models/expensesConfig");
+const Goal = require("../models/goal");
 
-cron.schedule("5 0 * * *", async () => {
+cron.schedule("0 0 0 * * *", async () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
@@ -17,17 +18,34 @@ cron.schedule("5 0 * * *", async () => {
 
     for (const user of users) {
       if (user.role !== "Admin" && user.role !== "Supervisor") {
+        const existingGoal = await Goal.findOne({
+          user: user.id,
+          date: formattedDate,
+        });
+        if (!existingGoal) {
+          const newGoal = new Goal({
+            user: user.id,
+            date: formattedDate,
+          });
+          await newGoal.save();
+        }
         const existingExpensesUser = await ExpensesUser.findOne({
           user: user.id,
           createdDate: formattedDate,
         });
 
         if (existingExpensesUser) {
-          const newExpensesDay = new ExpensesDay({
+          const existingExpenseUser = await ExpensesDay.findOne({
             userExpense: existingExpensesUser.id,
             createdDate: `${year}-${month}-${day}`,
           });
-          await newExpensesDay.save();
+          if (!existingExpenseUser) {
+            const newExpensesDay = new ExpensesDay({
+              userExpense: existingExpensesUser.id,
+              createdDate: `${year}-${month}-${day}`,
+            });
+            await newExpensesDay.save();
+          }
         } else {
           const createdExpensesUser = await ExpensesUser.create({
             user: user.id,
@@ -38,6 +56,7 @@ cron.schedule("5 0 * * *", async () => {
             userExpense: createdExpensesUser.id,
             createdDate: `${year}-${month}-${day}`,
           });
+
           await newExpensesDay.save();
         }
       }
