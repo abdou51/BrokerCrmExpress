@@ -2,6 +2,7 @@ const User = require("../models/user");
 const Client = require("../models/client");
 const bcrypt = require("bcrypt");
 const generateToken = require("../middlewares/jwtMiddleware");
+const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
 
 const registerUser = async (req, res) => {
   try {
@@ -169,7 +170,6 @@ const getAllUsers = async (req, res) => {
     res.status(500).send("Error retrieving users.");
   }
 };
-
 const getPortfolio = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -179,11 +179,18 @@ const getPortfolio = async (req, res) => {
       return res.status(404).send("User not found.");
     }
 
-    const { page = 1, limit = 10 } = req.query;
+    const { filters, orderBy, pageNumber, pageSize } = req.body;
+    const userClientsQuery = { _id: { $in: user.clients } };
+    const filterQuery = buildMongoQueryFromFilters(filters);
+    let query = { $and: [userClientsQuery, filterQuery] };
+
+    const sortOrder =
+      orderBy.operator === "asc" ? orderBy.value : `-${orderBy.value}`;
 
     const options = {
-      page: parseInt(page, 10),
-      limit: parseInt(limit, 10),
+      page: pageNumber,
+      limit: pageSize,
+      sort: sortOrder,
       populate: [
         {
           path: "speciality",
@@ -198,14 +205,63 @@ const getPortfolio = async (req, res) => {
         },
       ],
     };
-    const result = await Client.paginate(
-      { _id: { $in: user.clients } },
-      options
-    );
+
+    const result = await Client.paginate(query, options);
     res.json(result);
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving portfolio.");
+  }
+};
+const getUniverse = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId)
+      .populate("wilayas")
+      .populate("clients");
+
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    const userWilayas = user.wilayas.map((wilaya) => wilaya._id);
+    const userClients = user.clients.map((client) => client._id);
+    let baseQuery = {
+      wilaya: { $in: userWilayas },
+      _id: { $nin: userClients },
+    };
+
+    const { filters, orderBy, pageNumber, pageSize } = req.body;
+    const filterQuery = buildMongoQueryFromFilters(filters);
+    let query = { $and: [baseQuery, filterQuery] };
+
+    const sortOrder =
+      orderBy.operator === "asc" ? orderBy.value : `-${orderBy.value}`;
+
+    const options = {
+      page: pageNumber,
+      limit: pageSize,
+      sort: sortOrder,
+      populate: [
+        {
+          path: "speciality",
+        },
+        {
+          path: "service",
+          select: "-establishments",
+        },
+        {
+          path: "establishment",
+          select: "-services",
+        },
+      ],
+    };
+
+    const result = await Client.paginate(query, options);
+    res.json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error retrieving universe data.");
   }
 };
 
@@ -282,4 +338,5 @@ module.exports = {
   addClientToPortfolio,
   removeClientFromPortfolio,
   getPortfolio,
+  getUniverse,
 };

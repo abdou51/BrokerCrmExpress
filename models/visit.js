@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
-const { utcToZonedTime } = require("date-fns-tz");
+const { zonedTimeToUtc, utcToZonedTime, format } = require("date-fns-tz");
 
 function getCurrentDateInAlgeria() {
   const timeZone = "Africa/Algiers";

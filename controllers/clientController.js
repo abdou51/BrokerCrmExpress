@@ -6,13 +6,12 @@ const createClient = async (req, res) => {
   try {
     const clientData = { ...req.body };
     const createdClient = await Client.create(clientData);
-
-    res.status(201).json(createdClient);
     if (user.role === "Delegate" || user.role === "Cam") {
       const delegate = await User.findById(user.userId);
-      delegate.portfolio.push(createdClient.id);
+      delegate.clients.push(createdClient.id);
       await delegate.save();
     }
+    res.status(201).json(createdClient);
   } catch (error) {
     res.status(500).json({ error: "Error creating Client" });
     console.log(error);

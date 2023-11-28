@@ -30,7 +30,8 @@ const clientSchema = new mongoose.Schema(
       type: String,
     },
     wilaya: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Wilaya",
     },
     commune: {
       type: String,

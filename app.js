@@ -78,7 +78,7 @@ app.use((req, res, next) => {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err);
-  res.status(500).json({ message: "Internal server error" });
+  res.status(err.status).json({ message: err });
 });
 
 // Start the server

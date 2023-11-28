@@ -10,7 +10,8 @@ router.post("/login", userController.loginUser);
 router.put("/:id", userJwt, userController.updateUser);
 router.get("/", userController.getAllUsers);
 router.post("/portfolio/add", userJwt, userController.addClientToPortfolio);
-router.get("/portfolio", userJwt, userController.getPortfolio);
+router.post("/portfolio", userJwt, userController.getPortfolio);
+router.post("/universe", userJwt, userController.getUniverse);
 router.delete(
   "/portfolio/remove",
   userJwt,
