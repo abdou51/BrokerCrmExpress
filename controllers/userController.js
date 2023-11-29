@@ -144,7 +144,10 @@ const updateUser = async (req, res) => {
 
       res.send(userWithoutPassword);
     } else {
-      return res.status(403).send("Permission denied");
+      return res.status(403).json({
+        success: false,
+        message: "Permission Denied",
+      });
     }
   } catch (error) {
     res.status(500).send("An error occurred while updating the user.");
@@ -152,19 +155,29 @@ const updateUser = async (req, res) => {
 };
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find()
-      .select("-passwordHash")
-      .populate({
-        path: "wilayas",
-      })
-      .populate({
-        path: "createdBy",
-        select: "-passwordHash",
-      })
-      .populate({
-        path: "portfolio",
+    let createdBy;
+    const user = req.user;
+    const supervisor = req.query.supervisor;
+    if (user.role === "Admin" && supervisor === undefined) {
+      createdBy = user.userId;
+    } else if (user.role === "Supervisor") {
+      createdBy = user.userId;
+    } else {
+      createdBy = supervisor;
+    }
+    if (user.role === "Admin" || user.role === "Supervisor") {
+      const users = await User.find({ createdBy: createdBy })
+        .select("-passwordHash -clients -createdBy")
+        .populate({
+          path: "wilayas",
+        });
+      res.json(users);
+    } else {
+      return res.status(403).json({
+        success: false,
+        message: "Permission Denied",
       });
-    res.json(users);
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving users.");

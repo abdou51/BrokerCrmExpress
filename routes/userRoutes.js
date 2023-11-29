@@ -7,8 +7,8 @@ const userJwt = require("../middlewares/userJwt");
 
 router.post("/register", userController.registerUser);
 router.post("/login", userController.loginUser);
-router.put("/:id", userJwt, userController.updateUser);
-router.get("/", userController.getAllUsers);
+router.put("/:id/", userJwt, userController.updateUser);
+router.get("/", userJwt, userController.getAllUsers);
 router.post("/portfolio/add", userJwt, userController.addClientToPortfolio);
 router.post("/portfolio", userJwt, userController.getPortfolio);
 router.post("/universe", userJwt, userController.getUniverse);

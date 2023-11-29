@@ -5,6 +5,7 @@ const cron = require("node-cron");
 const ExpensesConfig = require("../models/expensesConfig");
 const Goal = require("../models/goal");
 
+// */10 * * * * *
 cron.schedule("0 0 0 * * *", async () => {
   const currentDate = new Date();
   const year = currentDate.getFullYear();

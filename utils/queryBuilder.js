@@ -1,5 +1,5 @@
 const buildMongoQueryFromFilters = (filters) => {
-  if (filters.length === 0) {
+  if (!filters) {
     return {};
   }
   const queryConditions = filters.map((filterGroup) => {

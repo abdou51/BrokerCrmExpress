@@ -35,6 +35,20 @@ const userSchema = new mongoose.Schema(
         ref: "Client",
       },
     ],
+    mobile: {
+      type: String,
+    },
+    email: {
+      type: String,
+    },
+    isBlocked: {
+      type: Boolean,
+      default: false,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { versionKey: false }
 );

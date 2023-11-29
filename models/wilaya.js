@@ -5,9 +5,6 @@ const wilayaSchema = new mongoose.Schema(
     name: {
       type: String,
     },
-    zip: {
-      type: Number,
-    },
   },
   { versionKey: false }
 );
