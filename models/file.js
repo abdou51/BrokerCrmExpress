@@ -6,7 +6,7 @@ const fileSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const File = mongoose.model("File", fileSchema);

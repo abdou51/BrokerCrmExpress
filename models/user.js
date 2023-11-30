@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["Admin", "Cam", "Supervisor", "Delegate"],
+      enum: ["Admin", "Cam", "Supervisor", "Delegate", "Operator"],
       required: true,
     },
     passwordHash: {
@@ -45,12 +45,8 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const User = mongoose.model("User", userSchema);

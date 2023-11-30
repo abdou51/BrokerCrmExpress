@@ -20,7 +20,7 @@ const goalSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const Goal = mongoose.model("Goal", goalSchema);

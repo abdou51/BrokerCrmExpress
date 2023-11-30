@@ -57,7 +57,7 @@ const expensesDaySchema = new mongoose.Schema(
       default: null,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 const ExpensesDay = mongoose.model("ExpensesDay", expensesDaySchema);
 

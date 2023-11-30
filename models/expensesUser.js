@@ -25,7 +25,7 @@ const expensesUserSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 const ExpensesUser = mongoose.model("ExpensesUser", expensesUserSchema);
 

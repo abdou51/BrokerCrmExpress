@@ -45,7 +45,7 @@ const visitSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 visitSchema.plugin(mongoosePaginate);
 const Visit = mongoose.model("Visit", visitSchema);

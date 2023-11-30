@@ -67,7 +67,7 @@ const clientSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 clientSchema.plugin(mongoosePaginate);
 

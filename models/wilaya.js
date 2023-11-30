@@ -6,7 +6,7 @@ const wilayaSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { versionKey: false }
+  { timestamps: true, versionKey: false }
 );
 
 const Wilaya = mongoose.model("Wilaya", wilayaSchema);
