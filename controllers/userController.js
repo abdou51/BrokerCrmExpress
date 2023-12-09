@@ -226,6 +226,20 @@ const getPortfolio = async (req, res) => {
     res.status(500).send("Error retrieving portfolio.");
   }
 };
+const getMe = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId)
+      .select("-passwordHash -clients")
+      .populate({
+        path: "wilayas createdBy",
+      });
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error retrieving user.");
+  }
+};
 const getUniverse = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -352,4 +366,5 @@ module.exports = {
   removeClientFromPortfolio,
   getPortfolio,
   getUniverse,
+  getMe,
 };

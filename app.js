@@ -4,27 +4,35 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
+const path = require("path");
 require("dotenv").config();
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger");
 require("./cronjobs/expensesDay");
+const rfs = require("rotating-file-stream");
 
+const accessLogStream = rfs.createStream("access.log", {
+  interval: "1d", // rotate daily
+  path: path.join(__dirname, "log"),
+});
 // Connect to the database
 mongoose
   .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
     dbName: "brokerCrm",
   })
   .then(() => console.log("Connected to the database"))
   .catch((err) => console.error("Database connection error:", err));
 
 // Middleware
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan("tiny"));
+app.use(morgan("combined", { stream: accessLogStream }));
 
 // Define routes
 const userRoutes = require("./routes/userRoutes");
