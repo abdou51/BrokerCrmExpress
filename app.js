@@ -32,7 +32,7 @@ app.use(
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan("combined", { stream: accessLogStream }));
+app.use(morgan("tiny"));
 
 // Define routes
 const userRoutes = require("./routes/userRoutes");

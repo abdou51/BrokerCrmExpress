@@ -48,34 +48,27 @@ const registerUser = async (req, res) => {
 };
 const loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username }).populate({
-      path: "createdBy",
-      select: "-passwordHash",
-      populate: {
-        path: "createdBy",
-        select: "-passwordHash",
-      },
-    });
+    const user = await User.findOne({ username: req.body.username }).select(
+      "-clients -createdBy -wilayas -username"
+    );
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Utilisateur N'existe Pas" });
+      return res.status(400).json({
+        message: "Nom d'utilisateur ou mot de passe incorrect",
+      });
     }
 
     if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
       try {
         const token = generateToken(user.id, user.role);
         const userWithoutPassword = {
-          id: user.id,
+          _id: user.id,
           username: user.username,
           firstName: user.firstName,
           role: user.role,
-          createdBy: user.createdBy,
         };
         res.status(200).json({
-          message: "Login successful",
-          success: true,
+          message: "Connexion réussie",
           user: userWithoutPassword,
           token: token,
         });
@@ -84,7 +77,6 @@ const loginUser = async (req, res) => {
       }
     } else {
       res.status(400).json({
-        success: false,
         message: "Nom d'utilisateur ou mot de passe incorrect",
       });
     }
