@@ -5,6 +5,7 @@ const generateToken = require("../middlewares/jwtMiddleware");
 const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
 
 const registerUser = async (req, res) => {
+  const userId = req.user.userId;
   try {
     let { password, ...userData } = req.body;
 
@@ -28,6 +29,7 @@ const registerUser = async (req, res) => {
 
     user = new User({
       ...userData,
+      createdBy: userId,
       passwordHash: bcrypt.hashSync(password, 10),
     });
 
