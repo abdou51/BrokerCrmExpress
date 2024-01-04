@@ -70,18 +70,6 @@ const clientSchema = new mongoose.Schema(
   { timestamps: true, versionKey: false }
 );
 
-// clientSchema.virtual("id").get(function () {
-//   return this._id.toHexString();
-// });
-
-// clientSchema.set("toJSON", {
-//   virtuals: true,
-//   transform: (doc, ret) => {
-//     delete ret._id;
-//     delete ret.__v;
-//   },
-// });
-// clientSchema.set("toObject", { virtuals: true });
 clientSchema.plugin(mongoosePaginate);
 
 const Client = mongoose.model("Client", clientSchema);
