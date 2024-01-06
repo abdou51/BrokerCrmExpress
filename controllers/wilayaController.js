@@ -13,7 +13,17 @@ const createWilaya = async (req, res) => {
     res.status(500).json({ error: "Error creating Wilaya" });
   }
 };
+const getWilayas = async (req, res) => {
+  try {
+    const wilayas = await Wilaya.find();
+
+    res.status(200).json(wilayas);
+  } catch (error) {
+    res.status(500).json({ error: "Error getting Wilayas" });
+  }
+};
 
 module.exports = {
   createWilaya,
+  getWilayas,
 };

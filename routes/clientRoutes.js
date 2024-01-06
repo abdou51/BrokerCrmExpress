@@ -4,9 +4,9 @@ const clientController = require("../controllers/clientController");
 const userJwt = require("../middlewares/userJwt");
 
 // Define routes
-router.get("/", clientController.getAllClients);
+router.get("/", userJwt, clientController.getAllClients);
 router.post("/", userJwt, clientController.createClient);
-router.get("/:id", clientController.getClientById);
+router.get("/:id", userJwt, clientController.getClientById);
 router.put("/:id", userJwt, clientController.updateClient);
 
 module.exports = router;
