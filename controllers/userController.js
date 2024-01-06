@@ -98,51 +98,40 @@ const updateUser = async (req, res) => {
       return res.status(400).send("The user cannot be found!");
     }
 
-    if (
-      req.user.role === "Admin" ||
-      (req.user.role === "Supervisor" && userExist.role !== "Admin") ||
-      userId === req.user.userId
-    ) {
-      let newPassword;
-      if (req.body.password) {
-        newPassword = bcrypt.hashSync(req.body.password, 10);
-      } else {
-        newPassword = userExist.passwordHash;
-      }
+    let newPassword;
+    if (req.body.password) {
+      newPassword = bcrypt.hashSync(req.body.password, 10);
+    } else {
+      newPassword = userExist.passwordHash;
+    }
 
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        {
-          username: req.body.username,
-          passwordHash: newPassword,
-          firstName: req.body.firstName,
-          wilayas: req.body.wilayas,
-        },
-        { new: true }
-      ).populate({
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        username: req.body.username,
+        passwordHash: newPassword,
+        firstName: req.body.firstName,
+        wilayas: req.body.wilayas,
+      },
+      { new: true }
+    ).populate({
+      path: "createdBy",
+      select: "-passwordHash",
+      populate: {
         path: "createdBy",
         select: "-passwordHash",
-        populate: {
-          path: "createdBy",
-          select: "-passwordHash",
-        },
-      });
+      },
+    });
 
-      const userWithoutPassword = {
-        id: updatedUser.id,
-        updatedUsername: updatedUser.username,
-        firstName: updatedUser.firstName,
-        role: updatedUser.role,
-        createdBy: updatedUser.createdBy,
-      };
+    const userWithoutPassword = {
+      id: updatedUser.id,
+      updatedUsername: updatedUser.username,
+      firstName: updatedUser.firstName,
+      role: updatedUser.role,
+      createdBy: updatedUser.createdBy,
+    };
 
-      res.send(userWithoutPassword);
-    } else {
-      return res.status(403).json({
-        success: false,
-        message: "Permission Denied",
-      });
-    }
+    res.send(userWithoutPassword);
   } catch (error) {
     res.status(500).send("An error occurred while updating the user.");
   }
