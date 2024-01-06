@@ -12,8 +12,12 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["Admin", "Cam", "Supervisor", "Delegate", "Operator"],
+      enum: ["Admin", "Kam", "Supervisor", "Delegate", "Operator"],
       required: true,
+    },
+    type: {
+      type: String,
+      enum: ["M", "C", "MC"],
     },
     passwordHash: {
       type: String,
@@ -35,7 +39,19 @@ const userSchema = new mongoose.Schema(
         ref: "Client",
       },
     ],
-    mobile: {
+    phonePersonal: {
+      type: String,
+    },
+    phoneProfessional: {
+      type: String,
+    },
+    address: {
+      type: String,
+    },
+    wilaya: {
+      type: String,
+    },
+    commune: {
       type: String,
     },
     email: {
