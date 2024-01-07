@@ -12,7 +12,7 @@ const createCompany = async (req, res) => {
     res.status(201).json(createdCompany);
   } catch (error) {
     res.status(500).json({ error: "Error creating Company" });
-    console.log(error);
+    console.error(error);
   }
 };
 

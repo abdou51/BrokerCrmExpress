@@ -33,7 +33,7 @@ const getExpensesDay = async (req, res) => {
     res.status(200).json(expensesDay);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
-    console.log(error);
+    console.error(error);
   }
 };
 
@@ -68,7 +68,7 @@ const updateExpenseDay = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: "Error" });
-    console.log(error);
+    console.error(error);
   }
 };
 

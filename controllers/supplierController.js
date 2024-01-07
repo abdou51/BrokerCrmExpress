@@ -8,7 +8,7 @@ const createSupplier = async (req, res) => {
     res.status(201).json(createdSupplier);
   } catch (error) {
     res.status(500).json({ error: "Error creating Supplier" });
-    console.log(error);
+    console.error(error);
   }
 };
 

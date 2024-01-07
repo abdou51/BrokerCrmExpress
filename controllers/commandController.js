@@ -30,7 +30,7 @@ const createCommand = async (req, res) => {
     res.status(201).json(savedCommand);
   } catch (error) {
     res.status(500).json({ error: "Error creating the command" });
-    console.log(error);
+    console.error(error);
   }
 };
 const getCommandById = async (req, res) => {
@@ -45,7 +45,7 @@ const getCommandById = async (req, res) => {
     res.status(200).json(command);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve the Command." });
-    console.log(error);
+    console.error(error);
   }
 };
 

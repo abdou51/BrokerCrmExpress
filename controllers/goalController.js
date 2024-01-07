@@ -8,7 +8,7 @@ const createGoal = async (req, res) => {
     res.status(201).json(createdGoal);
   } catch (error) {
     res.status(500).json({ error: "Error creating Goal" });
-    console.log(error);
+    console.error(error);
   }
 };
 

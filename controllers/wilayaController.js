@@ -10,7 +10,8 @@ const createWilaya = async (req, res) => {
 
     res.status(201).json(createdWilaya);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Wilaya" });
+    res.status(500).json({ error: error.message });
+    console.error(error);
   }
 };
 const getWilayas = async (req, res) => {
@@ -20,6 +21,7 @@ const getWilayas = async (req, res) => {
     res.status(200).json(wilayas);
   } catch (error) {
     res.status(500).json({ error: "Error getting Wilayas" });
+    console.error(error);
   }
 };
 

@@ -46,6 +46,7 @@ const registerUser = async (req, res) => {
       .json({ success: true, message: "User registered successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error });
+    console.error(error);
   }
 };
 const loginUser = async (req, res) => {
@@ -86,7 +87,7 @@ const loginUser = async (req, res) => {
     res
       .status(500)
       .send("Une erreur s'est produite lors de la recherche de l'utilisateur.");
-    console.log(error);
+    console.error(error);
   }
 };
 const updateUser = async (req, res) => {
@@ -134,6 +135,7 @@ const updateUser = async (req, res) => {
     res.send(userWithoutPassword);
   } catch (error) {
     res.status(500).send("An error occurred while updating the user.");
+    console.error(error);
   }
 };
 const getAllUsers = async (req, res) => {

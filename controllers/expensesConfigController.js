@@ -12,7 +12,7 @@ const createExpensesConfig = async (req, res) => {
     res.status(201).json(createdExpensesConfig);
   } catch (error) {
     res.status(500).json({ error: "Error creating expenses Config" });
-    console.log(error);
+    console.error(error);
   }
 };
 

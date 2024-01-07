@@ -43,6 +43,7 @@ const uploadImage = async (req, res) => {
       message: "Error occurred during upload or database operation",
       error: err,
     });
+    console.error(error);
   }
 };
 

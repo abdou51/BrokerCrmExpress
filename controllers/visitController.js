@@ -19,7 +19,7 @@ const createVisit = async (req, res) => {
     res.status(201).json(createdVisit);
   } catch (error) {
     res.status(500).json({ error: "Failed to create the Visit." });
-    console.log(error);
+    console.error(error);
   }
 };
 const getTasks = async (req, res) => {
@@ -59,7 +59,7 @@ const getTasks = async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ error: "Failed to Get Tasks." });
-    console.log(error);
+    console.error(error);
   }
 };
 const cloneVisits = async (req, res) => {
@@ -80,7 +80,7 @@ const cloneVisits = async (req, res) => {
       .json({ success: true, message: "Visits cloned Successfully" });
   } catch (error) {
     res.status(500).json({ error: "Failed to clone visits." });
-    console.log(error);
+    console.error(error);
   }
 };
 const deleteVisit = async (req, res) => {
@@ -101,6 +101,7 @@ const deleteVisit = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
+    console.error(error);
   }
 };
 

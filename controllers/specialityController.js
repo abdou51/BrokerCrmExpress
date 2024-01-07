@@ -12,7 +12,7 @@ const createSpeciality = async (req, res) => {
     res.status(201).json(createdSpeciality);
   } catch (error) {
     res.status(500).json({ error: "Error creating Speciality" });
-    console.log(error);
+    console.error(error);
   }
 };
 

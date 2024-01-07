@@ -10,7 +10,7 @@ const createEstablishment = async (req, res) => {
     res.status(201).json(createdEstablishment);
   } catch (error) {
     res.status(500).json({ error: "Error creating Establishment" });
-    console.log(error);
+    console.error(error);
   }
 };
 
