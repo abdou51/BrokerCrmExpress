@@ -12,7 +12,7 @@ const motivationSchema = new mongoose.Schema(
       select: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Motivation = mongoose.model("Motivation", motivationSchema);

@@ -51,9 +51,9 @@ const registerUser = async (req, res) => {
 };
 const loginUser = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username }).select(
-      "-clients -createdBy -wilayas -username"
-    );
+    const user = await User.findOne({
+      $or: [{ username: req.body.username }, { email: req.body.email }],
+    }).select("-clients -createdBy -wilayas -username");
 
     if (!user) {
       return res.status(400).json({
@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
       });
     }
 
-    if (user && bcrypt.compareSync(req.body.password, user.passwordHash)) {
+    if (bcrypt.compareSync(req.body.password, user.passwordHash)) {
       try {
         const token = generateToken(user.id, user.role);
         const userWithoutPassword = {
@@ -90,6 +90,7 @@ const loginUser = async (req, res) => {
     console.error(error);
   }
 };
+
 const updateUser = async (req, res) => {
   try {
     const userId = req.params.id;

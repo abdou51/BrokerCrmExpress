@@ -71,7 +71,7 @@ const commandSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Command = mongoose.model("Command", commandSchema);

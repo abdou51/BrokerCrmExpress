@@ -20,7 +20,7 @@ const clientSchema = new mongoose.Schema(
     type: {
       type: String,
       enum: ["Doctor", "Pharmacy", "Wholesaler"],
-      required: true,
+      required: [true, "Please provide a type (Doctor, Pharmacy, Wholesaler)"],
     },
     sector: {
       type: String,
@@ -39,6 +39,7 @@ const clientSchema = new mongoose.Schema(
     speciality: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Speciality",
+      required: [true, "Please provide a speciality id"],
     },
     totalSellers: {
       type: Number,
@@ -67,7 +68,7 @@ const clientSchema = new mongoose.Schema(
       type: String,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 clientSchema.plugin(mongoosePaginate);

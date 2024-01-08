@@ -7,9 +7,8 @@ const reportSchema = new mongoose.Schema(
       ref: "Visit",
       required: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
+    location: {
+      type: String,
     },
     note: {
       type: String,
@@ -36,7 +35,7 @@ const reportSchema = new mongoose.Schema(
     suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Client" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Report = mongoose.model("Report", reportSchema);

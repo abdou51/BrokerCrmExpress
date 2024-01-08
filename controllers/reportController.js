@@ -6,41 +6,28 @@ const ExpensesUser = require("../models/expensesUser");
 
 const createReport = async (req, res) => {
   try {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-    const day = currentDate.getDate().toString().padStart(2, "0");
-    const formattedDate = `${year}-${month}-${day}`;
-
     const userId = req.user.userId;
-    const { visit, note, objectif, products, suppliers, comments, client } =
-      req.body;
 
-    const userVisit = await Visit.findById(visit).populate("client");
+    const userVisit = await Visit.findById(req.body.visit).populate("client");
     if (!userVisit || userVisit.user.toString() !== userId) {
       return res.status(403).json({
         error: "You are not allowed to create a Report for this Visit.",
       });
     }
 
-    if (userVisit.isDone) {
+    if (userVisit.state === "Done") {
       return res.status(400).json({
         error: "A Report already exists for this visit.",
       });
     }
-    if (client) {
-      await Client.findByIdAndUpdate(userVisit.client, client);
+    if (req.body.client) {
+      await Client.findByIdAndUpdate(userVisit.client, req.body.client);
     }
     const newReport = new Report({
-      visit,
-      note,
-      objectif,
-      products,
-      suppliers,
-      comments,
+      ...req.body,
     });
     const createdReport = await newReport.save();
-    userVisit.isDone = true;
+    userVisit.state = "Done";
     userVisit.report = createdReport;
     await userVisit.save();
     const update = {

@@ -20,7 +20,7 @@ const versionSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Version = mongoose.model("Version", versionSchema);

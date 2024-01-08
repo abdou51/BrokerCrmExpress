@@ -1,13 +1,6 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
-const { zonedTimeToUtc, utcToZonedTime, format } = require("date-fns-tz");
 
-function getCurrentDateInAlgeria() {
-  const timeZone = "Africa/Algiers";
-  const now = new Date();
-  const dateInAlgeria = utcToZonedTime(now, timeZone);
-  return dateInAlgeria;
-}
 const visitSchema = new mongoose.Schema(
   {
     user: {
@@ -28,24 +21,17 @@ const visitSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Command",
     },
-    visitLocation: {
-      type: String,
-    },
     visitDate: {
       type: Date,
-      default: getCurrentDateInAlgeria(),
+      required: [true, "visit Date is Required"],
     },
     state: {
       type: String,
       enum: ["Planned", "Done", "Hold"],
       default: "Planned",
     },
-    hasCommand: {
-      type: Boolean,
-      default: false,
-    },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 visitSchema.plugin(mongoosePaginate);
 const Visit = mongoose.model("Visit", visitSchema);

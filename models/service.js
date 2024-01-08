@@ -11,7 +11,7 @@ const serviceSchema = new mongoose.Schema(
       { type: mongoose.Schema.Types.ObjectId, ref: "Establishment" },
     ],
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Service = mongoose.model("Service", serviceSchema);

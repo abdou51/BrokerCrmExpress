@@ -15,7 +15,7 @@ const establishmentSchema = new mongoose.Schema(
     },
     services: [{ type: mongoose.Schema.Types.ObjectId, ref: "Service" }],
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Establishment = mongoose.model("Establishment", establishmentSchema);

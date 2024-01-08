@@ -7,6 +7,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     fullName: {
       type: String,
     },
@@ -54,17 +59,23 @@ const userSchema = new mongoose.Schema(
     commune: {
       type: String,
     },
-    email: {
-      type: String,
-      required: true,
-    },
     isBlocked: {
       type: Boolean,
       default: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
+
+userSchema.pre("save", function (next) {
+  if (this.username) {
+    this.username = this.username.toLowerCase();
+  }
+  if (this.email) {
+    this.email = this.email.toLowerCase();
+  }
+  next();
+});
 
 const User = mongoose.model("User", userSchema);
 

@@ -13,7 +13,7 @@ const specialtySchema = new mongoose.Schema(
       select: false,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Specialty = mongoose.model("Speciality", specialtySchema);

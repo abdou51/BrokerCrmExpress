@@ -10,7 +10,6 @@ const fileSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    versionKey: false,
     id: false,
     toJSON: { getters: true },
     toObject: { getters: true },

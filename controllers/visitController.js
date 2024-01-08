@@ -5,20 +5,17 @@ const Report = require("../models/report");
 const createVisit = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const { visitLocation, visitDate, client } = req.body;
 
     const newVisit = new Visit({
+      ...req.body,
       user: userId,
-      visitLocation,
-      visitDate,
-      client,
     });
 
     const createdVisit = await newVisit.save();
 
     res.status(201).json(createdVisit);
   } catch (error) {
-    res.status(500).json({ error: "Failed to create the Visit." });
+    res.status(500).json({ error: error.message });
     console.error(error);
   }
 };

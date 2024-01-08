@@ -11,7 +11,7 @@ const expensesConfigSchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const ExpensesConfig = mongoose.model("ExpensesConfig", expensesConfigSchema);

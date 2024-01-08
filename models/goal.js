@@ -16,11 +16,11 @@ const goalSchema = new mongoose.Schema(
       default: 0,
     },
     date: {
-      type: String,
+      type: Date,
       required: true,
     },
   },
-  { timestamps: true, versionKey: false }
+  { timestamps: true }
 );
 
 const Goal = mongoose.model("Goal", goalSchema);
