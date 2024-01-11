@@ -53,6 +53,10 @@ const expensesDaySchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
   },
   { timestamps: true }
 );

@@ -4,9 +4,13 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
+app.use(express.json());
 
 require("dotenv").config();
-// require("./cronjobs/expensesDay");
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan("tiny"));
+require("./cronjobs/expensesDay");
 
 // Connect to the database
 mongoose
@@ -22,10 +26,6 @@ app.use(
     crossOriginResourcePolicy: false,
   })
 );
-app.use(cors());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(morgan("tiny"));
 
 // Define routes
 const userRoutes = require("./routes/userRoutes");
