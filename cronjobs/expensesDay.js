@@ -5,13 +5,15 @@ const cron = require("node-cron");
 const ExpensesConfig = require("../models/expensesConfig");
 const Goal = require("../models/goal");
 
-// */10 * * * * *
-cron.schedule("0 0 0 * * *", async () => {
-  const currentDate = new Date();
-  const year = currentDate.getFullYear();
-  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-  const day = currentDate.getDate().toString().padStart(2, "0");
-  const formattedDate = `${year}-${month}`;
+cron.schedule("0 0 * * *", async () => {
+  const now = new Date();
+  const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const endOfDay = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1
+  );
 
   try {
     const users = await User.find();
@@ -19,47 +21,65 @@ cron.schedule("0 0 0 * * *", async () => {
 
     for (const user of users) {
       if (user.role !== "Admin" && user.role !== "Supervisor") {
-        const existingGoal = await Goal.findOne({
-          user: user.id,
-          date: formattedDate,
-        });
-        if (!existingGoal) {
-          const newGoal = new Goal({
+        await Goal.findOneAndUpdate(
+          {
             user: user.id,
-            date: formattedDate,
-          });
-          await newGoal.save();
-        }
-        const existingExpensesUser = await ExpensesUser.findOne({
-          user: user.id,
-          createdDate: formattedDate,
-        });
-
-        if (existingExpensesUser) {
-          const existingExpenseUser = await ExpensesDay.findOne({
-            userExpense: existingExpensesUser.id,
-            createdDate: `${year}-${month}-${day}`,
-          });
-          if (!existingExpenseUser) {
-            const newExpensesDay = new ExpensesDay({
-              userExpense: existingExpensesUser.id,
-              createdDate: `${year}-${month}-${day}`,
-            });
-            await newExpensesDay.save();
+            createdAt: {
+              $gte: firstDayOfMonth,
+            },
+          },
+          {
+            $setOnInsert: {
+              user: user.id,
+              totalSales: 0,
+              totalVisits: 0,
+            },
+          },
+          {
+            new: true, // Return the modified document rather than the original
+            upsert: true, // Create the document if it doesn't exist
+            setDefaultsOnInsert: true, // Apply the schema defaults if a new document is created
           }
-        } else {
-          const createdExpensesUser = await ExpensesUser.create({
+        );
+        await ExpensesUser.findOneAndUpdate(
+          {
             user: user.id,
-            expensesConfig: expensesConfig.id,
-            createdDate: formattedDate,
-          });
-          const newExpensesDay = new ExpensesDay({
-            userExpense: createdExpensesUser.id,
-            createdDate: `${year}-${month}-${day}`,
-          });
-
-          await newExpensesDay.save();
-        }
+            createdAt: {
+              $gte: firstDayOfMonth,
+            },
+          },
+          {
+            $setOnInsert: {
+              user: user.id,
+              expensesConfig: expensesConfig.id,
+              total: 0,
+            },
+          },
+          {
+            new: true, // Return the modified document rather than the original
+            upsert: true, // Create the document if it doesn't exist
+            setDefaultsOnInsert: true, // Apply the schema defaults if a new document is created
+          }
+        );
+        await ExpensesDay.findOneAndUpdate(
+          {
+            user: user.id,
+            createdAt: {
+              $gte: startOfDay,
+              $lt: endOfDay,
+            },
+          },
+          {
+            $setOnInsert: {
+              user: user.id,
+            },
+          },
+          {
+            new: true, // Return the modified document rather than the original
+            upsert: true, // Create the document if it doesn't exist
+            setDefaultsOnInsert: true, // Apply the schema defaults if a new document is created
+          }
+        );
       }
     }
     console.log("User Daily Expenses Created Successfully");

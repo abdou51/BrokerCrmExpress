@@ -11,10 +11,6 @@ const expensesUserSchema = new mongoose.Schema(
       ref: "ExpensesConfig",
       required: true,
     },
-    createdDate: {
-      type: String,
-      required: true,
-    },
     validation: {
       type: String,
       enum: ["Hold", "Sent", "Approved"],

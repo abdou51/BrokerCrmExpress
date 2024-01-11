@@ -4,7 +4,21 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
+const {
+  runAgendaJobs,
+  createMissedExpensesDays,
+} = require("./cronjobs/agenda");
 
+createMissedExpensesDays()
+  .then(() => {
+    runAgendaJobs();
+  })
+  .catch((err) => {
+    console.error(
+      "Error creating missed expense days or starting agenda jobs:",
+      err
+    );
+  });
 require("dotenv").config();
 require("./cronjobs/expensesDay");
 

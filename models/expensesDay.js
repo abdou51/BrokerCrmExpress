@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const expensesDaySchema = new mongoose.Schema(
   {
-    userExpense: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "UserExpense",
+      ref: "User",
     },
     totalVisitsDoctor: {
       type: Number,
@@ -36,9 +36,6 @@ const expensesDaySchema = new mongoose.Schema(
     otherExpenses: {
       type: Number,
       default: 0,
-    },
-    createdDate: {
-      type: String,
     },
     startWilaya: {
       type: String,

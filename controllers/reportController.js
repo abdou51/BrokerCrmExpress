@@ -9,6 +9,7 @@ const createReport = async (req, res) => {
     const userId = req.user.userId;
 
     const userVisit = await Visit.findById(req.body.visit).populate("client");
+    console.log(userVisit);
     if (!userVisit || userVisit.user.toString() !== userId) {
       return res.status(403).json({
         error: "You are not allowed to create a Report for this Visit.",
@@ -37,23 +38,25 @@ const createReport = async (req, res) => {
         totalVisitsWholesaler: 0,
       },
     };
-
-    if (userVisit.client.type === "Doctor") {
-      update.$inc.totalVisitsDoctor = 1;
-    } else if (userVisit.client.type === "Pharmacy") {
-      update.$inc.totalVisitsPharmacy = 1;
-    } else if (userVisit.client.type === "Wholesaler") {
-      update.$inc.totalVisitsWholesaler = 1;
+    if (userVisit.client) {
+      if (userVisit.client.type === "Doctor") {
+        update.$inc.totalVisitsDoctor = 1;
+      } else if (userVisit.client.type === "Pharmacy") {
+        update.$inc.totalVisitsPharmacy = 1;
+      } else if (userVisit.client.type === "Wholesaler") {
+        update.$inc.totalVisitsWholesaler = 1;
+      }
     }
-    const expensesUser = await ExpensesUser.findOne({
-      user: userId,
-      createdDate: `${year}-${month}`,
-    });
-    await ExpensesDay.findOneAndUpdate(
-      { userExpense: expensesUser.id, createdDate: formattedDate },
-      update,
-      { new: true }
-    );
+
+    // const expensesUser = await ExpensesUser.findOne({
+    //   user: userId,
+    //   createdDate: `${year}-${month}`,
+    // });
+    // await ExpensesDay.findOneAndUpdate(
+    //   { userExpense: expensesUser.id, createdDate: formattedDate },
+    //   update,
+    //   { new: true }
+    // );
 
     res.status(200).json(createdReport);
   } catch (error) {
