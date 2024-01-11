@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const mongoosePaginate = require("mongoose-paginate-v2");
 const commandSchema = new mongoose.Schema(
   {
     visit: {
@@ -37,6 +37,18 @@ const commandSchema = new mongoose.Schema(
           ref: "Product",
           required: true,
         },
+        wholesalerPriceUnit: {
+          type: Number,
+          default: 0,
+        },
+        pharmacyPriceUnit: {
+          type: Number,
+          default: 0,
+        },
+        superWholesalerPriceUnit: {
+          type: Number,
+          default: 0,
+        },
         quantity: {
           type: Number,
           required: true,
@@ -65,15 +77,17 @@ const commandSchema = new mongoose.Schema(
       ref: "Client",
     },
     invoice: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "File",
     },
     signature: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "File",
     },
   },
   { timestamps: true }
 );
-
+commandSchema.plugin(mongoosePaginate);
 const Command = mongoose.model("Command", commandSchema);
 
 module.exports = Command;

@@ -24,7 +24,7 @@ async function calculateVisitsByClientType(userId, date) {
     },
     {
       $lookup: {
-        from: "clients", // MongoDB collection name for clients
+        from: "clients",
         localField: "client",
         foreignField: "_id",
         as: "clientData",
@@ -50,7 +50,7 @@ async function calculateVisitsByClientType(userId, date) {
 
 // schedule every 24 hours : 0 0 * * *
 // Daily cron job
-cron.schedule("*/10 * * * * *", async () => {
+cron.schedule("0 0 * * *", async () => {
   try {
     const users = await User.find({
       role: { $nin: ["Admin", "Supervisor", "Operator"] },
