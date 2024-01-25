@@ -73,10 +73,39 @@ const getCommandById = async (req, res) => {
   }
 };
 
-const getCommands = async (req, res) => {
+const getCommandsByUserAndMonth = async (req, res) => {
+  const { user, month, year, page = 1, limit = 10 } = req.body;
+  const startDate = new Date(year, month - 1, 1);
+  const endDate = new Date(year, month, 1);
+
+  const options = {
+    page: page,
+    limit: limit,
+    populate: [
+      {
+        path: "visit",
+        populate: [{ path: "client" }],
+      },
+      {
+        path: "products.product",
+      },
+      "motivations",
+      "suppliers",
+      "finalSupplier",
+      "invoice",
+      "signature",
+    ],
+  };
+
   try {
-    const commands = await Command.find().populate("visit");
-    res.status(200).json(commands);
+    const result = await Command.paginate(
+      {
+        "visit.user": user,
+        createdAt: { $gte: startDate, $lt: endDate },
+      },
+      options
+    );
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve the Commands." });
     console.error(error);
@@ -86,6 +115,6 @@ const getCommands = async (req, res) => {
 module.exports = {
   createCommand,
   getCommandById,
-  getCommands,
   updateCommand,
+  getCommandsByUserAndMonth,
 };

@@ -29,7 +29,34 @@ const updateGoal = async (req, res) => {
 };
 const getGoals = async (req, res) => {
   try {
-    const goals = await Goal.find();
+    const userId = req.user.userId;
+    // Getting the first and last day of the current month
+    const now = new Date();
+    const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const goals = await Goal.aggregate([
+      {
+        $match: {
+          createdAt: {
+            $gte: firstDayOfMonth,
+            $lte: lastDayOfMonth,
+          },
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userData",
+        },
+      },
+      { $unwind: "$userData" },
+      { $match: { "userData.createdBy": mongoose.Types.ObjectId(userId) } },
+      { $project: { totalSales: 1, totalVisits: 1, user: "$userData" } },
+    ]);
+
     res.status(200).json(goals);
   } catch (error) {
     res.status(500).json({ error: "Error getting Goals" });
