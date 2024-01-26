@@ -2,6 +2,9 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
+    fcmToken: {
+      type: String,
+    },
     username: {
       type: String,
       required: true,
@@ -19,10 +22,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["Admin", "Kam", "Supervisor", "Delegate", "Operator"],
       required: true,
-    },
-    type: {
-      type: String,
-      enum: ["M", "C", "MC"],
     },
     passwordHash: {
       type: String,

@@ -97,8 +97,47 @@ const deleteVisit = async (req, res) => {
       message: "Visit, report, and command deleted successfully",
     });
   } catch (error) {
-    return res.status(500).json({ success: false, error: error.message });
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+const getVisitsHistory = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { client, page = 1, limit = 10 } = req.query;
+
+    const options = {
+      page: parseInt(page, 10),
+      limit: parseInt(limit, 10),
+      sort: { visitDate: -1 },
+      populate: [
+        {
+          path: "report",
+          populate: [
+            { path: "products.product", select: "name" },
+            { path: "suppliers" },
+            { path: "comments" },
+          ],
+        },
+        {
+          path: "command",
+          populate: [
+            { path: "products.product", select: "name" },
+            { path: "motivations" },
+            { path: "suppliers" },
+            { path: "finalSupplier" },
+          ],
+        },
+      ],
+    };
+
+    const query = { user: userId, client, state: { $ne: "Planned" } };
+    const visits = await Visit.paginate(query, options);
+
+    res.json({ success: true, data: visits });
+  } catch (error) {
     console.error(error);
+    return res.status(500).json({ success: false, error: error.message });
   }
 };
 
