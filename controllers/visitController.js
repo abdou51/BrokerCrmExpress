@@ -83,18 +83,11 @@ const cloneVisits = async (req, res) => {
 const deleteVisit = async (req, res) => {
   try {
     const visitsToDelete = req.body;
-    const visits = await Visit.deleteMany({ _id: { $in: visitsToDelete } });
-    if (visits.length > 0) {
-      await Report.findOneAndDelete({ _id: visit.report });
-    }
-
-    if (visits.length > 0) {
-      await Command.findOneAndDelete({ _id: visit.command });
-    }
+    Visit.deleteMany({ _id: { $in: visitsToDelete } });
 
     return res.status(200).json({
       success: true,
-      message: "Visit, report, and command deleted successfully",
+      message: "Visits deleted successfully",
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

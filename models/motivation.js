@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 
 const motivationSchema = new mongoose.Schema(
   {
+    supervisor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     motivation: {
       type: String,
       required: true,

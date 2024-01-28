@@ -34,19 +34,21 @@ const specialityRoutes = require("./routes/specialityRoutes");
 const clientRoutes = require("./routes/clientRoutes");
 const companyRoutes = require("./routes/companyRoutes");
 const productRoutes = require("./routes/productRoutes");
+const coProductRoutes = require("./routes/coProductRoutes");
 const commentRoutes = require("./routes/commentRoutes");
 const motvationRoutes = require("./routes/motivationRoutes");
-const supplierRoutes = require("./routes/supplierRoutes");
 const visitRoutes = require("./routes/visitRoutes");
 const reportRoutes = require("./routes/reportRoutes");
 const commandRoutes = require("./routes/commandRoutes");
 const expensesConfigRoutes = require("./routes/expensesConfigRoutes");
 const expensesDayRoutes = require("./routes/expensesDayRoutes");
-const statsRoutes = require("./routes/statsRoutes");
 const goalRoutes = require("./routes/goalRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const delegateMonthRoutes = require("./stats/routes/delegateMonthRoutes");
+const supervisorMonthRoutes = require("./stats/routes/supervisorMonthRoutes");
+const adminMonthRoutes = require("./stats/routes/adminMonthRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -55,20 +57,22 @@ app.use("/specialities", specialityRoutes);
 app.use("/clients", clientRoutes);
 app.use("/companies", companyRoutes);
 app.use("/products", productRoutes);
+app.use("/coproducts", coProductRoutes);
 app.use("/comments", commentRoutes);
 app.use("/motivations", motvationRoutes);
-app.use("/suppliers", supplierRoutes);
 app.use("/visits", visitRoutes);
 app.use("/reports", reportRoutes);
 app.use("/commands", commandRoutes);
 app.use("/expensesconfig", expensesConfigRoutes);
 app.use("/expensesday", expensesDayRoutes);
-app.use("/stats", statsRoutes);
 app.use("/goals", goalRoutes);
 app.use("/establishments", establishmentRoutes);
 app.use("/services", serviceRoutes);
 app.use("/upload", fileRoutes);
 app.use("/uploads", express.static("uploads"));
+app.use("/stats/delegate", delegateMonthRoutes);
+app.use("/stats/supervisor", supervisorMonthRoutes);
+app.use("/stats/admin", adminMonthRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {

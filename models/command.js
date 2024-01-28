@@ -13,7 +13,7 @@ const commandSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ["Destockage", "Direct"],
+      enum: ["Destockage", "Vente"],
     },
     note: {
       type: String,

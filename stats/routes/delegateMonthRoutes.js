@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const delegateMonthController = require("../stats/controllers/delegateMonthController");
-const userJwt = require("../middlewares/userJwt");
+const delegateMonthController = require("../controllers/delegateMonthController");
+const userJwt = require("../../middlewares/userJwt");
 
 // Define routes
 

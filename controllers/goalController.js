@@ -27,10 +27,10 @@ const updateGoal = async (req, res) => {
     console.error(error);
   }
 };
+
 const getGoals = async (req, res) => {
   try {
     const userId = req.user.userId;
-    // Getting the first and last day of the current month
     const now = new Date();
     const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);

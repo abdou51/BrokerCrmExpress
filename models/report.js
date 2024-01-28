@@ -10,12 +10,6 @@ const reportSchema = new mongoose.Schema(
     location: {
       type: String,
     },
-    note: {
-      type: String,
-    },
-    objectif: {
-      type: String,
-    },
     products: [
       {
         product: {
@@ -32,8 +26,46 @@ const reportSchema = new mongoose.Schema(
         },
       },
     ],
+    coProducts: [
+      {
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "coProduct",
+          required: true,
+        },
+        quantity: {
+          type: Number,
+          required: true,
+        },
+        rotations: {
+          type: Number,
+        },
+      },
+    ],
     suppliers: [{ type: mongoose.Schema.Types.ObjectId, ref: "Client" }],
     comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+    objectif: {
+      type: String,
+    },
+    note: {
+      type: String,
+    },
+    nearbyClients: [
+      {
+        fullName: {
+          type: String,
+        },
+        remark: {
+          type: String,
+        },
+        speciality: {
+          type: String,
+        },
+        grade: {
+          type: String,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
