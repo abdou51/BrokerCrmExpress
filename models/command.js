@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 const commandSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     visit: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Visit",
@@ -83,6 +88,9 @@ const commandSchema = new mongoose.Schema(
     signature: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "File",
+    },
+    commandDate: {
+      type: Date,
     },
   },
   { timestamps: true }

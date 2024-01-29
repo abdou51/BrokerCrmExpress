@@ -1,0 +1,109 @@
+Date : 2024-01-28 23:59:46
+Directory : d:\ABDOU\BrokerCrmExpress
+Total : 74 files,  7071 codes, 72 comments, 462 blanks, all 7605 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JSON       |          3 |      3,893 |          0 |          3 |      3,896 |
+| JavaScript |         71 |      3,178 |         72 |        459 |      3,709 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                     | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                        |         74 |      7,071 |         72 |        462 |      7,605 |
+| . (Files)                                                                |          4 |      3,971 |          6 |         12 |      3,989 |
+| controllers                                                              |         19 |      1,334 |         16 |        176 |      1,526 |
+| cronjobs                                                                 |          2 |        206 |         14 |         23 |        243 |
+| middlewares                                                              |          2 |         32 |          0 |          9 |         41 |
+| models                                                                   |         21 |        788 |          0 |         79 |        867 |
+| routes                                                                   |         19 |        162 |         18 |         69 |        249 |
+| stats                                                                    |          6 |        530 |         18 |         89 |        637 |
+| stats\controllers                                                        |          3 |        478 |         15 |         77 |        570 |
+| stats\routes                                                             |          3 |         52 |          3 |         12 |         67 |
+| utils                                                                    |          1 |         48 |          0 |          5 |         53 |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                 | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\ABDOU\BrokerCrmExpress\app.js                                         | JavaScript |         78 |          6 |          9 |         93 |
+| d:\ABDOU\BrokerCrmExpress\controllers\clientController.js                | JavaScript |         77 |          0 |          6 |         83 |
+| d:\ABDOU\BrokerCrmExpress\controllers\coProductController.js             | JavaScript |         50 |          0 |          6 |         56 |
+| d:\ABDOU\BrokerCrmExpress\controllers\commandController.js               | JavaScript |        110 |          0 |         11 |        121 |
+| d:\ABDOU\BrokerCrmExpress\controllers\commentController.js               | JavaScript |         86 |          0 |          6 |         92 |
+| d:\ABDOU\BrokerCrmExpress\controllers\companyController.js               | JavaScript |         17 |          0 |          5 |         22 |
+| d:\ABDOU\BrokerCrmExpress\controllers\establishmentController.js         | JavaScript |         15 |          0 |          5 |         20 |
+| d:\ABDOU\BrokerCrmExpress\controllers\expensesConfigController.js        | JavaScript |         47 |          0 |          5 |         52 |
+| d:\ABDOU\BrokerCrmExpress\controllers\expensesDayController.js           | JavaScript |         68 |          0 |         11 |         79 |
+| d:\ABDOU\BrokerCrmExpress\controllers\expensesUserController.js          | JavaScript |         14 |          0 |          4 |         18 |
+| d:\ABDOU\BrokerCrmExpress\controllers\fileUploadController.js            | JavaScript |         61 |          6 |         13 |         80 |
+| d:\ABDOU\BrokerCrmExpress\controllers\goalController.js                  | JavaScript |         62 |          0 |          8 |         70 |
+| d:\ABDOU\BrokerCrmExpress\controllers\motivationController.js            | JavaScript |         16 |          0 |          5 |         21 |
+| d:\ABDOU\BrokerCrmExpress\controllers\productController.js               | JavaScript |         50 |          0 |          6 |         56 |
+| d:\ABDOU\BrokerCrmExpress\controllers\reportController.js                | JavaScript |        152 |          9 |         13 |        174 |
+| d:\ABDOU\BrokerCrmExpress\controllers\serviceController.js               | JavaScript |         23 |          0 |          5 |         28 |
+| d:\ABDOU\BrokerCrmExpress\controllers\specialityController.js            | JavaScript |         16 |          1 |          5 |         22 |
+| d:\ABDOU\BrokerCrmExpress\controllers\userController.js                  | JavaScript |        314 |          0 |         43 |        357 |
+| d:\ABDOU\BrokerCrmExpress\controllers\visitController.js                 | JavaScript |        130 |          0 |         13 |        143 |
+| d:\ABDOU\BrokerCrmExpress\controllers\wilayaController.js                | JavaScript |         26 |          0 |          6 |         32 |
+| d:\ABDOU\BrokerCrmExpress\cronjobs\agenda.js                             | JavaScript |         95 |          9 |         14 |        118 |
+| d:\ABDOU\BrokerCrmExpress\cronjobs\expensesDay.js                        | JavaScript |        111 |          5 |          9 |        125 |
+| d:\ABDOU\BrokerCrmExpress\middlewares\jwtMiddleware.js                   | JavaScript |         13 |          0 |          3 |         16 |
+| d:\ABDOU\BrokerCrmExpress\middlewares\userJwt.js                         | JavaScript |         19 |          0 |          6 |         25 |
+| d:\ABDOU\BrokerCrmExpress\models\client.js                               | JavaScript |         74 |          0 |          5 |         79 |
+| d:\ABDOU\BrokerCrmExpress\models\coProduct.js                            | JavaScript |         45 |          0 |          4 |         49 |
+| d:\ABDOU\BrokerCrmExpress\models\command.js                              | JavaScript |         92 |          0 |          2 |         94 |
+| d:\ABDOU\BrokerCrmExpress\models\comment.js                              | JavaScript |         22 |          0 |          4 |         26 |
+| d:\ABDOU\BrokerCrmExpress\models\company.js                              | JavaScript |         18 |          0 |          4 |         22 |
+| d:\ABDOU\BrokerCrmExpress\models\establishment.js                        | JavaScript |         20 |          0 |          4 |         24 |
+| d:\ABDOU\BrokerCrmExpress\models\expensesConfig.js                       | JavaScript |         16 |          0 |          4 |         20 |
+| d:\ABDOU\BrokerCrmExpress\models\expensesDay.js                          | JavaScript |         64 |          0 |          2 |         66 |
+| d:\ABDOU\BrokerCrmExpress\models\expensesUser.js                         | JavaScript |         27 |          0 |          2 |         29 |
+| d:\ABDOU\BrokerCrmExpress\models\file.js                                 | JavaScript |         18 |          0 |          4 |         22 |
+| d:\ABDOU\BrokerCrmExpress\models\goal.js                                 | JavaScript |         24 |          0 |          4 |         28 |
+| d:\ABDOU\BrokerCrmExpress\models\motivation.js                           | JavaScript |         22 |          0 |          4 |         26 |
+| d:\ABDOU\BrokerCrmExpress\models\product.js                              | JavaScript |         45 |          0 |          4 |         49 |
+| d:\ABDOU\BrokerCrmExpress\models\report.js                               | JavaScript |         72 |          0 |          4 |         76 |
+| d:\ABDOU\BrokerCrmExpress\models\service.js                              | JavaScript |         16 |          0 |          4 |         20 |
+| d:\ABDOU\BrokerCrmExpress\models\speciality.js                           | JavaScript |         18 |          0 |          4 |         22 |
+| d:\ABDOU\BrokerCrmExpress\models\todo.js                                 | JavaScript |         43 |          0 |          4 |         47 |
+| d:\ABDOU\BrokerCrmExpress\models\user.js                                 | JavaScript |         78 |          0 |          5 |         83 |
+| d:\ABDOU\BrokerCrmExpress\models\version.js                              | JavaScript |         25 |          0 |          4 |         29 |
+| d:\ABDOU\BrokerCrmExpress\models\visit.js                                | JavaScript |         37 |          0 |          3 |         40 |
+| d:\ABDOU\BrokerCrmExpress\models\wilaya.js                               | JavaScript |         12 |          0 |          4 |         16 |
+| d:\ABDOU\BrokerCrmExpress\package-lock.json                              | JSON       |      3,625 |          0 |          1 |      3,626 |
+| d:\ABDOU\BrokerCrmExpress\package.json                                   | JSON       |         34 |          0 |          1 |         35 |
+| d:\ABDOU\BrokerCrmExpress\routes\clientRoutes.js                         | JavaScript |          9 |          1 |          3 |         13 |
+| d:\ABDOU\BrokerCrmExpress\routes\coProductRoutes.js                      | JavaScript |          9 |          1 |          3 |         13 |
+| d:\ABDOU\BrokerCrmExpress\routes\commandRoutes.js                        | JavaScript |          8 |          0 |          3 |         11 |
+| d:\ABDOU\BrokerCrmExpress\routes\commentRoutes.js                        | JavaScript |          9 |          1 |          3 |         13 |
+| d:\ABDOU\BrokerCrmExpress\routes\companyRoutes.js                        | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\establishmentRoutes.js                  | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\expensesConfigRoutes.js                 | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\expensesDayRoutes.js                    | JavaScript |          7 |          1 |          3 |         11 |
+| d:\ABDOU\BrokerCrmExpress\routes\fileRoutes.js                           | JavaScript |          7 |          1 |          4 |         12 |
+| d:\ABDOU\BrokerCrmExpress\routes\goalRoutes.js                           | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\motivationRoutes.js                     | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\productRoutes.js                        | JavaScript |          9 |          1 |          3 |         13 |
+| d:\ABDOU\BrokerCrmExpress\routes\reportRoutes.js                         | JavaScript |          8 |          1 |          4 |         13 |
+| d:\ABDOU\BrokerCrmExpress\routes\serviceRoutes.js                        | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\specialityRoutes.js                     | JavaScript |          5 |          1 |          4 |         10 |
+| d:\ABDOU\BrokerCrmExpress\routes\statsRoutes.js                          | JavaScript |         27 |          1 |          4 |         32 |
+| d:\ABDOU\BrokerCrmExpress\routes\userRoutes.js                           | JavaScript |         18 |          1 |          4 |         23 |
+| d:\ABDOU\BrokerCrmExpress\routes\visitRoutes.js                          | JavaScript |          9 |          1 |          4 |         14 |
+| d:\ABDOU\BrokerCrmExpress\routes\wilayaRoutes.js                         | JavaScript |          7 |          1 |          3 |         11 |
+| d:\ABDOU\BrokerCrmExpress\stats\controllers\adminMonthController.js      | JavaScript |         94 |          3 |         17 |        114 |
+| d:\ABDOU\BrokerCrmExpress\stats\controllers\delegateMonthController.js   | JavaScript |        222 |          6 |         38 |        266 |
+| d:\ABDOU\BrokerCrmExpress\stats\controllers\supervisorMonthController.js | JavaScript |        162 |          6 |         22 |        190 |
+| d:\ABDOU\BrokerCrmExpress\stats\routes\adminMonthRoutes.js               | JavaScript |         10 |          1 |          4 |         15 |
+| d:\ABDOU\BrokerCrmExpress\stats\routes\delegateMonthRoutes.js            | JavaScript |         27 |          1 |          4 |         32 |
+| d:\ABDOU\BrokerCrmExpress\stats\routes\supervisorMonthRoutes.js          | JavaScript |         15 |          1 |          4 |         20 |
+| d:\ABDOU\BrokerCrmExpress\utils\queryBuilder.js                          | JavaScript |         48 |          0 |          5 |         53 |
+| d:\ABDOU\BrokerCrmExpress\wilayas.json                                   | JSON       |        234 |          0 |          1 |        235 |
+| Total                                                                    |            |      7,071 |         72 |        462 |      7,605 |
++--------------------------------------------------------------------------+------------+------------+------------+------------+------------+

@@ -49,6 +49,7 @@ const fileRoutes = require("./routes/fileRoutes");
 const delegateMonthRoutes = require("./stats/routes/delegateMonthRoutes");
 const supervisorMonthRoutes = require("./stats/routes/supervisorMonthRoutes");
 const adminMonthRoutes = require("./stats/routes/adminMonthRoutes");
+const delegateYearRoutes = require("./stats/routes/delegateYearRoutes");
 
 const api = process.env.API_URL;
 app.use("/users", userRoutes);
@@ -70,9 +71,10 @@ app.use("/establishments", establishmentRoutes);
 app.use("/services", serviceRoutes);
 app.use("/upload", fileRoutes);
 app.use("/uploads", express.static("uploads"));
-app.use("/stats/delegate", delegateMonthRoutes);
-app.use("/stats/supervisor", supervisorMonthRoutes);
-app.use("/stats/admin", adminMonthRoutes);
+app.use("/stats/month/delegate", delegateMonthRoutes);
+app.use("/stats/month/supervisor", supervisorMonthRoutes);
+app.use("/stats/month/admin", adminMonthRoutes);
+app.use("/stats/year/delegate", delegateYearRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {

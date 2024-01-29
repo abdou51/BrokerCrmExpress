@@ -1,0 +1,13 @@
+"filename", "language", "JavaScript", "comment", "blank", "total"
+"d:\ABDOU\BrokerCrmExpress\app.js", "JavaScript", 4, 0, 0, 4
+"d:\ABDOU\BrokerCrmExpress\models\goal.js", "JavaScript", 3, 0, 0, 3
+"d:\ABDOU\BrokerCrmExpress\models\user.js", "JavaScript", 1, 0, 0, 1
+"d:\ABDOU\BrokerCrmExpress\routes\statsRoutes.js", "JavaScript", 6, 0, 0, 6
+"d:\ABDOU\BrokerCrmExpress\stats\controllers\adminMonthController.js", "JavaScript", 94, 3, 17, 114
+"d:\ABDOU\BrokerCrmExpress\stats\controllers\delegateMonthController.js", "JavaScript", 222, 6, 38, 266
+"d:\ABDOU\BrokerCrmExpress\stats\controllers\supervisorMonthController.js", "JavaScript", 162, 6, 22, 190
+"d:\ABDOU\BrokerCrmExpress\stats\delegateMonthController.js", "JavaScript", -129, 0, -17, -146
+"d:\ABDOU\BrokerCrmExpress\stats\routes\adminMonthRoutes.js", "JavaScript", 10, 1, 4, 15
+"d:\ABDOU\BrokerCrmExpress\stats\routes\delegateMonthRoutes.js", "JavaScript", 27, 1, 4, 32
+"d:\ABDOU\BrokerCrmExpress\stats\routes\supervisorMonthRoutes.js", "JavaScript", 15, 1, 4, 20
+"Total", "-", 415, 18, 72, 505

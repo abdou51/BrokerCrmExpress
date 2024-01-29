@@ -16,6 +16,8 @@ const createCommand = async (req, res) => {
       });
     }
     const newCommand = new Command({
+      commandDate: userVisit.visitDate,
+      user: req.user.userId,
       ...req.body,
     });
 

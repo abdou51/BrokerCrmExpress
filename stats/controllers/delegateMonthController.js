@@ -45,6 +45,7 @@ const moyenneVisitesParJour = async (req, res) => {
     const uniqueDaysWithVisitsCount = await Visit.distinct("visitDate", {
       user: userId,
       visitDate: { $gte: start, $lte: end },
+      state: "Done",
     });
 
     const numberOfDaysWithVisits = uniqueDaysWithVisitsCount.length;
@@ -52,6 +53,7 @@ const moyenneVisitesParJour = async (req, res) => {
     const totalVisitsCount = await Visit.countDocuments({
       user: userId,
       visitDate: { $gte: start, $lte: end },
+      state: "Done",
     });
 
     res.status(200).json({
@@ -74,40 +76,24 @@ const tauxDeReussite = async (req, res) => {
 
     // Counting Done Visits
     const doneVisits = await Visit.countDocuments({
-      user: new mongoose.Types.ObjectId(userId),
+      user: mongoose.Types.ObjectId(userId),
       visitDate: { $gte: start, $lte: end },
       state: "Done",
     });
 
-    // Aggregation for counting visits with honored commands
-    const honoredCommandsCount = await Visit.aggregate([
-      {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          visitDate: { $gte: start, $lte: end },
-        },
-      },
-      {
-        $lookup: {
-          from: "commands",
-          localField: "_id",
-          foreignField: "visit",
-          as: "commands",
-        },
-      },
-      { $unwind: "$commands" },
-      { $match: { "commands.isHonored": true } },
-      { $group: { _id: null, count: { $sum: 1 } } },
-    ]);
-
-    let honoredCommandsVisits = 0;
-    if (honoredCommandsCount.length > 0) {
-      honoredCommandsVisits = honoredCommandsCount[0].count;
-    }
-
-    res.status(200).json({
-      result: +((honoredCommandsVisits / doneVisits) * 100).toFixed(2),
+    // Counting Honored Commands
+    const honoredCommandsCount = await Command.countDocuments({
+      user: mongoose.Types.ObjectId(userId),
+      commandDate: { $gte: start, $lte: end },
+      isHonored: true,
     });
+
+    const percentage =
+      doneVisits > 0
+        ? +((honoredCommandsCount / doneVisits) * 100).toFixed(2)
+        : 0;
+
+    res.status(200).json({ result: percentage });
   } catch (error) {
     res.status(500).json({ error: "Error" });
     console.error(error);
