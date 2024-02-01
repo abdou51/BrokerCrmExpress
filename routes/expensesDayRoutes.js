@@ -4,7 +4,7 @@ const expensesDayController = require("../controllers/expensesDayController");
 const userJwt = require("../middlewares/userJwt");
 // Define routes
 
-router.get("/", userJwt, expensesDayController.getExpensesDay);
+router.get("/", userJwt, expensesDayController.getExpensesDays);
 router.put("/:id", userJwt, expensesDayController.updateExpenseDay);
 
 module.exports = router;

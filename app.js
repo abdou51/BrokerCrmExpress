@@ -46,12 +46,17 @@ const goalRoutes = require("./routes/goalRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+
+//stats Routes
 const delegateMonthRoutes = require("./stats/routes/delegateMonthRoutes");
 const supervisorMonthRoutes = require("./stats/routes/supervisorMonthRoutes");
 const adminMonthRoutes = require("./stats/routes/adminMonthRoutes");
 const delegateYearRoutes = require("./stats/routes/delegateYearRoutes");
 
-const api = process.env.API_URL;
+// dashboard routes
+const dashboardClientRoutes = require("./Admin/routes/clientRoutes");
+const dashboardUserRoutes = require("./Admin/routes/userRoutes");
+
 app.use("/users", userRoutes);
 app.use("/wilayas", wilayaRoutes);
 app.use("/specialities", specialityRoutes);
@@ -65,16 +70,22 @@ app.use("/visits", visitRoutes);
 app.use("/reports", reportRoutes);
 app.use("/commands", commandRoutes);
 app.use("/expensesconfig", expensesConfigRoutes);
-app.use("/expensesday", expensesDayRoutes);
+app.use("/expensesdays", expensesDayRoutes);
 app.use("/goals", goalRoutes);
 app.use("/establishments", establishmentRoutes);
 app.use("/services", serviceRoutes);
 app.use("/upload", fileRoutes);
 app.use("/uploads", express.static("uploads"));
+
+//stats Routes
 app.use("/stats/month/delegate", delegateMonthRoutes);
 app.use("/stats/month/supervisor", supervisorMonthRoutes);
 app.use("/stats/month/admin", adminMonthRoutes);
 app.use("/stats/year/delegate", delegateYearRoutes);
+
+//dashboard routes
+app.use("/dashboard/clients", dashboardClientRoutes);
+app.use("/dashboard/users", dashboardUserRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {

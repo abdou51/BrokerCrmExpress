@@ -7,6 +7,10 @@ const reportSchema = new mongoose.Schema(
       ref: "Visit",
       required: true,
     },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     location: {
       type: String,
     },

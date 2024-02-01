@@ -3,6 +3,10 @@ const mongoosePaginate = require("mongoose-paginate-v2");
 
 const clientSchema = new mongoose.Schema(
   {
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
     fullName: {
       type: String,
     },
@@ -66,6 +70,10 @@ const clientSchema = new mongoose.Schema(
     },
     phoneNumberTwo: {
       type: String,
+    },
+    visitsNumber: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

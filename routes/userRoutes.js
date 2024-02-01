@@ -9,7 +9,6 @@ router.post("/register", userJwt, userController.registerUser);
 router.get("/me", userJwt, userController.getMe);
 router.post("/login", userController.loginUser);
 router.put("/:id/", userJwt, userController.updateUser);
-router.get("/", userJwt, userController.getAllUsers);
 router.post("/portfolio/add", userJwt, userController.addClientToPortfolio);
 router.post("/portfolio", userJwt, userController.getPortfolio);
 router.post("/universe", userJwt, userController.getUniverse);

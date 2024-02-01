@@ -110,63 +110,15 @@ const updateUser = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
       {
-        username: req.body.username,
         passwordHash: newPassword,
-        firstName: req.body.firstName,
-        wilayas: req.body.wilayas,
+        ...req.body,
       },
       { new: true }
-    ).populate({
-      path: "createdBy",
-      select: "-passwordHash",
-      populate: {
-        path: "createdBy",
-        select: "-passwordHash",
-      },
-    });
-
-    const userWithoutPassword = {
-      id: updatedUser.id,
-      updatedUsername: updatedUser.username,
-      firstName: updatedUser.firstName,
-      role: updatedUser.role,
-      createdBy: updatedUser.createdBy,
-    };
-
-    res.send(userWithoutPassword);
+    );
+    res.status(200).send("User updated successfully");
   } catch (error) {
     res.status(500).send("An error occurred while updating the user.");
     console.error(error);
-  }
-};
-const getAllUsers = async (req, res) => {
-  try {
-    let createdBy;
-    const user = req.user;
-    const supervisor = req.query.supervisor;
-    if (user.role === "Admin" && supervisor === undefined) {
-      createdBy = user.userId;
-    } else if (user.role === "Supervisor") {
-      createdBy = user.userId;
-    } else {
-      createdBy = supervisor;
-    }
-    if (user.role === "Admin" || user.role === "Supervisor") {
-      const users = await User.find({ createdBy: createdBy })
-        .select("-passwordHash -clients -createdBy")
-        .populate({
-          path: "wilayas",
-        });
-      res.json(users);
-    } else {
-      return res.status(403).json({
-        success: false,
-        message: "Permission Denied",
-      });
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error retrieving users.");
   }
 };
 const getPortfolio = async (req, res) => {
@@ -347,7 +299,6 @@ module.exports = {
   registerUser,
   loginUser,
   updateUser,
-  getAllUsers,
   addClientToPortfolio,
   removeClientFromPortfolio,
   getPortfolio,

@@ -1,36 +1,20 @@
 const ExpensesDay = require("../models/expensesDay");
-const ExpensesUser = require("../models/expensesUser");
+const mongoose = require("mongoose");
 
-const getExpensesDay = async (req, res) => {
+const getExpensesDays = async (req, res) => {
   try {
-    const date = req.query.date;
-    if (!date) {
-      return res.status(400).send("Missing Date in Query");
-    }
-    const yearMonth = date.split("-").slice(0, 2).join("-");
+    const year = req.query.year;
+    const month = req.query.month - 1;
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
     const userId = req.user.userId;
 
-    const expensesUser = await ExpensesUser.findOne({
-      user: userId,
-      createdDate: yearMonth,
-    });
+    const expensesDays = await ExpensesDay.find({
+      user: new mongoose.Types.ObjectId(userId),
+      date: { $gte: start, $lte: end },
+    }).sort({ date: 1 });
 
-    if (!expensesUser) {
-      return res.status(404).json({ message: "ExpensesUser not found" });
-    }
-
-    const expensesDay = await ExpensesDay.findOne({
-      userExpense: expensesUser.id,
-      createdDate: date,
-    });
-
-    if (!expensesDay) {
-      return res
-        .status(404)
-        .json({ message: "The Expense Day cannot be found!" });
-    }
-
-    res.status(200).json(expensesDay);
+    res.status(200).json(expensesDays);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });
     console.error(error);
@@ -73,6 +57,6 @@ const updateExpenseDay = async (req, res) => {
 };
 
 module.exports = {
-  getExpensesDay,
+  getExpensesDays,
   updateExpenseDay,
 };

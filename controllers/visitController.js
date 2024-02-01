@@ -30,12 +30,16 @@ const getTasks = async (req, res) => {
     const options = {
       page: parseInt(page, 10),
       limit: parseInt(limit, 10),
-      select: "-user -visitDate",
+      select: "-user",
       populate: {
         path: "client",
         select: "fullName wilaya commune location type",
         populate: {
           path: "speciality",
+        },
+        populate: {
+          path: "wilaya",
+          select: "name",
         },
       },
     };
@@ -43,17 +47,10 @@ const getTasks = async (req, res) => {
       {
         user: userId,
         visitDate: date,
-        state: "Planned",
       },
       options
     );
-    const now = new Date();
-    console.log(now);
-    if (visits.docs.length == 0) {
-      res.status(404).json({ error: "No task found" });
-    } else {
-      res.status(200).json(visits);
-    }
+    res.status(200).json(visits);
   } catch (error) {
     res.status(500).json({ error: "Failed to Get Tasks." });
     console.error(error);

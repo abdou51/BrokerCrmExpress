@@ -56,9 +56,17 @@ const expensesDaySchema = new mongoose.Schema(
     date: {
       type: Date,
       default: Date.now,
+      get: (date) => {
+        if (date) {
+          const localDate = new Date(date);
+          localDate.setHours(localDate.getHours() + 1);
+          return localDate;
+        }
+        return date;
+      },
     },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { getters: true }, toObject: { getters: true } }
 );
 const ExpensesDay = mongoose.model("ExpensesDay", expensesDaySchema);
 
