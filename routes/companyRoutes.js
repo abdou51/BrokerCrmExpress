@@ -5,5 +5,6 @@ const companyController = require("../controllers/companyController");
 // Define routes
 
 router.post("/", companyController.createCompany);
+router.get("/", companyController.getCompany);
 
 module.exports = router;

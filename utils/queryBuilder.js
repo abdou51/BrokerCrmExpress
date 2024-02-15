@@ -1,52 +1,38 @@
 const buildMongoQueryFromFilters = (filters) => {
-  if (!filters) {
+  if (!filters || filters.length === 0) {
     return {};
   }
 
+  const operatorMap = {
+    eq: "$eq",
+    neq: "$ne",
+    lt: "$lt",
+    lte: "$lte",
+    gt: "$gt",
+    gte: "$gte",
+    startswith: (value) => ({ $regex: `^${value}`, $options: "i" }),
+    endswith: (value) => ({ $regex: `${value}$`, $options: "i" }),
+    contains: (value) => ({ $regex: value, $options: "i" }),
+  };
+
   const convertOperator = (operator, value) => {
-    switch (operator) {
-      case "eq":
-        return { $eq: value };
-      case "neq":
-        return { $ne: value };
-      case "lt":
-        return { $lt: value };
-      case "lte":
-        return { $lte: value };
-      case "gt":
-        return { $gt: value };
-      case "gte":
-        return { $gte: value };
-      case "startswith":
-        return { $regex: `^${value}`, $options: "i" };
-      case "endswith":
-        return { $regex: `${value}$`, $options: "i" };
-      case "contains":
-        return { $regex: value, $options: "i" };
-      default:
-        return {};
-    }
+    const opFunc = operatorMap[operator];
+    return typeof opFunc === "function" ? opFunc(value) : { [opFunc]: value };
   };
 
   const queryConditions = filters.map((filterGroup) => {
-    const groupConditions = filterGroup.filters.map((filter) => {
-      const fieldCondition = {};
-      fieldCondition[filter.field] = convertOperator(
-        filter.operator,
-        filter.value
-      );
-      return fieldCondition;
-    });
+    const groupConditions = filterGroup.filters.map((filter) => ({
+      [filter.field]: convertOperator(filter.operator, filter.value),
+    }));
 
-    if (filterGroup.logic === "or") {
-      return { $or: groupConditions };
-    } else if (filterGroup.logic === "and") {
-      return { $and: groupConditions };
-    }
+    return filterGroup.logic === "or"
+      ? { $or: groupConditions }
+      : { $and: groupConditions };
   });
 
   return { $and: queryConditions };
 };
+
 module.exports = {
   buildMongoQueryFromFilters,
 };

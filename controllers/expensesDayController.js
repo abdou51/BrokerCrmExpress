@@ -13,7 +13,7 @@ const getExpensesDays = async (req, res) => {
       user: new mongoose.Types.ObjectId(userId),
       date: { $gte: start, $lte: end },
     }).sort({ date: 1 });
-
+    console.log(expensesDays);
     res.status(200).json(expensesDays);
   } catch (error) {
     res.status(500).json({ error: "Internal server error" });

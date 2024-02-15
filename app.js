@@ -57,6 +57,7 @@ const supervisorYearRoutes = require("./stats/routes/supervisorYearRoutes");
 // dashboard routes
 const dashboardClientRoutes = require("./Admin/routes/clientRoutes");
 const dashboardUserRoutes = require("./Admin/routes/userRoutes");
+const dashboardVisitRoutes = require("./Admin/routes/visitRoutes");
 
 app.use("/users", userRoutes);
 app.use("/wilayas", wilayaRoutes);
@@ -87,6 +88,7 @@ app.use("/stats/year/supervisor", supervisorYearRoutes);
 //dashboard routes
 app.use("/dashboard/clients", dashboardClientRoutes);
 app.use("/dashboard/users", dashboardUserRoutes);
+app.use("/dashboard/visits", dashboardVisitRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {
