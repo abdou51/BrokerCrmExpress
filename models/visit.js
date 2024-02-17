@@ -1,6 +1,28 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 
+const reference = new mongoose.Schema(
+  {
+    clientFullName: {
+      type: String,
+      required: true,
+    },
+    delegateFullName: {
+      type: String,
+      required: true,
+    },
+    clientSpeciality: {
+      type: String,
+      required: true,
+    },
+    clientWilaya: {
+      type: String,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
 const visitSchema = new mongoose.Schema(
   {
     user: {
@@ -30,6 +52,7 @@ const visitSchema = new mongoose.Schema(
       enum: ["Planned", "Done", "Hold"],
       default: "Planned",
     },
+    reference: reference,
   },
   { timestamps: true }
 );
