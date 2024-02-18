@@ -1,5 +1,55 @@
 const User = require("../../models/user");
 
+const registerUser = async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    let { password, ...userData } = req.body;
+
+    let user = await User.findOne({
+      username: userData.username,
+    });
+
+    if (user) {
+      return res.status(400).json({
+        success: false,
+        message: "User with given username already exists",
+      });
+    }
+
+    if (userData.username === password) {
+      return res.status(400).json({
+        success: false,
+        message: "Your username cannot be your password",
+      });
+    }
+    if (req.user.role === "Supervisor") {
+      user = new User({
+        ...userData,
+        createdBy: userId,
+        passwordHash: bcrypt.hashSync(password, 10),
+      });
+    } else {
+      user = new User({
+        ...userData,
+        passwordHash: bcrypt.hashSync(password, 10),
+      });
+    }
+    user = await user.save();
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "The user cannot be created" });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "User registered successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error });
+    console.error(error);
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -37,4 +87,5 @@ const getUsers = async (req, res) => {
 
 module.exports = {
   getUsers,
+  registerUser,
 };
