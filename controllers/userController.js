@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Client = require("../models/client");
 const Visit = require("../models/visit");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const generateToken = require("../middlewares/jwtMiddleware");
 const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
