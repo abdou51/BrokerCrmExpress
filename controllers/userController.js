@@ -78,7 +78,9 @@ const updateUser = async (req, res) => {
     );
 
     await session.commitTransaction();
-    res.status(200).send("User updated successfully");
+    res
+      .status(200)
+      .json({ success: true, message: "User updated successfully" });
   } catch (error) {
     console.error(error);
     await session.abortTransaction();
