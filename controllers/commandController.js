@@ -26,8 +26,8 @@ const createCommand = async (req, res) => {
     await userVisit.save();
     res.status(201).json(savedCommand);
   } catch (error) {
-    res.status(500).json({ error: "Error creating the command" });
     console.error(error);
+    res.status(500).json({ error: "Error creating the command" });
   }
 };
 
@@ -54,8 +54,8 @@ const updateCommand = async (req, res) => {
     );
     res.status(200).json(updatedCommand);
   } catch (error) {
-    res.status(500).json({ error: "Error updating the command" });
     console.error(error);
+    res.status(500).json({ error: "Error updating the command" });
   }
 };
 
@@ -70,8 +70,8 @@ const getCommandById = async (req, res) => {
 
     res.status(200).json(command);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve the Command." });
     console.error(error);
+    res.status(500).json({ error: "Failed to retrieve the Command." });
   }
 };
 
@@ -109,8 +109,8 @@ const getCommandsByUserAndMonth = async (req, res) => {
     );
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve the Commands." });
     console.error(error);
+    res.status(500).json({ error: "Failed to retrieve the Commands." });
   }
 };
 

@@ -17,8 +17,8 @@ const createService = async (req, res) => {
 
     res.status(201).json(createdService);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Service" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Service" });
   }
 };
 

@@ -52,8 +52,8 @@ const getClients = async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Error in processing request" });
     console.error(error);
+    res.status(500).json({ error: "Error in processing request" });
   }
 };
 const getKamClients = async (req, res) => {
@@ -83,8 +83,8 @@ const getKamClients = async (req, res) => {
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Error in processing request" });
     console.error(error);
+    res.status(500).json({ error: "Error in processing request" });
   }
 };
 

@@ -13,16 +13,16 @@ const createClient = async (req, res) => {
     }
     res.status(201).json(createdClient);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Client" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Client" });
   }
 };
 const getAllClients = async (req, res) => {
   try {
     const clients = await Client.find();
     res.json(clients);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error(error);
     res.status(500).send("Error retrieving Clients.");
   }
 };
@@ -47,8 +47,8 @@ const getClientById = async (req, res) => {
 
     res.json(client);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching client" });
     console.error(error);
+    res.status(500).json({ error: "Error fetching client" });
   }
 };
 const updateClient = async (req, res) => {
@@ -66,11 +66,11 @@ const updateClient = async (req, res) => {
     }
     res.json(updatedClient);
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       success: false,
       message: "Erreur lors de la mise à jour du client",
     });
-    console.error(error);
   }
 };
 

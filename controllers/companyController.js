@@ -11,8 +11,8 @@ const createCompany = async (req, res) => {
 
     res.status(201).json(createdCompany);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Company" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Company" });
   }
 };
 const getCompany = async (req, res) => {
@@ -20,8 +20,8 @@ const getCompany = async (req, res) => {
     const company = await Company.findOne();
     res.status(200).json(company);
   } catch (error) {
-    res.status(500).json({ error: "Error getting Company" });
     console.error(error);
+    res.status(500).json({ error: "Error getting Company" });
   }
 };
 module.exports = {

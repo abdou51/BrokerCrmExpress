@@ -54,12 +54,12 @@ const uploadImage = async (req, res) => {
       message: "File uploaded and saved successfully",
       file: newFile,
     });
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     res.status(500).send({
       message: "Error occurred during upload or database operation",
       error: err,
     });
-    console.error(err);
   }
 };
 
@@ -67,9 +67,9 @@ const getFiles = async (req, res) => {
   try {
     const files = await File.find();
     res.send(files);
-  } catch (err) {
+  } catch (error) {
+    console.error(error);
     res.status(500).send({ message: "Error retrieving files" });
-    console.error(err);
   }
 };
 

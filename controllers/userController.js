@@ -41,10 +41,10 @@ const loginUser = async (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error);
     res
       .status(500)
       .send("Une erreur s'est produite lors de la recherche de l'utilisateur.");
-    console.error(error);
   }
 };
 
@@ -80,9 +80,9 @@ const updateUser = async (req, res) => {
     await session.commitTransaction();
     res.status(200).send("User updated successfully");
   } catch (error) {
+    console.error(error);
     await session.abortTransaction();
     res.status(500).send("An error occurred while updating the user.");
-    console.error(error);
   } finally {
     session.endSession();
   }

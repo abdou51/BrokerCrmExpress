@@ -101,8 +101,8 @@ const getReportById = async (req, res) => {
 
     res.status(200).json(report);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve the Report." });
     console.error(error);
+    res.status(500).json({ error: "Failed to retrieve the Report." });
   }
 };
 
@@ -161,8 +161,8 @@ const updateReport = async (req, res) => {
       });
     res.status(200).json(report);
   } catch (error) {
-    res.status(400).json({ error: "Failed to edit the Rapport." });
     console.error(error);
+    res.status(400).json({ error: "Failed to edit the Rapport." });
   }
 };
 

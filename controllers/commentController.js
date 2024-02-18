@@ -13,8 +13,8 @@ const createComment = async (req, res) => {
 
     res.status(201).json(createdComment);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Comment" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Comment" });
   }
 };
 const updateComment = async (req, res) => {
@@ -37,8 +37,8 @@ const updateComment = async (req, res) => {
     );
     res.status(200).json(updatedComment);
   } catch (error) {
-    res.status(500).json({ error: "Error updating comment" });
     console.error(error);
+    res.status(500).json({ error: "Error updating comment" });
   }
 };
 
@@ -61,8 +61,8 @@ const deleteComment = async (req, res) => {
     );
     res.status(200).json(updatedComment);
   } catch (error) {
-    res.status(500).json({ error: "Error deleting comment" });
     console.error(error);
+    res.status(500).json({ error: "Error deleting comment" });
   }
 };
 const getComments = async (req, res) => {
@@ -79,8 +79,8 @@ const getComments = async (req, res) => {
     }
     res.status(200).json(comments);
   } catch (error) {
-    res.status(500).json({ error: "Error getting Comments" });
     console.error(error);
+    res.status(500).json({ error: "Error getting Comments" });
   }
 };
 module.exports = {

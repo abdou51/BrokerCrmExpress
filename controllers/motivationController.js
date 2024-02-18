@@ -10,8 +10,8 @@ const createMotivation = async (req, res) => {
 
     res.status(201).json(createdMotivation);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Motivation" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Motivation" });
   }
 };
 

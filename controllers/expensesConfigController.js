@@ -10,8 +10,8 @@ const createExpensesConfig = async (req, res) => {
 
     res.status(201).json(createdExpensesConfig);
   } catch (error) {
-    res.status(500).json({ error: "Error creating expenses Config" });
     console.error(error);
+    res.status(500).json({ error: "Error creating expenses Config" });
   }
 };
 const updateExpensesConfig = async (req, res) => {
@@ -30,8 +30,8 @@ const updateExpensesConfig = async (req, res) => {
     );
     res.status(200).json(updatedExpensesConfig);
   } catch (error) {
-    res.status(500).json({ error: "Error updating the expenses Config" });
     console.error(error);
+    res.status(500).json({ error: "Error updating the expenses Config" });
   }
 };
 const getExpensesConfig = async (req, res) => {
@@ -39,8 +39,8 @@ const getExpensesConfig = async (req, res) => {
     const expensesConfig = await ExpensesConfig.findOne();
     res.status(200).json(expensesConfig);
   } catch (error) {
-    res.status(500).json({ error: "Error getting the expenses Config" });
     console.error(error);
+    res.status(500).json({ error: "Error getting the expenses Config" });
   }
 };
 

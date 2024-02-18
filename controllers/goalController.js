@@ -7,8 +7,8 @@ const createGoal = async (req, res) => {
 
     res.status(201).json(createdGoal);
   } catch (error) {
-    res.status(500).json({ error: "Error creating Goal" });
     console.error(error);
+    res.status(500).json({ error: "Error creating Goal" });
   }
 };
 
@@ -23,8 +23,8 @@ const updateGoal = async (req, res) => {
     );
     res.status(200).json(updatedGoal);
   } catch (error) {
-    res.status(500).json({ error: "Error updating Goal" });
     console.error(error);
+    res.status(500).json({ error: "Error updating Goal" });
   }
 };
 
@@ -59,8 +59,8 @@ const getGoals = async (req, res) => {
 
     res.status(200).json(goals);
   } catch (error) {
-    res.status(500).json({ error: "Error getting Goals" });
     console.error(error);
+    res.status(500).json({ error: "Error getting Goals" });
   }
 };
 

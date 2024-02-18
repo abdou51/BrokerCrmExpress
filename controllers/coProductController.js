@@ -7,8 +7,8 @@ const createCoProduct = async (req, res) => {
 
     res.status(201).json(createdCoProduct);
   } catch (error) {
-    res.status(500).json({ error: "Error creating CoProduct" });
     console.error(error);
+    res.status(500).json({ error: "Error creating CoProduct" });
   }
 };
 
@@ -23,8 +23,8 @@ const updateCoProduct = async (req, res) => {
     );
     res.status(200).json(updatedProduct);
   } catch (error) {
-    res.status(500).json({ error: "Error updating Product" });
     console.error(error);
+    res.status(500).json({ error: "Error updating Product" });
   }
 };
 
@@ -33,8 +33,8 @@ const deleteCoProduct = async (req, res) => {
     const deletedProduct = await CoProduct.findByIdAndDelete(req.params.id);
     res.status(200).json(deletedProduct);
   } catch (error) {
-    res.status(500).json({ error: "Error deleting Product" });
     console.error(error);
+    res.status(500).json({ error: "Error deleting Product" });
   }
 };
 const getCoProducts = async (req, res) => {
@@ -42,8 +42,8 @@ const getCoProducts = async (req, res) => {
     const products = await CoProduct.find();
     res.status(200).json(products);
   } catch (error) {
-    res.status(500).json({ error: "Error getting Products" });
     console.error(error);
+    res.status(500).json({ error: "Error getting Products" });
   }
 };
 
