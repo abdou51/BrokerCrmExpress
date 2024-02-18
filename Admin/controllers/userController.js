@@ -1,4 +1,5 @@
 const User = require("../../models/user");
+const bcrypt = require("bcrypt");
 
 const registerUser = async (req, res) => {
   const userId = req.user.userId;
@@ -79,7 +80,8 @@ const getUsers = async (req, res) => {
       .select("-clients -passwordHash -createdBy")
       .sort({ createdAt: -1 });
     return res.json(users);
-  } catch (err) {
+  } catch (error) {
+    console.error(error.message);
     res
       .status(500)
       .json({ message: "Error fetching users", error: err.message });

@@ -6,9 +6,10 @@ const createVisit = async (req, res) => {
   try {
     const userId = req.user.userId;
     const user = await User.findById(userId);
-    const client = Client.findById(req.body.client).populate(
+    const client = await Client.findById(req.body.client).populate(
       "wilaya speciality"
     );
+    console.log(client);
     const newVisit = new Visit({
       ...req.body,
       user: userId,
