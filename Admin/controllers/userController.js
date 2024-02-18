@@ -76,7 +76,8 @@ const getUsers = async (req, res) => {
     }
     const users = await User.find(queryCondition)
       .populate("wilayas")
-      .select("-clients -passwordHash -createdBy");
+      .select("-clients -passwordHash -createdBy")
+      .sort({ createdAt: -1 });
     return res.json(users);
   } catch (err) {
     res
@@ -85,7 +86,24 @@ const getUsers = async (req, res) => {
   }
 };
 
+const getSupervisors = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const users = await User.find({
+      role: "Supervisor",
+      _id: { $ne: userId },
+    }).select("fullName");
+    res.json(users);
+  } catch (error) {
+    console.error(error.message);
+    res
+      .status(500)
+      .json({ message: "Error fetching supervisors", error: error.message });
+  }
+};
+
 module.exports = {
   getUsers,
   registerUser,
+  getSupervisors,
 };
