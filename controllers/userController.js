@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Client = require("../models/client");
+const Visit = require("../models/visit");
 const bcrypt = require("bcrypt");
 const generateToken = require("../middlewares/jwtMiddleware");
 const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
@@ -47,35 +48,45 @@ const loginUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
+  const session = await mongoose.startSession();
   try {
+    session.startTransaction();
+
     const userId = req.params.id;
 
-    const userExist = await User.findById(userId);
+    const userExist = await User.findById(userId).session(session);
     if (!userExist) {
+      await session.abortTransaction();
       return res.status(400).send("The user cannot be found!");
     }
 
-    let newPassword;
-    if (req.body.password) {
-      newPassword = bcrypt.hashSync(req.body.password, 10);
-    } else {
-      newPassword = userExist.passwordHash;
-    }
+    let newPassword = req.body.password
+      ? bcrypt.hashSync(req.body.password, 10)
+      : userExist.passwordHash;
 
-    const updatedUser = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       userId,
-      {
-        passwordHash: newPassword,
-        ...req.body,
-      },
-      { new: true }
+      { passwordHash: newPassword, ...req.body },
+      { new: true, session }
     );
+
+    await Visit.updateMany(
+      { user: userId },
+      { $set: { "reference.delegateFullName": req.body.fullName } },
+      { session }
+    );
+
+    await session.commitTransaction();
     res.status(200).send("User updated successfully");
   } catch (error) {
+    await session.abortTransaction();
     res.status(500).send("An error occurred while updating the user.");
     console.error(error);
+  } finally {
+    session.endSession();
   }
 };
+
 const getPortfolio = async (req, res) => {
   try {
     const userId = req.user.userId;
