@@ -32,7 +32,7 @@ const reportSchema = new mongoose.Schema(
     ],
     coProducts: [
       {
-        product: {
+        coProduct: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "coProduct",
           required: true,

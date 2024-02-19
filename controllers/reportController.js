@@ -7,9 +7,7 @@ const ExpensesUser = require("../models/expensesUser");
 const createReport = async (req, res) => {
   try {
     const userId = req.user.userId;
-
     const userVisit = await Visit.findById(req.body.visit).populate("client");
-    console.log(userVisit);
     if (!userVisit || userVisit.user.toString() !== userId) {
       return res.status(403).json({
         error: "You are not allowed to create a Report for this Visit.",
@@ -71,28 +69,28 @@ const getReportById = async (req, res) => {
 
     const report = await Report.findById(reportId)
       .populate({
-        path: "visit",
-        select: "-report",
-        populate: [
-          {
-            path: "client",
-            model: "Client",
-          },
-          {
-            path: "user",
-            model: "User",
-            select: "-passwordHash -createdBy -wilayas -portfolio",
-          },
-        ],
+        path: "comments",
+        select: "comment",
       })
-      .populate("comments")
       .populate({
         path: "products.product",
         model: "Product",
+        select: "name",
+      })
+      .populate({
+        path: "coProducts.coProduct",
+        model: "CoProduct",
+        select: "name",
       })
       .populate({
         path: "suppliers",
         model: "Client",
+        select: "fullName",
+        populate: [
+          {
+            path: "wilaya",
+          },
+        ],
       });
 
     if (!report) {

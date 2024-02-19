@@ -62,16 +62,41 @@ const updateCommand = async (req, res) => {
 const getCommandById = async (req, res) => {
   try {
     const commandId = req.params.id;
-    const command = await Command.findById(commandId).populate("visit");
+
+    const command = await Command.findById(commandId)
+      .populate({
+        path: "comments",
+        select: "comment",
+      })
+      .populate({
+        path: "products.product",
+        model: "Product",
+        select: "name",
+      })
+      .populate({
+        path: "coProducts.coProduct",
+        model: "CoProduct",
+        select: "name",
+      })
+      .populate({
+        path: "suppliers",
+        model: "Client",
+        select: "fullName",
+        populate: [
+          {
+            path: "wilaya",
+          },
+        ],
+      });
 
     if (!command) {
-      return res.status(404).json({ error: "Report not found." });
+      return res.status(404).json({ error: "report not found." });
     }
 
     res.status(200).json(command);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to retrieve the Command." });
+    res.status(500).json({ error: "Failed to retrieve the Report." });
   }
 };
 
