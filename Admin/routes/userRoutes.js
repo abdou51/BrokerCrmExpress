@@ -4,7 +4,7 @@ const userController = require("../controllers/userController");
 const userJwt = require("../../middlewares/userJwt");
 
 // Define routes
-router.get("/", userJwt, userController.getUsers);
+router.post("/", userJwt, userController.getUsers);
 router.post("/register", userJwt, userController.registerUser);
 router.get("/supervisors", userJwt, userController.getSupervisors);
 

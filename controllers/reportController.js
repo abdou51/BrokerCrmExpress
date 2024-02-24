@@ -85,7 +85,7 @@ const getReportById = async (req, res) => {
       .populate({
         path: "suppliers",
         model: "Client",
-        select: "fullName",
+        select: "fullName commune",
         populate: [
           {
             path: "wilaya",

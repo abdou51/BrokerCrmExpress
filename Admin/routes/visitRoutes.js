@@ -4,6 +4,6 @@ const visitController = require("../controllers/visitController");
 const userJwt = require("../../middlewares/userJwt");
 
 // Define routes
-router.get("/", userJwt, visitController.getVisitsPerDay);
+router.post("/", userJwt, visitController.getVisitsPerDay);
 
 module.exports = router;
