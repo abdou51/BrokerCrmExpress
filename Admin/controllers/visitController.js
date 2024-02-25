@@ -28,7 +28,7 @@ const getVisitsPerDay = async (req, res) => {
       sort: { [sortBy]: sortDirection === "desc" ? -1 : 1 },
       // select: "-reference",
       populate: [
-        { path: "user", select: "fullName" },
+        { path: "user", select: "fullName commune" },
         {
           path: "client",
           populate: [{ path: "wilaya" }, { path: "speciality" }],
