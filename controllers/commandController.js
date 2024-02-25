@@ -64,9 +64,10 @@ const getCommandById = async (req, res) => {
     const commandId = req.params.id;
 
     const command = await Command.findById(commandId)
+      .select("-visit -user")
       .populate({
-        path: "comments",
-        select: "comment",
+        path: "motivations",
+        select: "motivation",
       })
       .populate({
         path: "products.product",
@@ -74,14 +75,27 @@ const getCommandById = async (req, res) => {
         select: "name",
       })
       .populate({
-        path: "coProducts.coProduct",
-        model: "CoProduct",
-        select: "name",
+        path: "finalSupplier",
+        model: "Client",
+        select: "fullName commune",
+        populate: [
+          {
+            path: "wilaya",
+          },
+        ],
+      })
+      .populate({
+        path: "signature",
+        model: "File",
+      })
+      .populate({
+        path: "invoice",
+        model: "File",
       })
       .populate({
         path: "suppliers",
         model: "Client",
-        select: "fullName",
+        select: "fullName commune",
         populate: [
           {
             path: "wilaya",
