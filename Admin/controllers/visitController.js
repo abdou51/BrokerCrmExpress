@@ -14,7 +14,7 @@ const getVisitsPerDay = async (req, res) => {
     const startOfDay = new Date(date.setHours(0, 0, 0, 0));
     const endOfDay = new Date(date.setHours(23, 59, 59, 999));
     let supervisorId;
-    if (req.user.role === "admin") {
+    if (req.user.role === "Admin") {
       supervisorId = req.body.supervisorId;
     } else if (req.user.role === "Supervisor") {
       supervisorId = req.user.userId;
