@@ -64,7 +64,7 @@ const getCommandById = async (req, res) => {
     const commandId = req.params.id;
 
     const command = await Command.findById(commandId)
-      .select("-visit -user")
+      .select("-user -visit")
       .populate({
         path: "motivations",
         select: "motivation",
@@ -130,11 +130,21 @@ const getCommandsByUserAndMonth = async (req, res) => {
       {
         path: "products.product",
       },
-      "motivations",
-      "suppliers",
-      "finalSupplier",
-      "invoice",
-      "signature",
+      {
+        path: "motivations",
+      },
+      {
+        path: "suppliers",
+      },
+      {
+        path: "finalSupplier",
+      },
+      {
+        path: "invoice",
+      },
+      {
+        path: "signature",
+      },
     ],
   };
 
