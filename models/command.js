@@ -80,6 +80,7 @@ const commandSchema = new mongoose.Schema(
     finalSupplier: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Client",
+      default: null,
     },
     invoice: {
       type: mongoose.Schema.Types.ObjectId,
