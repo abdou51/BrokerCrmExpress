@@ -3,7 +3,7 @@ const Motivation = require("../models/motivation");
 const createMotivation = async (req, res) => {
   try {
     const newMotivation = new Motivation({
-      motivation: req.body.motivation,
+      ...req.body,
     });
 
     const createdMotivation = await newMotivation.save();

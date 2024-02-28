@@ -10,29 +10,37 @@ const getVisitsPerDay = async (req, res) => {
       sortDirection = "desc",
     } = req.body;
     let userIds = [];
+    let users;
     const date = new Date(req.body.date);
     const startOfDay = new Date(date.setHours(0, 0, 0, 0));
     const endOfDay = new Date(date.setHours(23, 59, 59, 999));
     let supervisorId;
-    if (req.user.role === "admin") {
+
+    if (req.user.role === "Admin") {
       supervisorId = req.body.supervisorId;
+      if (supervisorId !== undefined) {
+        users = await User.find({ createdBy: supervisorId }, "_id");
+      } else {
+        users = await User.find({ role: "Kam" }, "_id");
+      }
     } else if (req.user.role === "Supervisor") {
       supervisorId = req.user.userId;
+      users = await User.find({ createdBy: supervisorId }, "_id");
     }
-    const users = await User.find({ createdBy: supervisorId }, "_id");
+
     userIds = users.map((user) => user._id);
 
     const options = {
       page,
       limit,
       sort: { [sortBy]: sortDirection === "desc" ? -1 : 1 },
-      // select: "-reference",
       populate: [
-        { path: "user", select: "fullName" },
+        { path: "user", select: "fullName commune" },
         {
           path: "client",
           populate: [{ path: "wilaya" }, { path: "speciality" }],
-          select: "fullName wilaya speciality",
+          select:
+            "fullName wilaya speciality totalSellers totalPostChifa potential phoneNumberOne phoneNumberTwo location commune email",
         },
       ],
     };
