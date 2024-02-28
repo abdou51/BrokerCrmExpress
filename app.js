@@ -59,6 +59,7 @@ const dashboardClientRoutes = require("./Admin/routes/clientRoutes");
 const dashboardUserRoutes = require("./Admin/routes/userRoutes");
 const dashboardVisitRoutes = require("./Admin/routes/visitRoutes");
 const dashboardCommandRoutes = require("./Admin/routes/commandRoutes");
+const dashboardReportRoutes = require("./Admin/routes/reportRoutes");
 
 app.use("/users", userRoutes);
 app.use("/wilayas", wilayaRoutes);
@@ -91,6 +92,7 @@ app.use("/dashboard/clients", dashboardClientRoutes);
 app.use("/dashboard/users", dashboardUserRoutes);
 app.use("/dashboard/visits", dashboardVisitRoutes);
 app.use("/dashboard/commands", dashboardCommandRoutes);
+app.use("/dashboard/reports", dashboardReportRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {

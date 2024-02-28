@@ -6,7 +6,7 @@ const getVisitsPerDay = async (req, res) => {
     const {
       page = 1,
       limit = 10,
-      sortBy = "createdAt",
+      sortBy = "visitDate",
       sortDirection = "desc",
     } = req.body;
     let userIds = [];
