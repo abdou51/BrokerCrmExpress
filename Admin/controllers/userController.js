@@ -54,6 +54,7 @@ const registerUser = async (req, res) => {
 const getUsers = async (req, res) => {
   try {
     const userId = req.user.userId;
+    const supervisorId = req.body.supervisorId;
     const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -64,12 +65,16 @@ const getUsers = async (req, res) => {
     if (user.role === "SuperAdmin") {
       queryCondition = { role: "Admin" };
     } else if (user.role === "Admin") {
-      const roles = ["Supervisor", "Kam", "Operator"];
-      const requestedRoles =
-        req.body.roles && req.body.roles.length
-          ? req.body.roles.filter((role) => roles.includes(role))
-          : roles;
-      queryCondition = { role: { $in: requestedRoles } };
+      if (supervisorId) {
+        queryCondition = { createdBy: supervisorId };
+      } else {
+        const roles = ["Supervisor", "Kam", "Operator"];
+        const requestedRoles =
+          req.body.roles && req.body.roles.length
+            ? req.body.roles.filter((role) => roles.includes(role))
+            : roles;
+        queryCondition = { role: { $in: requestedRoles } };
+      }
     } else if (user.role === "Supervisor") {
       queryCondition = { createdBy: user._id };
     } else {

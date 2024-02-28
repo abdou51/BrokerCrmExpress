@@ -23,6 +23,10 @@ getCommandsByUserAndMonth = async (req, res) => {
         ],
       },
       {
+        path: "products",
+        select: "product",
+      },
+      {
         path: "products.product",
         select: "name",
       },
