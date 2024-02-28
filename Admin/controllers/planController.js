@@ -1,9 +1,11 @@
-const mongoose = require("mongoose");
 const Visit = require("../../models/visit");
-
+const Client = require("../../models/client");
+const mongoose = require("mongoose");
 const getPlan = async (req, res) => {
   try {
-    const { user, month, year } = req.body;
+    const month = req.body.month;
+    const year = req.body.year;
+    const user = req.body.user;
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 0);
 
@@ -25,6 +27,7 @@ const getPlan = async (req, res) => {
           month: { $month: "$visitDate" },
           year: { $year: "$visitDate" },
           state: 1,
+          client: 1,
         },
       },
       {
@@ -33,6 +36,7 @@ const getPlan = async (req, res) => {
             day: "$day",
             month: "$month",
             year: "$year",
+            client: "$client",
           },
           done: {
             $sum: {
@@ -44,23 +48,44 @@ const getPlan = async (req, res) => {
       },
     ]);
 
-    const visits = daysInMonth.map((day) => {
-      const visitData = visitsData.find(
-        (data) =>
-          data._id.day === day.getDate() &&
-          data._id.month === day.getMonth() + 1 &&
-          data._id.year === day.getFullYear()
-      );
+    const visits = await Promise.all(
+      daysInMonth.map(async (day) => {
+        const visitDataForDay = visitsData.filter(
+          (data) =>
+            data._id.day === day.getDate() &&
+            data._id.month === day.getMonth() + 1 &&
+            data._id.year === day.getFullYear()
+        );
 
-      return {
-        day: `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(
-          2,
-          "0"
-        )}-${String(day.getDate()).padStart(2, "0")}`,
-        done: visitData ? visitData.done : 0,
-        total: visitData ? visitData.total : 0,
-      };
-    });
+        const locations = await Promise.all(
+          visitDataForDay.map(async (visitData) => {
+            const client = await Client.findById(visitData._id.client).populate(
+              "wilaya"
+            );
+            return `${client.wilaya.name} , ${client.commune}`;
+          })
+        );
+
+        const done = visitDataForDay.reduce(
+          (sum, visitData) => sum + visitData.done,
+          0
+        );
+        const total = visitDataForDay.reduce(
+          (sum, visitData) => sum + visitData.total,
+          0
+        );
+
+        return {
+          day: `${day.getFullYear()}-${String(day.getMonth() + 1).padStart(
+            2,
+            "0"
+          )}-${String(day.getDate()).padStart(2, "0")}`,
+          done,
+          total,
+          locations,
+        };
+      })
+    );
 
     res.json(visits.reverse());
   } catch (error) {
