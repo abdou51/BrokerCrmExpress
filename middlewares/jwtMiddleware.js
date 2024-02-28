@@ -8,7 +8,7 @@ function generateToken(userId, role) {
       role: role,
     },
     secret,
-    { expiresIn: "1y" }
+    { expiresIn: "365d" }
   );
 }
 
