@@ -38,13 +38,6 @@ const updateCommand = async (req, res) => {
     if (!command) {
       return res.status(404).json({ error: "Command not found." });
     }
-    const userId = req.user.userId;
-    const userVisit = await Visit.findById(command.visit);
-    if (!userVisit || userVisit.user.toString() !== userId) {
-      return res.status(403).json({
-        error: "You are not allowed to update this Command.",
-      });
-    }
     const updatedCommand = await Command.findByIdAndUpdate(
       commandId,
       req.body,
