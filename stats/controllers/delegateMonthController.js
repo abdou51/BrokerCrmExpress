@@ -24,7 +24,10 @@ const planDeTournee = async (req, res) => {
       state: "Done",
     });
 
-    const percentage = (doneVisits / totalVisits) * 100;
+    let percentage = 0;
+    if (totalVisits > 0) {
+      percentage = (doneVisits / totalVisits) * 100;
+    }
 
     res.status(200).json({ result: +percentage.toFixed(2) });
   } catch (error) {
