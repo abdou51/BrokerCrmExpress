@@ -62,7 +62,7 @@ const getPlan = async (req, res) => {
             const client = await Client.findById(visitData._id.client).populate(
               "wilaya"
             );
-            return `${client.wilaya.name} , ${client.commune}`;
+            return `${client.commune} , ${client.wilaya.name}`;
           })
         );
 
