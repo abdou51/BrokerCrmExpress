@@ -6,9 +6,9 @@ const Command = require("../../models/command");
 
 const planDeTournee = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.params.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
@@ -38,9 +38,9 @@ const planDeTournee = async (req, res) => {
 
 const moyenneVisitesParJour = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.prams.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
@@ -70,9 +70,9 @@ const moyenneVisitesParJour = async (req, res) => {
 
 const tauxDeReussite = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.prams.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
@@ -104,9 +104,9 @@ const tauxDeReussite = async (req, res) => {
 };
 const couverturePortefeuilleClient = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.prams.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
@@ -160,9 +160,9 @@ const couverturePortefeuilleClient = async (req, res) => {
 };
 const objectifVisites = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.prams.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
@@ -190,9 +190,9 @@ const objectifVisites = async (req, res) => {
 };
 const objectifChiffreDaffaire = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const userId = req.prams.userId;
+    const year = req.prams.year;
+    const month = req.prams.month - 1;
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
