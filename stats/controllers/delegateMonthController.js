@@ -79,14 +79,14 @@ const tauxDeReussite = async (req, res) => {
 
     // Counting Done Visits
     const doneVisits = await Visit.countDocuments({
-      user: mongoose.Types.ObjectId(userId),
+      user: new mongoose.Types.ObjectId(userId),
       visitDate: { $gte: start, $lte: end },
       state: "Done",
     });
 
     // Counting Honored Commands
     const honoredCommandsCount = await Command.countDocuments({
-      user: mongoose.Types.ObjectId(userId),
+      user: new mongoose.Types.ObjectId(userId),
       commandDate: { $gte: start, $lte: end },
       isHonored: true,
     });
