@@ -94,6 +94,33 @@ const getPlan = async (req, res) => {
   }
 };
 
+const getPlanPerDay = async (req, res) => {
+  try {
+    const day = req.query.day;
+    const user = req.query.user;
+    const startOfDay = new Date(day);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(day);
+    endOfDay.setHours(23, 59, 59, 999);
+    const visits = await Visit.find({
+      user: user,
+      visitDate: { $gte: startOfDay, $lt: endOfDay },
+    })
+      .populate({
+        path: "client",
+        select: "fullName commune potential",
+        populate: [{ path: "wilaya" }, { path: "speciality" }],
+      })
+      .select("-reference -user")
+      .sort({ state: -1 });
+    res.status(200).json(visits);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getPlan,
+  getPlanPerDay,
 };
