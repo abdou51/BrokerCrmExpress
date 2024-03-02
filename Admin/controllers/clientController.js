@@ -88,6 +88,21 @@ const getKamClients = async (req, res) => {
   }
 };
 
+const getWholesalers = async (req, res) => {
+  try {
+    const type = req.query.type;
+    const clients = await Client.find({ type: type })
+      .populate({ path: "speciality", select: "name" })
+      .select("fullName")
+      .sort({ fullName: 1 });
+    res.status(200).json(clients);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+
 module.exports = {
   getClients,
+  getWholesalers,
 };
