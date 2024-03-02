@@ -16,7 +16,7 @@ const getVisitsPerMonth = async (req, res) => {
           path: "client",
           populate: [{ path: "wilaya" }, { path: "speciality" }],
           select:
-            "fullName wilaya speciality totalSellers totalPostChifa potential phoneNumberOne phoneNumberTwo location commune email",
+            "visitsNumber fullName wilaya speciality totalSellers totalPostChifa potential phoneNumberOne phoneNumberTwo location commune email",
         },
       ],
     };
