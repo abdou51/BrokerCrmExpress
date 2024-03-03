@@ -29,8 +29,9 @@ const getVisitsPerDay = async (req, res) => {
     } else if (req.user.role === "Operator") {
       users = await User.find({ role: req.body.role }, "_id");
     }
-
-    userIds = users.map((user) => user._id);
+    if (users.length > 0) {
+      userIds = users.map((user) => user._id);
+    }
 
     const options = {
       page,
