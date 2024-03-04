@@ -19,14 +19,6 @@ const getExpensesDay = async (req, res) => {
       endDate = new Date(endDate);
       endDate.setHours(startDate.getHours() - 1);
     }
-    let year = 2024;
-    let month = 1; // Note: JavaScript counts months from 0 (January) to 11 (December).
-    let day = 1;
-
-    let date = new Date(Date.UTC(year, month, day));
-    let date2 = new Date(year, month, day);
-    console.log(date);
-    console.log(date2);
     const expensesDays = await expensesDaySchema
       .find({
         user: userId,

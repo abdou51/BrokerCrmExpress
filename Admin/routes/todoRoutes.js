@@ -6,5 +6,5 @@ const userJwt = require("../../middlewares/userJwt");
 // Define routes
 router.post("/", userJwt, todoController.createTodo);
 router.get("/", userJwt, todoController.getTodosPerMonth);
-
+router.put("/:id", userJwt, todoController.updateTodo);
 module.exports = router;

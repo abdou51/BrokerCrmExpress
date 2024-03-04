@@ -21,6 +21,9 @@ const createTodo = async (req, res) => {
 };
 const getTodosPerMonth = async (req, res) => {
   try {
+    if (req.user.role !== "Supervisor" && req.user.role !== "Admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 10;
     const year = parseInt(req.query.year, 10);
@@ -56,8 +59,32 @@ const getTodosPerMonth = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+const updateTodo = async (req, res) => {
+  try {
+    if (req.user.role !== "Supervisor" && req.user.role !== "Admin") {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      {
+        ...req.body,
+      },
+      { new: true }
+    );
+
+    if (!updatedTodo) {
+      return res.status(404).json({ message: "Todo not found" });
+    }
+
+    res.status(200).json(updatedTodo);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   createTodo,
   getTodosPerMonth,
+  updateTodo,
 };
