@@ -97,6 +97,7 @@ const commandSchema = new mongoose.Schema(
   { timestamps: true }
 );
 commandSchema.plugin(mongoosePaginate);
+
 const Command = mongoose.model("Command", commandSchema);
 
 module.exports = Command;

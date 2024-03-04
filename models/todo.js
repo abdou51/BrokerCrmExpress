@@ -52,6 +52,7 @@ const todoSchema = mongoose.Schema(
 );
 
 todoSchema.plugin(mongoosePaginate);
+
 const Todo = mongoose.model("Todo", todoSchema);
 
 module.exports = Todo;
