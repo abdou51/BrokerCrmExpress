@@ -98,7 +98,6 @@ const getSupervisors = async (req, res) => {
     const userId = req.user.userId;
     const users = await User.find({
       role: "Supervisor",
-      _id: { $ne: userId },
     }).select("fullName");
     res.json(users);
   } catch (error) {
