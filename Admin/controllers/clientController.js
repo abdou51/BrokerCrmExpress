@@ -29,11 +29,8 @@ const getClients = async (req, res) => {
       page,
       limit,
       sort: { [sortBy]: sortDirection === "desc" ? -1 : 1 },
-      populate: [
-        { path: "wilaya", select: "name" },
-        { path: "speciality", select: "name" },
-      ],
-      select: "fullName potential",
+      populate: [{ path: "wilaya" }, { path: "speciality", select: "name" }],
+      select: "fullName potential commune",
     };
 
     let query = {
