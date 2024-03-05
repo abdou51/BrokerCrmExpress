@@ -75,6 +75,12 @@ const clientSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    reference: {
+      wilaya: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );
