@@ -9,7 +9,7 @@ const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
 const loginUser = async (req, res) => {
   try {
     const user = await User.findOne({
-      $or: [{ username: req.body.username }, { email: req.body.email }],
+      $or: [{ username: req.body.identifier }, { email: req.body.identifier }],
     }).select("-clients -createdBy -wilayas -username");
 
     if (!user) {

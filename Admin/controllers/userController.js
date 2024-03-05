@@ -95,7 +95,6 @@ const getUsers = async (req, res) => {
 
 const getSupervisors = async (req, res) => {
   try {
-    const userId = req.user.userId;
     const users = await User.find({
       role: "Supervisor",
     }).select("fullName");
