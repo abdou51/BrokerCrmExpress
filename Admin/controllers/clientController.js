@@ -88,8 +88,32 @@ const getClientUsers = async (req, res) => {
   }
 };
 
+const getClientHistory = async (req, res) => {
+  try {
+    const { page = 1, limit = 10, user, client } = req.body;
+    let query = {
+      client: new mongoose.Types.ObjectId(client),
+      state: "Done",
+      ...(user && { user: new mongoose.Types.ObjectId(user) }),
+    };
+    const options = {
+      page,
+      limit,
+      select: "report command visitDate",
+      sort: { visitDate: -1 },
+      populate: [{ path: "user", select: "fullName" }],
+    };
+    const result = await Visit.paginate(query, options);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+
 module.exports = {
   getClients,
   getWholesalers,
   getClientUsers,
+  getClientHistory,
 };
