@@ -65,10 +65,22 @@ const getClients = async (req, res) => {
       console.log("clientIdsWithDoneVisit", clientIdsWithDoneVisit);
       if (clientIdsWithDoneVisit.length > 0) {
         query._id = { $in: clientIdsWithDoneVisit };
-      } else if (clientIdsWithDoneVisit.length === 0) {
-        query._id = null;
-      } else if (!user && userIds.length > 0) {
-        query._id = null;
+      } else if (
+        clientIdsWithDoneVisit.length === 0 ||
+        (!user && userIds.length > 0)
+      ) {
+        return res.status(200).json({
+          docs: [],
+          totalDocs: 0,
+          limit: options.limit,
+          totalPages: 1,
+          page: options.page,
+          pagingCounter: 1,
+          hasPrevPage: false,
+          hasNextPage: false,
+          prevPage: null,
+          nextPage: null,
+        });
       }
     }
     console.log(query);
