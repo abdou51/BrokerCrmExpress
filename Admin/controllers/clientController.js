@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 
 const getClients = async (req, res) => {
   try {
+    console.log(req.user.role);
     const {
       page = 1,
       limit = 10,
@@ -33,18 +34,21 @@ const getClients = async (req, res) => {
       if (["Admin", "Operator"].includes(req.user.role)) {
         supervisorId = req.body.supervisorId;
       } else if (req.user.role === "Supervisor") {
-        supervisorId = req.user.id;
+        supervisorId = req.user.userId;
       } else {
         return res.status(403).json({ message: "Unauthorized" });
       }
-
+      console.log("Supervisor", supervisorId);
       let userIds = [];
       if (supervisorId) {
-        const users = await User.find({ createdBy: supervisorId });
+        const users = await User.find({
+          createdBy: new mongoose.Types.ObjectId(supervisorId),
+        });
         userIds = users.map((user) => user._id);
       }
-
+      console.log("userids", userIds);
       let clientIdsWithDoneVisit = [];
+
       if (user) {
         const visits = await Visit.find({
           user: new mongoose.Types.ObjectId(user),
@@ -58,14 +62,16 @@ const getClients = async (req, res) => {
         }).distinct("client");
         clientIdsWithDoneVisit = visits;
       }
-
+      console.log("clientIdsWithDoneVisit", clientIdsWithDoneVisit);
       if (clientIdsWithDoneVisit.length > 0) {
         query._id = { $in: clientIdsWithDoneVisit };
+      } else if (clientIdsWithDoneVisit.length === 0) {
+        query._id = null;
       } else if (!user && userIds.length > 0) {
         query._id = null;
       }
     }
-
+    console.log(query);
     const result = await Client.paginate(query, options);
     res.status(200).json(result);
   } catch (error) {
