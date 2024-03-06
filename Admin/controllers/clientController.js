@@ -1,6 +1,6 @@
-const User = require("../../models/user");
 const Client = require("../../models/client");
 const Visit = require("../../models/visit");
+const User = require("../../models/user");
 const mongoose = require("mongoose");
 
 const getClients = async (req, res) => {
@@ -70,7 +70,26 @@ const getWholesalers = async (req, res) => {
   }
 };
 
+const getClientUsers = async (req, res) => {
+  try {
+    const client = req.query.client;
+    const visits = await Visit.find({
+      client: new mongoose.Types.ObjectId(client),
+      state: "Done",
+    }).distinct("user");
+    const delegates = await User.find({
+      _id: { $in: visits },
+      role: "Delegate",
+    }).select("fullName");
+    res.status(200).json(delegates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+
 module.exports = {
   getClients,
   getWholesalers,
+  getClientUsers,
 };

@@ -6,5 +6,6 @@ const userJwt = require("../../middlewares/userJwt");
 // Define routes
 router.post("/", userJwt, clientController.getClients);
 router.get("/filter", userJwt, clientController.getWholesalers);
+router.get("/users", userJwt, clientController.getClientUsers);
 
 module.exports = router;
