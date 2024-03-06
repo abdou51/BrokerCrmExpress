@@ -21,7 +21,8 @@ const getClients = async (req, res) => {
       limit,
       sort: { [sortBy]: sortDirection === "desc" ? -1 : 1 },
       populate: [{ path: "wilaya" }, { path: "speciality", select: "name" }],
-      select: "fullName potential commune visitsNumber",
+      select:
+        "visitsNumber fullName wilaya speciality totalSellers totalPostChifa potential phoneNumberOne phoneNumberTwo location commune email",
     };
 
     let query = {
