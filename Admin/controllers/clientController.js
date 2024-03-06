@@ -15,14 +15,32 @@ const getClients = async (req, res) => {
       user,
     } = req.body;
 
+    let supervisorId;
+    if (req.user.role === "Admin" || req.user.role === "Operator") {
+      supervisorId = req.body.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.id;
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    const users = await User.find({ createdBy: supervisorId });
+    const userIds = users.map((user) => user._id);
+
     let clientIdsWithDoneVisit = [];
     if (user) {
       const visits = await Visit.find({
         user: new mongoose.Types.ObjectId(user),
         state: "Done",
       }).distinct("client");
-
       clientIdsWithDoneVisit = visits;
+    } else {
+      if (userIds.length > 0) {
+        const visits = await Visit.find({
+          user: { $in: userIds },
+          state: "Done",
+        }).distinct("client");
+        clientIdsWithDoneVisit = visits;
+      }
     }
 
     const options = {
@@ -40,12 +58,10 @@ const getClients = async (req, res) => {
       }),
     };
 
-    if (user) {
-      if (clientIdsWithDoneVisit.length > 0) {
-        query._id = { $in: clientIdsWithDoneVisit };
-      } else {
-        query._id = null;
-      }
+    if (clientIdsWithDoneVisit.length > 0) {
+      query._id = { $in: clientIdsWithDoneVisit };
+    } else if (!user) {
+      query._id = null;
     }
 
     const result = await Client.paginate(query, options);
