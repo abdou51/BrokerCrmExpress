@@ -49,7 +49,7 @@ const visitSchema = new mongoose.Schema(
     },
     state: {
       type: String,
-      enum: ["Planned", "Done", "Hold"],
+      enum: ["Planned", "Done"],
       default: "Planned",
     },
     reference: reference,
