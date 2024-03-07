@@ -6,7 +6,15 @@ const Command = require("../../models/command");
 
 const supervisorChiffreDaffaireStats = async (req, res) => {
   try {
-    const supervisorId = req.query.supervisorId;
+    let supervisorId;
+    if (["Admin", "Operator"].includes(req.user.role)) {
+      supervisorId = req.query.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.userId;
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
     const year = req.query.year;
     const month = req.query.month - 1;
 
@@ -92,7 +100,14 @@ const supervisorChiffreDaffaireStats = async (req, res) => {
 };
 const classementChiffreDaffaireEquipe = async (req, res) => {
   try {
-    const supervisorId = req.query.supervisorId;
+    let supervisorId;
+    if (["Admin", "Operator"].includes(req.user.role)) {
+      supervisorId = req.query.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.userId;
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
     const year = req.query.year;
     const month = req.query.month - 1;
     const isHonored = req.query.isHonored === "true";
