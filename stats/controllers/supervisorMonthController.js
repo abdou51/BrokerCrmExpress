@@ -6,9 +6,9 @@ const Command = require("../../models/command");
 
 const supervisorChiffreDaffaireStats = async (req, res) => {
   try {
-    const supervisorId = req.body.supervisorId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
+    const supervisorId = req.query.supervisorId;
+    const year = req.query.year;
+    const month = req.query.month - 1;
 
     if (
       supervisorId === undefined ||
@@ -93,10 +93,10 @@ const supervisorChiffreDaffaireStats = async (req, res) => {
 };
 const classementChiffreDaffaireEquipe = async (req, res) => {
   try {
-    const supervisorId = req.body.supervisorId;
-    const year = req.body.year;
-    const month = req.body.month - 1;
-    const isHonored = req.body.isHonored;
+    const supervisorId = req.query.supervisorId;
+    const year = req.query.year;
+    const month = req.query.month - 1;
+    const isHonored = req.query.isHonored;
 
     if (
       supervisorId === undefined ||

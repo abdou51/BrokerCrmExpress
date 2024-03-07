@@ -46,6 +46,7 @@ const goalRoutes = require("./routes/goalRoutes");
 const establishmentRoutes = require("./routes/establishmentRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const fileRoutes = require("./routes/fileRoutes");
+const userTrackingRoutes = require("./routes/userTrackingRoutes");
 
 //stats Routes
 const delegateMonthRoutes = require("./stats/routes/delegateMonthRoutes");
@@ -82,6 +83,7 @@ app.use("/goals", goalRoutes);
 app.use("/establishments", establishmentRoutes);
 app.use("/services", serviceRoutes);
 app.use("/upload", fileRoutes);
+app.use("/trackings", userTrackingRoutes);
 app.use("/uploads", express.static("uploads"));
 
 //stats Routes
