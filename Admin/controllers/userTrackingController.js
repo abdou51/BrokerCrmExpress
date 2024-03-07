@@ -11,7 +11,7 @@ const getTrackingPerDay = async (req, res) => {
     console.log(startOfDay, endOfDay);
     const trackings = await UserTracking.find({
       user: new mongoose.Types.ObjectId(user),
-      date: {
+      time: {
         $gte: startOfDay,
         $lt: endOfDay,
       },
