@@ -22,7 +22,6 @@ const supervisorChiffreDaffaireStats = async (req, res) => {
     const end = new Date(year, month + 1, 0);
 
     const users = await User.find({ createdBy: supervisorId });
-    console.log(users);
     let totalHonored = 0;
     let totalNonHonored = 0;
     let totalCombined = 0;
@@ -96,8 +95,7 @@ const classementChiffreDaffaireEquipe = async (req, res) => {
     const supervisorId = req.query.supervisorId;
     const year = req.query.year;
     const month = req.query.month - 1;
-    const isHonored = req.query.isHonored;
-
+    const isHonored = req.query.isHonored === "true";
     if (
       supervisorId === undefined ||
       year === undefined ||
@@ -137,7 +135,7 @@ const classementChiffreDaffaireEquipe = async (req, res) => {
           visit: { $in: visitIds },
           ...(isHonored === true ? { isHonored: true } : {}),
         };
-
+        console.log(matchCondition);
         const commandResults = await Command.aggregate([
           {
             $match: matchCondition,
