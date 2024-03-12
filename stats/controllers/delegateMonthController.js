@@ -244,6 +244,62 @@ const objectifChiffreDaffaire = async (req, res) => {
   }
 };
 
+const delegateChiffreDaffaireStats = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const year = req.query.year;
+    const month = req.query.month - 1;
+    if (userId === undefined || year === undefined || month === undefined) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
+
+    const pipeline = [
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          commandDate: {
+            $gte: start,
+            $lt: end,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$isHonored",
+          totalRemisedSum: { $sum: "$totalRemised" },
+        },
+      },
+    ];
+
+    const result = await Command.aggregate(pipeline);
+
+    let totalHonored = 0;
+    let totalNonHonored = 0;
+    let totalCombined = 0;
+
+    result.forEach((item) => {
+      if (item._id) {
+        totalHonored += item.totalRemisedSum;
+      } else {
+        totalNonHonored += item.totalRemisedSum;
+      }
+      totalCombined += item.totalRemisedSum;
+    });
+
+    res.status(200).json({
+      honored: totalHonored,
+      nonHonored: totalNonHonored,
+      total: totalCombined,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+
 module.exports = {
   planDeTournee,
   moyenneVisitesParJour,
@@ -251,4 +307,5 @@ module.exports = {
   couverturePortefeuilleClient,
   objectifVisites,
   objectifChiffreDaffaire,
+  delegateChiffreDaffaireStats,
 };

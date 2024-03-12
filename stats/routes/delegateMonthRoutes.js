@@ -28,4 +28,10 @@ router.get(
   delegateMonthController.objectifChiffreDaffaire
 );
 
+router.get(
+  "/delegateChiffreDaffaireStats",
+  userJwt,
+  delegateMonthController.delegateChiffreDaffaireStats
+);
+
 module.exports = router;

@@ -114,11 +114,7 @@ const classementChiffreDaffaireEquipe = async (req, res) => {
     const year = req.query.year;
     const month = req.query.month - 1;
     const isHonored = req.query.isHonored === "true";
-    if (
-      supervisorId === undefined ||
-      year === undefined ||
-      month === undefined
-    ) {
+    if (year === undefined || month === undefined) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
