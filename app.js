@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const app = express();
 app.use(express.json());
-
+const ExcelJS = require("exceljs");
 require("dotenv").config();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
@@ -27,6 +27,50 @@ app.use(
   })
 );
 
+app.get("/download-excel", async (req, res) => {
+  try {
+    // Sample data for the Excel file
+    const data = [
+      { name: "John Doe", email: "john@example.com", age: 30 },
+      { name: "Jane Doe", email: "jane@example.com", age: 25 },
+    ];
+
+    // Create a new workbook and a worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet("Sheet1");
+
+    // Add columns
+    worksheet.columns = [
+      { header: "Name", key: "name", width: 10 },
+      { header: "Email", key: "email", width: 25 },
+      { header: "Age", key: "age", width: 5 },
+    ];
+
+    // Add rows using the data
+    worksheet.addRows(data);
+
+    // Set headers to instruct the browser to download the file
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      'attachment; filename="SampleData.xlsx"'
+    );
+
+    // Stream the workbook to the response
+    await workbook.xlsx.write(res);
+
+    // End the response
+    res.end();
+  } catch (error) {
+    console.error("Error generating the Excel file:", error);
+    if (!res.headersSent) {
+      res.status(500).send("Failed to generate the Excel file.");
+    }
+  }
+});
 // Define routes
 const userRoutes = require("./routes/userRoutes");
 const wilayaRoutes = require("./routes/wilayaRoutes");
