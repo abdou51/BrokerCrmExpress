@@ -27,8 +27,12 @@ const supervisorChiffreDaffaireStats = async (req, res) => {
 
     const start = new Date(year, month, 1);
     const end = new Date(year, month + 1, 0);
-
-    const users = await User.find({ createdBy: supervisorId });
+    let users;
+    if (req.query.role === "Kam") {
+      users = await User.find({ role: "Kam" });
+    } else {
+      users = await User.find({ createdBy: supervisorId });
+    }
     let totalHonored = 0;
     let totalNonHonored = 0;
     let totalCombined = 0;
