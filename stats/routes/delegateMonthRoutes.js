@@ -33,5 +33,11 @@ router.get(
   userJwt,
   delegateMonthController.delegateChiffreDaffaireStats
 );
+router.get(
+  "/venteParProduit",
+  userJwt,
+  delegateMonthController.venteParProduit
+);
+router.get("/venteParWilaya", userJwt, delegateMonthController.venteParWilaya);
 
 module.exports = router;

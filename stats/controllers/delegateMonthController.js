@@ -300,6 +300,123 @@ const delegateChiffreDaffaireStats = async (req, res) => {
   }
 };
 
+const venteParProduit = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const year = req.query.year;
+    const month = req.query.month - 1;
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
+    const isHonored = req.query.isHonored === "true";
+    const orders = await Command.find({
+      user: userId,
+      commandDate: { $gte: start, $lte: end },
+      ...(isHonored === true ? { isHonored: true } : {}),
+    })
+      .populate({ path: "products.product", select: "name" })
+      .select("remise products.quantity products.total");
+    const productSales = orders.reduce((acc, order) => {
+      order.products.forEach(({ product, quantity, total }) => {
+        if (!acc[product._id]) {
+          acc[product._id] = { name: product.name, quantity: 0, total: 0 };
+        }
+        const adjustedTotal = total - (total * order.remise) / 100;
+        acc[product._id].quantity += quantity;
+        acc[product._id].total += adjustedTotal;
+      });
+      return acc;
+    }, {});
+    const productsArray = Object.values(productSales);
+    const totalSales = productsArray.reduce(
+      (acc, product) => acc + product.total,
+      0
+    );
+    productsArray.forEach((product) => {
+      product.percentage = +((product.total / totalSales) * 100).toFixed(2);
+    });
+    const rankedProducts = productsArray.sort((a, b) => b.total - a.total);
+    res.status(200).json(rankedProducts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+const venteParWilaya = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const year = req.query.year;
+    const month = req.query.month - 1;
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0);
+    const isHonored = req.query.isHonored === "true";
+    const orders = await Command.find({
+      user: userId,
+      commandDate: { $gte: start, $lte: end },
+      ...(isHonored === true ? { isHonored: true } : {}),
+    })
+      .populate({
+        path: "visit",
+        select: "client",
+        populate: [
+          { path: "client", select: "wilaya", populate: { path: "wilaya" } },
+        ],
+      })
+      .populate({ path: "products.product", select: "name" })
+      .select("remise products.quantity products.total");
+    const salesByWilaya = orders.reduce((acc, order) => {
+      const wilayaId = order.visit.client.wilaya._id;
+      const wilayaName = order.visit.client.wilaya.name;
+      if (!acc[wilayaId]) {
+        acc[wilayaId] = { name: wilayaName, products: {} };
+      }
+
+      order.products.forEach(({ product, quantity, total }) => {
+        if (!acc[wilayaId].products[product._id]) {
+          acc[wilayaId].products[product._id] = {
+            name: product.name,
+            quantity: 0,
+            total: 0,
+          };
+        }
+        const adjustedTotal = total - (total * order.remise) / 100;
+        acc[wilayaId].products[product._id].quantity += quantity;
+        acc[wilayaId].products[product._id].total += adjustedTotal;
+      });
+
+      return acc;
+    }, {});
+
+    // Convert aggregated data into a structured format, calculate percentages, and rank
+    const rankedSalesByWilaya = Object.entries(salesByWilaya).map(
+      ([, { name, products }]) => {
+        const productsArray = Object.values(products);
+        const totalSales = productsArray.reduce(
+          (acc, product) => acc + product.total,
+          0
+        );
+
+        // Calculate percentage of total sales for each product
+        productsArray.forEach((product) => {
+          product.percentage = +((product.total / totalSales) * 100).toFixed(2);
+        });
+
+        // Rank products
+        const rankedProducts = productsArray.sort((a, b) => b.total - a.total);
+
+        return {
+          name,
+          totalSales,
+          products: rankedProducts,
+        };
+      }
+    );
+    res.status(200).json(rankedSalesByWilaya);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error in processing request" });
+  }
+};
+
 module.exports = {
   planDeTournee,
   moyenneVisitesParJour,
@@ -308,4 +425,6 @@ module.exports = {
   objectifVisites,
   objectifChiffreDaffaire,
   delegateChiffreDaffaireStats,
+  venteParProduit,
+  venteParWilaya,
 };
