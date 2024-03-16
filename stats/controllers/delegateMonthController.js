@@ -363,6 +363,7 @@ const venteParWilaya = async (req, res) => {
       })
       .populate({ path: "products.product", select: "name" })
       .select("remise products.quantity products.total");
+
     const salesByWilaya = orders.reduce((acc, order) => {
       const wilayaId = order.visit.client.wilaya._id;
       const wilayaName = order.visit.client.wilaya.name;
@@ -385,9 +386,7 @@ const venteParWilaya = async (req, res) => {
 
       return acc;
     }, {});
-
-    // Convert aggregated data into a structured format, calculate percentages, and rank
-    const rankedSalesByWilaya = Object.entries(salesByWilaya).map(
+    let rankedSalesByWilaya = Object.entries(salesByWilaya).map(
       ([, { name, products }]) => {
         const productsArray = Object.values(products);
         const totalSales = productsArray.reduce(
@@ -395,12 +394,10 @@ const venteParWilaya = async (req, res) => {
           0
         );
 
-        // Calculate percentage of total sales for each product
         productsArray.forEach((product) => {
           product.percentage = +((product.total / totalSales) * 100).toFixed(2);
         });
 
-        // Rank products
         const rankedProducts = productsArray.sort((a, b) => b.total - a.total);
 
         return {
@@ -410,6 +407,19 @@ const venteParWilaya = async (req, res) => {
         };
       }
     );
+    const grandTotalSales = rankedSalesByWilaya.reduce(
+      (acc, wilaya) => acc + wilaya.totalSales,
+      0
+    );
+
+    rankedSalesByWilaya = rankedSalesByWilaya.map((wilaya) => {
+      wilaya.percentage = +(
+        (wilaya.totalSales / grandTotalSales) *
+        100
+      ).toFixed(2);
+      return wilaya;
+    });
+
     res.status(200).json(rankedSalesByWilaya);
   } catch (error) {
     console.log(error);
