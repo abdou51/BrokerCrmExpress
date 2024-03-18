@@ -147,7 +147,6 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
 
     const teammateIds = await User.find({
       createdBy: user.createdBy,
-      _id: { $ne: new mongoose.Types.ObjectId(userId) },
     }).select("_id");
     const teammateUserIds = teammateIds.map((teammate) => teammate._id);
 
@@ -178,8 +177,8 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
     }
 
     res.status(200).json({
-      user: totalUserRemised,
-      team: totalTeammateRemised,
+      userSales: totalUserRemised,
+      teamSales: totalTeammateRemised,
     });
   } catch (error) {
     res.status(500).json({ error: "Error in processing request" });
