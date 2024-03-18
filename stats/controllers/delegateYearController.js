@@ -6,8 +6,8 @@ const Command = require("../../models/command");
 
 const planDeTournee = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
+    const userId = req.query.userId;
+    const year = req.query.year;
 
     let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
       month: i + 1,

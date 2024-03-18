@@ -6,8 +6,15 @@ const Command = require("../../models/command");
 
 const planDeTournee = async (req, res) => {
   try {
-    const supervisorId = req.body.supervisorId;
-    const year = req.body.year;
+    let supervisorId;
+    if (req.user.role === "Admin") {
+      supervisorId = req.query.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.userId;
+    } else {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+    const year = req.query.year;
     const userDocuments = await User.find({ createdBy: supervisorId }).select(
       "_id"
     );
