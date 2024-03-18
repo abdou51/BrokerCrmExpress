@@ -59,8 +59,8 @@ const planDeTournee = async (req, res) => {
 };
 const tauxDeReussite = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
+    const userId = req.query.userId;
+    const year = req.query.year;
 
     let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
       month: `${year}-` + (i + 1),
@@ -124,8 +124,8 @@ const tauxDeReussite = async (req, res) => {
 };
 const contributionChiffreDaffaireAnnuel = async (req, res) => {
   try {
-    const userId = req.body.userId;
-    const year = req.body.year;
+    const userId = req.query.userId;
+    const year = req.query.year;
     const start = new Date(year, 0, 1);
     const end = new Date(year, 11, 31, 23, 59, 59, 999);
 
