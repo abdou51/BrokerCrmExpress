@@ -63,7 +63,7 @@ const tauxDeReussite = async (req, res) => {
     const year = req.query.year;
 
     let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
-      month: `${year}-` + (i + 1),
+      month: i + 1,
       doneVisits: 0,
       honoredCommands: 0,
     }));
