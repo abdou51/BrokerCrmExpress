@@ -86,8 +86,6 @@ const tauxDeReussite = async (req, res) => {
         },
       },
     ]);
-
-    s;
     const honoredCommandsAggregation = await Command.aggregate([
       {
         $match: {
@@ -106,8 +104,6 @@ const tauxDeReussite = async (req, res) => {
         },
       },
     ]);
-
-    ns;
     doneVisitsAggregation.forEach((item) => {
       monthlyStats[item._id - 1].doneVisits = item.count;
     });
