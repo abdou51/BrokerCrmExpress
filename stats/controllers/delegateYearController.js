@@ -129,8 +129,6 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
-    ds;
     const userTotalRemised = await Command.aggregate([
       {
         $match: {
@@ -180,8 +178,8 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
     }
 
     res.status(200).json({
-      delegate: totalUserRemised,
-      restOfTheTeam: totalTeammateRemised,
+      user: totalUserRemised,
+      team: totalTeammateRemised,
     });
   } catch (error) {
     res.status(500).json({ error: "Error in processing request" });
