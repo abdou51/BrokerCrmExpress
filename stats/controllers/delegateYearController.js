@@ -14,6 +14,9 @@ const yearlyStats = async (req, res) => {
       doneVisits: 0,
       allVisits: 0,
       honoredCommands: 0,
+      totalRemised: 0,
+      totalSales: 0,
+      totalVisits: 0,
     }));
 
     const visitAggregation = Visit.aggregate([
@@ -58,14 +61,31 @@ const yearlyStats = async (req, res) => {
         $group: {
           _id: { $month: "$commandDate" },
           honoredCommands: { $sum: 1 },
+          totalRemised: { $sum: "$totalRemised" },
         },
       },
     ]);
-    const [visitResults, commandResults] = await Promise.all([
+
+    const goalAggregation = Goal.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          year: year,
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          totalSales: { $sum: "$totalSales" },
+          totalVisits: { $sum: "$totalVisits" },
+        },
+      },
+    ]);
+    const [visitResults, commandResults, goalResults] = await Promise.all([
       visitAggregation,
       commandAggregation,
+      goalAggregation,
     ]);
-
     visitResults.forEach((item) => {
       const monthIndex = item._id - 1;
       monthlyStats[monthIndex].doneVisits = item.doneVisits;
@@ -75,6 +95,12 @@ const yearlyStats = async (req, res) => {
     commandResults.forEach((item) => {
       const monthIndex = item._id - 1;
       monthlyStats[monthIndex].honoredCommands = item.honoredCommands;
+      monthlyStats[monthIndex].totalRemised = item.totalRemised;
+    });
+    goalResults.forEach((item) => {
+      const monthIndex = item._id - 1;
+      monthlyStats[monthIndex].totalSales = item.totalSales;
+      monthlyStats[monthIndex].totalVisits = item.totalVisits;
     });
 
     res.status(200).json(monthlyStats);

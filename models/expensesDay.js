@@ -53,6 +53,18 @@ const expensesDaySchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    totalExpense: {
+      type: Number,
+      default: 0,
+    },
+    proofs: [
+      {
+        proof: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "File",
+        },
+      },
+    ],
     date: {
       type: Date,
       default: Date.now,
