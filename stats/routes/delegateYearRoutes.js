@@ -7,6 +7,7 @@ const userJwt = require("../../middlewares/userJwt");
 
 router.get("/planDeTournee", userJwt, delegateYearController.planDeTournee);
 router.get("/tauxDeReussite", userJwt, delegateYearController.tauxDeReussite);
+router.get("/yearlyStats", userJwt, delegateYearController.yearlyStats);
 router.get(
   "/contributionChiffreDaffaireAnnuel",
   userJwt,

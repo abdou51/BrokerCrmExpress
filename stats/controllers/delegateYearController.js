@@ -4,6 +4,86 @@ const mongoose = require("mongoose");
 const User = require("../../models/user");
 const Command = require("../../models/command");
 
+const yearlyStats = async (req, res) => {
+  try {
+    const userId = req.query.userId;
+    const year = parseInt(req.query.year, 10);
+
+    let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
+      month: i + 1,
+      doneVisits: 0,
+      allVisits: 0,
+      honoredCommands: 0,
+    }));
+
+    const visitAggregation = Visit.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          visitDate: {
+            $gte: new Date(year, 0, 1),
+            $lt: new Date(year + 1, 0, 1),
+          },
+        },
+      },
+      {
+        $project: {
+          month: { $month: "$visitDate" },
+          isDone: {
+            $cond: { if: { $eq: ["$state", "Done"] }, then: 1, else: 0 },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$month",
+          doneVisits: { $sum: "$isDone" },
+          allVisits: { $sum: 1 },
+        },
+      },
+    ]);
+
+    const commandAggregation = Command.aggregate([
+      {
+        $match: {
+          user: new mongoose.Types.ObjectId(userId),
+          commandDate: {
+            $gte: new Date(year, 0, 1),
+            $lt: new Date(year + 1, 0, 1),
+          },
+          isHonored: true,
+        },
+      },
+      {
+        $group: {
+          _id: { $month: "$commandDate" },
+          honoredCommands: { $sum: 1 },
+        },
+      },
+    ]);
+    const [visitResults, commandResults] = await Promise.all([
+      visitAggregation,
+      commandAggregation,
+    ]);
+
+    visitResults.forEach((item) => {
+      const monthIndex = item._id - 1;
+      monthlyStats[monthIndex].doneVisits = item.doneVisits;
+      monthlyStats[monthIndex].allVisits = item.allVisits;
+    });
+
+    commandResults.forEach((item) => {
+      const monthIndex = item._id - 1;
+      monthlyStats[monthIndex].honoredCommands = item.honoredCommands;
+    });
+
+    res.status(200).json(monthlyStats);
+  } catch (error) {
+    res.status(500).json({ error: "Error in processing request" });
+    console.error(error);
+  }
+};
+
 const planDeTournee = async (req, res) => {
   try {
     const userId = req.query.userId;
@@ -190,4 +270,5 @@ module.exports = {
   planDeTournee,
   tauxDeReussite,
   contributionChiffreDaffaireAnnuel,
+  yearlyStats,
 };

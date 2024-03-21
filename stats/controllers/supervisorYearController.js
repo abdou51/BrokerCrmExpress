@@ -73,8 +73,6 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
     const { supervisorId, year, isHonored } = req.body;
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
-
-    // Fetch users created by the supervisor
     const users = await User.find({ createdBy: supervisorId }, "fullName");
 
     let results = [];
