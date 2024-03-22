@@ -3,20 +3,22 @@ const expensesDaySchema = require("../../models/expensesDay");
 const getExpensesDay = async (req, res) => {
   try {
     const userId = req.query.user;
-    let startDate = req.query.startDate;
-    let endDate = req.query.endDate;
+    let startDate;
+    let endDate;
+    let month;
+    let year;
 
     if (!startDate || !endDate) {
-      const month = req.query.month;
-      const year = req.query.year;
+      month = req.query.month;
+      year = req.query.year;
       startDate = new Date(year, month - 1, 1);
       startDate.setHours(startDate.getHours() - 1);
       endDate = new Date(year, month, -1);
       endDate.setHours(23, 0, 0, 0);
     } else {
-      startDate = new Date(startDate);
+      startDate = new Date(req.query.startDate);
       startDate.setHours(startDate.getHours() - 1);
-      endDate = new Date(endDate);
+      endDate = new Date(req.query.endDate);
       endDate.setHours(startDate.getHours() - 1);
     }
     const expensesDays = await expensesDaySchema

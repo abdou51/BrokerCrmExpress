@@ -6,7 +6,12 @@ const Command = require("../../models/command");
 
 const yearlyStats = async (req, res) => {
   try {
-    const userId = req.query.userId;
+    let userId;
+    if (["Admin", "Operator", "Supervisor"].includes(req.user.role)) {
+      userId = req.query.userId;
+    } else {
+      userId = req.user.userId;
+    }
     const year = parseInt(req.query.year, 10);
 
     let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
@@ -110,120 +115,6 @@ const yearlyStats = async (req, res) => {
   }
 };
 
-const planDeTournee = async (req, res) => {
-  try {
-    const userId = req.query.userId;
-    const year = req.query.year;
-
-    let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      doneVisits: 0,
-      allVisits: 0,
-    }));
-
-    const results = await Visit.aggregate([
-      {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          visitDate: {
-            $gte: new Date(year, 0, 1),
-            $lt: new Date(year + 1, 0, 1),
-          },
-        },
-      },
-      {
-        $project: {
-          month: { $month: "$visitDate" },
-          isDone: {
-            $cond: { if: { $eq: ["$state", "Done"] }, then: 1, else: 0 },
-          },
-        },
-      },
-      {
-        $group: {
-          _id: "$month",
-          doneVisits: { $sum: "$isDone" },
-          allVisits: { $sum: 1 },
-        },
-      },
-      {
-        $sort: { _id: 1 },
-      },
-    ]);
-
-    results.forEach((item) => {
-      const monthIndex = item._id - 1;
-      monthlyStats[monthIndex].doneVisits = item.doneVisits;
-      monthlyStats[monthIndex].allVisits = item.allVisits;
-    });
-
-    res.status(200).json(monthlyStats);
-  } catch (error) {
-    res.status(500).json({ error: "Error" });
-    console.error(error);
-  }
-};
-const tauxDeReussite = async (req, res) => {
-  try {
-    const userId = req.query.userId;
-    const year = req.query.year;
-
-    let monthlyStats = Array.from({ length: 12 }, (_, i) => ({
-      month: i + 1,
-      doneVisits: 0,
-      honoredCommands: 0,
-    }));
-
-    const doneVisitsAggregation = await Visit.aggregate([
-      {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          visitDate: {
-            $gte: new Date(year, 0, 1),
-            $lt: new Date(year + 1, 0, 1),
-          },
-          state: "Done",
-        },
-      },
-      {
-        $group: {
-          _id: { $month: "$visitDate" },
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-    const honoredCommandsAggregation = await Command.aggregate([
-      {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          commandDate: {
-            $gte: new Date(year, 0, 1),
-            $lt: new Date(year + 1, 0, 1),
-          },
-          isHonored: true,
-        },
-      },
-      {
-        $group: {
-          _id: { $month: "$commandDate" },
-          count: { $sum: 1 },
-        },
-      },
-    ]);
-    doneVisitsAggregation.forEach((item) => {
-      monthlyStats[item._id - 1].doneVisits = item.count;
-    });
-
-    honoredCommandsAggregation.forEach((item) => {
-      monthlyStats[item._id - 1].honoredCommands = item.count;
-    });
-
-    res.status(200).json(monthlyStats);
-  } catch (error) {
-    res.status(500).json({ error: "Error in processing request" });
-    console.error(error);
-  }
-};
 const contributionChiffreDaffaireAnnuel = async (req, res) => {
   try {
     const userId = req.query.userId;
@@ -293,8 +184,6 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
 };
 
 module.exports = {
-  planDeTournee,
-  tauxDeReussite,
   contributionChiffreDaffaireAnnuel,
   yearlyStats,
 };
