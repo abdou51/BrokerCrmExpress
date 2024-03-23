@@ -141,10 +141,18 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
         },
       },
     ]);
-
-    const teammateIds = await User.find({
-      createdBy: user.createdBy,
-    }).select("_id");
+    let teammateIds;
+    if (user.role === "Delegate") {
+      teammateIds = await User.find({
+        createdBy: user.createdBy,
+      }).select("_id");
+    } else if (user.role === "Kam") {
+      teammateIds = await User.find({
+        role: "Kam",
+      }).select("_id");
+    } else {
+      return res.status(400).json({ error: "User role not supported" });
+    }
     const teammateUserIds = teammateIds.map((teammate) => teammate._id);
 
     const teammateTotalRemised = await Command.aggregate([
