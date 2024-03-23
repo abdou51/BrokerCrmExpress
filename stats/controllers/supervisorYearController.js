@@ -29,9 +29,9 @@ const yearlyStats = async (req, res) => {
       doneVisits: 0,
       allVisits: 0,
       honoredCommands: 0,
-      totalRemised: 0,
       totalSales: 0,
-      totalVisits: 0,
+      goalSales: 0,
+      goalVisits: 0,
     }));
 
     const visitAggregation = Visit.aggregate([
@@ -110,12 +110,12 @@ const yearlyStats = async (req, res) => {
     commandResults.forEach((item) => {
       const monthIndex = item._id - 1;
       monthlyStats[monthIndex].honoredCommands = item.honoredCommands;
-      monthlyStats[monthIndex].totalRemised = item.totalRemised;
+      monthlyStats[monthIndex].totalSales = item.totalRemised;
     });
     goalResults.forEach((item) => {
       const monthIndex = item._id - 1;
-      monthlyStats[monthIndex].totalSales = item.totalSales;
-      monthlyStats[monthIndex].totalVisits = item.totalVisits;
+      monthlyStats[monthIndex].goalSales = item.totalSales;
+      monthlyStats[monthIndex].goalVisits = item.totalVisits;
     });
 
     res.status(200).json(monthlyStats);
