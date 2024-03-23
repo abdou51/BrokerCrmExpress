@@ -241,8 +241,8 @@ const contributionEquipeAnnuel = async (req, res) => {
     );
 
     res.status(200).json({
-      teamsales: totalRemisedTeamMembers,
-      allsales: totalRemisedAllMembers,
+      teamSales: totalRemisedTeamMembers,
+      allSales: totalRemisedAllMembers,
     });
   } catch (error) {
     console.error(error);
