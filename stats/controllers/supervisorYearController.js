@@ -37,7 +37,7 @@ const yearlyStats = async (req, res) => {
     const visitAggregation = Visit.aggregate([
       {
         $match: {
-          user: { $in: userIds }, // Use $in operator to match any user ID in the userIds array
+          user: { $in: userIds },
           visitDate: {
             $gte: new Date(year, 0, 1),
             $lt: new Date(year + 1, 0, 1),
@@ -127,7 +127,15 @@ const yearlyStats = async (req, res) => {
 
 const contributionChiffreDaffaireAnnuel = async (req, res) => {
   try {
-    const { supervisorId, year, isHonored } = req.body;
+    let supervisorId;
+    if (["Admin", "Operator"].includes(req.user.role)) {
+      supervisorId = req.query.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.userId;
+    } else {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+    const year = parseInt(req.query.year, 10);
     const startDate = new Date(year, 0, 1);
     const endDate = new Date(year + 1, 0, 1);
     const users = await User.find({ createdBy: supervisorId }, "fullName");
@@ -139,6 +147,7 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
       let match = {
         user: user._id,
         commandDate: { $gte: startDate, $lt: endDate },
+        isHonored: true,
       };
 
       if (typeof isHonored !== "undefined") {
