@@ -184,7 +184,74 @@ const contributionChiffreDaffaireAnnuel = async (req, res) => {
   }
 };
 
+const contributionEquipeAnnuel = async (req, res) => {
+  try {
+    let supervisorId;
+    if (["Admin", "Operator"].includes(req.user.role)) {
+      supervisorId = req.query.supervisorId;
+    } else if (req.user.role === "Supervisor") {
+      supervisorId = req.user.userId;
+    } else {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+    const user = await User.findById(supervisorId);
+    if (!user || user.role !== "Supervisor") {
+      return res.status(400).json({ error: "Invalid supervisor ID" });
+    }
+
+    const year = parseInt(req.query.year, 10);
+
+    const teamMembersDocuments = await User.find({
+      createdBy: supervisorId,
+    }).select("_id");
+
+    const teamMembersIds = teamMembersDocuments.map((doc) => doc._id);
+    const allMembersDocuments = await User.find({ role: "Delegate" }).select(
+      "_id"
+    );
+    const allMembersIds = allMembersDocuments.map((doc) => doc._id);
+
+    const calculateTotalRemised = async (userIds) => {
+      const results = await Command.aggregate([
+        {
+          $match: {
+            user: { $in: userIds },
+            isHonored: true,
+            commandDate: {
+              $gte: new Date(year, 0, 1),
+              $lt: new Date(year + 1, 0, 1),
+            },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalRemised: { $sum: "$totalRemised" },
+          },
+        },
+      ]);
+      return results.length > 0 ? results[0].totalRemised : 0;
+    };
+
+    const [totalRemisedTeamMembers, totalRemisedAllMembers] = await Promise.all(
+      [
+        calculateTotalRemised(teamMembersIds),
+        calculateTotalRemised(allMembersIds),
+      ]
+    );
+
+    res.status(200).json({
+      teamsales: totalRemisedTeamMembers,
+      allsales: totalRemisedAllMembers,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
+
 module.exports = {
   yearlyStats,
   contributionChiffreDaffaireAnnuel,
+  contributionEquipeAnnuel,
 };
