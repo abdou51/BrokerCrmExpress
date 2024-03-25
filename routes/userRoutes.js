@@ -16,5 +16,6 @@ router.delete(
   userJwt,
   userController.removeClientFromPortfolio
 );
+router.post("/token", userController.refreshToken);
 
 module.exports = router;

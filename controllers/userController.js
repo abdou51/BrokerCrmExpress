@@ -3,6 +3,7 @@ const Client = require("../models/client");
 const Visit = require("../models/visit");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const generateAccessToken = require("../middlewares/accessToken");
 const generateRefreshToken = require("../middlewares/refreshToken");
 const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
@@ -290,6 +291,43 @@ const removeClientFromPortfolio = async (req, res, next) => {
   }
 };
 
+async function refreshToken(req, res) {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: "Refresh token is required" });
+  }
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    console.log(decoded);
+    const newRefreshToken = generateRefreshToken({
+      userId: decoded.userId,
+      role: decoded.role,
+    });
+    const accessToken = generateAccessToken({
+      userId: decoded.userId,
+      role: decoded.role,
+    });
+    const expiresIn = 15;
+    const expirationDate = new Date(new Date().getTime() + expiresIn * 60000);
+    res.status(200).json({
+      success: true,
+      message: "Token has been refreshed successfully",
+      data: {
+        accessToken,
+        newRefreshToken,
+        accessTokenExpiresAt: expirationDate,
+      },
+    });
+  } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ error: "Refresh token has expired" });
+    } else {
+      return res.status(403).json({ error: "Invalid refresh token" });
+    }
+  }
+}
+
 module.exports = {
   loginUser,
   updateUser,
@@ -298,4 +336,5 @@ module.exports = {
   getPortfolio,
   getUniverse,
   getMe,
+  refreshToken,
 };
