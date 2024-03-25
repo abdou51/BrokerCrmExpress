@@ -3,7 +3,8 @@ const Client = require("../models/client");
 const Visit = require("../models/visit");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const generateToken = require("../middlewares/jwtMiddleware");
+const generateAccessToken = require("../middlewares/accessToken");
+const generateRefreshToken = require("../middlewares/refreshToken");
 const { buildMongoQueryFromFilters } = require("../utils/queryBuilder");
 
 const loginUser = async (req, res) => {
@@ -21,7 +22,13 @@ const loginUser = async (req, res) => {
 
     if (bcrypt.compareSync(req.body.password, user.passwordHash)) {
       try {
-        const token = generateToken(user.id, user.role);
+        const accessToken = generateAccessToken(user.id, user.role);
+        const refreshToken = generateRefreshToken(user.id, user.role);
+        const expiresIn = 15;
+        const expirationDate = new Date(
+          new Date().getTime() + expiresIn * 60000
+        );
+
         const userWithoutPassword = {
           _id: user.id,
           username: user.username,
@@ -31,7 +38,12 @@ const loginUser = async (req, res) => {
         res.status(200).json({
           success: true,
           message: "Connexion réussie",
-          data: { ...userWithoutPassword, token: token },
+          data: {
+            ...userWithoutPassword,
+            accessToken,
+            refreshToken,
+            accessTokenExpiresAt: expirationDate,
+          },
         });
       } catch (tokenError) {
         res.status(500).json({
