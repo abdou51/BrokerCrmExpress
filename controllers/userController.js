@@ -14,6 +14,7 @@ const loginUser = async (req, res) => {
 
     if (!user) {
       return res.status(400).json({
+        success: false,
         message: "Nom d'utilisateur ou mot de passe incorrect",
       });
     }
@@ -28,23 +29,30 @@ const loginUser = async (req, res) => {
           role: user.role,
         };
         res.status(200).json({
+          success: true,
           message: "Connexion réussie",
           user: userWithoutPassword,
           token: token,
         });
       } catch (tokenError) {
-        res.status(500).send("An error occurred while generating the token.");
+        res.status(500).json({
+          success: false,
+          message: "Une erreur s'est produite lors de la génération du jeton.",
+        });
       }
     } else {
       res.status(400).json({
+        success: false,
         message: "Nom d'utilisateur ou mot de passe incorrect",
       });
     }
   } catch (error) {
     console.error(error);
-    res
-      .status(500)
-      .send("Une erreur s'est produite lors de la recherche de l'utilisateur.");
+    res.status(500).json({
+      success: false,
+      message:
+        "Une erreur s'est produite lors de la recherche de l'utilisateur.",
+    });
   }
 };
 
@@ -58,7 +66,9 @@ const updateUser = async (req, res) => {
     const userExist = await User.findById(userId).session(session);
     if (!userExist) {
       await session.abortTransaction();
-      return res.status(400).send("The user cannot be found!");
+      return res
+        .status(400)
+        .json({ success: false, message: "The user cannot be found!" });
     }
 
     let newPassword = req.body.password
@@ -78,13 +88,18 @@ const updateUser = async (req, res) => {
     );
 
     await session.commitTransaction();
-    res
-      .status(200)
-      .json({ success: true, message: "User updated successfully" });
+    res.status(200).json({
+      success: true,
+      message: "L'utilisateur a été mis à jour avec succès",
+    });
   } catch (error) {
     console.error(error);
     await session.abortTransaction();
-    res.status(500).send("An error occurred while updating the user.");
+    res.status(500).json({
+      success: false,
+      message:
+        "Une erreur s'est produite lors de la mise à jour de l'utilisateur.",
+    });
   } finally {
     session.endSession();
   }
