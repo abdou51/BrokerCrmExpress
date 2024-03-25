@@ -35,6 +35,7 @@ const loginUser = async (req, res) => {
           username: user.username,
           firstName: user.firstName,
           role: user.role,
+          fcmToken: user.fcmToken,
         };
         res.status(200).json({
           success: true,
@@ -72,8 +73,12 @@ const updateUser = async (req, res) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-
-    const userId = req.params.id;
+    let userId;
+    if (req.user.role === "Delagate" || req.user.role === "Kam") {
+      userId = req.user.userId;
+    } else {
+      userId = req.params.id;
+    }
 
     const userExist = await User.findById(userId).session(session);
     if (!userExist) {
