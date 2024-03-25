@@ -110,44 +110,44 @@ const dashboardExpensesDayRoutes = require("./Admin/routes/expensesDayRoutes");
 const dashboardTodoRoutes = require("./Admin/routes/todoRoutes");
 const dashboardTrackingsRoutes = require("./Admin/routes/userTrackingRoutes");
 
-app.use("api/v1/users", userRoutes);
-app.use("api/v1/wilayas", wilayaRoutes);
-app.use("api/v1/specialities", specialityRoutes);
-app.use("api/v1/clients", clientRoutes);
-app.use("api/v1/companies", companyRoutes);
-app.use("api/v1/products", productRoutes);
-app.use("api/v1/coproducts", coProductRoutes);
-app.use("api/v1/comments", commentRoutes);
-app.use("api/v1/motivations", motvationRoutes);
-app.use("api/v1/visits", visitRoutes);
-app.use("api/v1/reports", reportRoutes);
-app.use("api/v1/commands", commandRoutes);
-app.use("api/v1/expensesconfig", expensesConfigRoutes);
-app.use("api/v1/expensesdays", expensesDayRoutes);
-app.use("api/v1/goals", goalRoutes);
-app.use("api/v1/establishments", establishmentRoutes);
-app.use("api/v1/services", serviceRoutes);
-app.use("api/v1/upload", fileRoutes);
-app.use("api/v1/trackings", userTrackingRoutes);
-app.use("api/v1/uploads", express.static("uploads"));
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/wilayas", wilayaRoutes);
+app.use("/api/v1/specialities", specialityRoutes);
+app.use("/api/v1/clients", clientRoutes);
+app.use("/api/v1/companies", companyRoutes);
+app.use("/api/v1/products", productRoutes);
+app.use("/api/v1/coproducts", coProductRoutes);
+app.use("/api/v1/comments", commentRoutes);
+app.use("/api/v1/motivations", motvationRoutes);
+app.use("/api/v1/visits", visitRoutes);
+app.use("/api/v1/reports", reportRoutes);
+app.use("/api/v1/commands", commandRoutes);
+app.use("/api/v1/expensesconfig", expensesConfigRoutes);
+app.use("/api/v1/expensesdays", expensesDayRoutes);
+app.use("/api/v1/goals", goalRoutes);
+app.use("/api/v1/establishments", establishmentRoutes);
+app.use("/api/v1/services", serviceRoutes);
+app.use("/api/v1/upload", fileRoutes);
+app.use("/api/v1/trackings", userTrackingRoutes);
+app.use("/api/v1/uploads", express.static("uploads"));
 
 //stats Routes
-app.use("api/v1/stats/month/delegate", delegateMonthRoutes);
-app.use("api/v1/stats/month/supervisor", supervisorMonthRoutes);
-app.use("api/v1/stats/month/admin", adminMonthRoutes);
-app.use("api/v1/stats/year/delegate", delegateYearRoutes);
-app.use("api/v1/stats/year/supervisor", supervisorYearRoutes);
+app.use("/api/v1/stats/month/delegate", delegateMonthRoutes);
+app.use("/api/v1/stats/month/supervisor", supervisorMonthRoutes);
+app.use("/api/v1/stats/month/admin", adminMonthRoutes);
+app.use("/api/v1/stats/year/delegate", delegateYearRoutes);
+app.use("/api/v1/stats/year/supervisor", supervisorYearRoutes);
 
 //dashboard routes
-app.use("api/v1/dashboard/clients", dashboardClientRoutes);
-app.use("api/v1/dashboard/users", dashboardUserRoutes);
-app.use("api/v1/dashboard/visits", dashboardVisitRoutes);
-app.use("api/v1/dashboard/commands", dashboardCommandRoutes);
-app.use("api/v1/dashboard/reports", dashboardReportRoutes);
-app.use("api/v1/dashboard/plans", dashboardPlanRoutes);
-app.use("api/v1/dashboard/expensesdays", dashboardExpensesDayRoutes);
-app.use("api/v1/dashboard/todos", dashboardTodoRoutes);
-app.use("api/v1/dashboard/trackings", dashboardTrackingsRoutes);
+app.use("/api/v1/dashboard/clients", dashboardClientRoutes);
+app.use("/api/v1/dashboard/users", dashboardUserRoutes);
+app.use("/api/v1/dashboard/visits", dashboardVisitRoutes);
+app.use("/api/v1/dashboard/commands", dashboardCommandRoutes);
+app.use("/api/v1/dashboard/reports", dashboardReportRoutes);
+app.use("/api/v1/dashboard/plans", dashboardPlanRoutes);
+app.use("/api/v1/dashboard/expensesdays", dashboardExpensesDayRoutes);
+app.use("/api/v1/dashboard/todos", dashboardTodoRoutes);
+app.use("/api/v1/dashboard/trackings", dashboardTrackingsRoutes);
 
 // Handle 404 errors
 app.use((req, res, next) => {
