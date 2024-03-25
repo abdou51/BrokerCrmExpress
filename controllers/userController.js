@@ -31,7 +31,7 @@ const loginUser = async (req, res) => {
         res.status(200).json({
           success: true,
           message: "Connexion réussie",
-          data: { user: userWithoutPassword, token: token },
+          data: { userWithoutPassword, token: token },
         });
       } catch (tokenError) {
         res.status(500).json({
