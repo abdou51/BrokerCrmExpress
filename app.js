@@ -91,6 +91,7 @@ const establishmentRoutes = require("./routes/establishmentRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
 const fileRoutes = require("./routes/fileRoutes");
 const userTrackingRoutes = require("./routes/userTrackingRoutes");
+const versionRoutes = require("./routes/versionRoutes");
 
 //stats Routes
 const delegateMonthRoutes = require("./stats/routes/delegateMonthRoutes");
@@ -129,6 +130,7 @@ app.use("/api/v1/establishments", establishmentRoutes);
 app.use("/api/v1/services", serviceRoutes);
 app.use("/api/v1/upload", fileRoutes);
 app.use("/api/v1/trackings", userTrackingRoutes);
+app.use("/api/v1/versions", versionRoutes);
 app.use("/api/v1/uploads", express.static("uploads"));
 
 //stats Routes

@@ -10,11 +10,6 @@ const versionSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    obligatory: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
     description: {
       type: String,
       required: true,
