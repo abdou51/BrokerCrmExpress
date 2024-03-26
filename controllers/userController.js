@@ -131,7 +131,12 @@ const getPortfolio = async (req, res) => {
       return res.status(404).send("User not found.");
     }
 
-    const { filters, orderBy, pageNumber, pageSize } = req.body;
+    const {
+      filters = {},
+      orderBy = { value: "fullName", operator: "desc" },
+      pageNumber = 1,
+      pageSize = 20,
+    } = req.body;
     const userClientsQuery = { _id: { $in: user.clients } };
     const filterQuery = buildMongoQueryFromFilters(filters);
     let query = { $and: [userClientsQuery, filterQuery] };
@@ -201,7 +206,12 @@ const getUniverse = async (req, res) => {
       _id: { $nin: userClients },
     };
 
-    const { filters, orderBy, pageNumber, pageSize } = req.body;
+    const {
+      filters = {},
+      orderBy = { value: "fullName", operator: "desc" },
+      pageNumber = 1,
+      pageSize = 20,
+    } = req.body;
     const filterQuery = buildMongoQueryFromFilters(filters);
     let query = { $and: [baseQuery, filterQuery] };
 
@@ -308,7 +318,51 @@ const removeClientFromPortfolio = async (req, res, next) => {
     res.status(500).json({ error: "An error occurred" });
   }
 };
+const toggleClientInPortfolio = async (req, res, next) => {
+  try {
+    const userId = req.user.userId;
+    const clientId = req.body.clientId;
+    const [user, client] = await Promise.all([
+      User.findById(userId),
+      Client.findById(clientId),
+    ]);
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
+    }
 
+    if (!client) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Client not found" });
+    }
+
+    const clientIdString = clientId.toString();
+    const clientIndex = user.clients.findIndex(
+      (clientObjectId) => clientObjectId.toString() === clientIdString
+    );
+
+    if (clientIndex === -1) {
+      user.clients.push(clientId);
+      await user.save();
+      res.status(200).json({
+        success: true,
+        message: "Client added to the user's portfolio",
+      });
+    } else {
+      user.clients.splice(clientIndex, 1);
+      await user.save();
+      res.status(200).json({
+        success: true,
+        message: "Client removed from the user's portfolio",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: "An error occurred" });
+  }
+};
 async function refreshToken(req, res) {
   const { refreshToken } = req.body;
 
