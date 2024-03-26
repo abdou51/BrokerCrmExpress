@@ -191,21 +191,24 @@ const getMe = async (req, res) => {
 const getUniverse = async (req, res) => {
   try {
     const userId = req.user.userId;
-    const user = await User.findById(userId)
-      .populate("wilayas")
-      .populate("clients");
-
+    const user = await User.findById(userId);
+    console.log(user);
     if (!user) {
       return res.status(404).send("User not found.");
     }
 
     const userWilayas = user.wilayas.map((wilaya) => wilaya._id);
     const userClients = user.clients.map((client) => client._id);
+    console.log(userWilayas);
     let baseQuery = {
       wilaya: { $in: userWilayas },
       _id: { $nin: userClients },
     };
-
+    if (req.user.role === "Delegate") {
+      baseQuery.type = { $in: ["Doctor", "Pharmacy"] };
+    } else if (req.user.role === "Kam") {
+      baseQuery.type = "Wholesaler";
+    }
     const {
       filters = {},
       orderBy = { value: "fullName", operator: "desc" },
