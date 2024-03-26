@@ -1,11 +1,16 @@
 const Client = require("../models/client");
 const User = require("../models/user");
+const Wilaya = require("../models/wilaya");
 
 const createClient = async (req, res) => {
   const user = req.user;
   try {
     const clientData = { ...req.body };
-    const createdClient = await Client.create(clientData);
+    const wilaya = await Wilaya.findById(clientData.wilaya);
+    const createdClient = await Client.create({
+      ...clientData,
+      wilayaref: wilaya.name,
+    });
     if (user.role === "Delegate" || user.role === "Cam") {
       const delegate = await User.findById(user.userId);
       delegate.clients.push(createdClient.id);
