@@ -140,6 +140,7 @@ const getPortfolio = async (req, res) => {
       orderBy.operator === "asc" ? orderBy.value : `-${orderBy.value}`;
 
     const options = {
+      select: "-wilayaref",
       page: pageNumber,
       limit: pageSize,
       sort: sortOrder,
@@ -154,6 +155,9 @@ const getPortfolio = async (req, res) => {
         {
           path: "establishment",
           select: "-services",
+        },
+        {
+          path: "wilaya",
         },
       ],
     };
@@ -243,7 +247,7 @@ const addClientToPortfolio = async (req, res, next) => {
       return res.status(404).json({ message: "User or client not found" });
     }
 
-    const isClientInPortfolio = user.portfolio.some(
+    const isClientInPortfolio = user.clients.some(
       (item) => item.client && item.client.toString() === clientId
     );
 
@@ -253,7 +257,7 @@ const addClientToPortfolio = async (req, res, next) => {
         .json({ message: "Client is already in the user's portfolio" });
     }
 
-    user.portfolio.push({ client: clientId });
+    user.clients.push(clientId);
 
     await user.save();
 
