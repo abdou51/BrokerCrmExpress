@@ -209,6 +209,7 @@ const getUniverse = async (req, res) => {
       orderBy.operator === "asc" ? orderBy.value : `-${orderBy.value}`;
 
     const options = {
+      select: "-wilayaref",
       page: pageNumber,
       limit: pageSize,
       sort: sortOrder,
@@ -223,6 +224,9 @@ const getUniverse = async (req, res) => {
         {
           path: "establishment",
           select: "-services",
+        },
+        {
+          path: "wilaya",
         },
       ],
     };
@@ -244,27 +248,33 @@ const addClientToPortfolio = async (req, res, next) => {
     const client = await Client.findById(clientId);
 
     if (!user || !client) {
-      return res.status(404).json({ message: "User or client not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User or client not found" });
     }
+    const clientIdString = clientId.toString();
 
-    const isClientInPortfolio = user.clients.some(
-      (item) => item.client && item.client.toString() === clientId
-    );
+    const isClientInPortfolio = user.clients.some((clientObjectId) => {
+      return clientObjectId.toString() === clientIdString;
+    });
 
     if (isClientInPortfolio) {
-      return res
-        .status(400)
-        .json({ message: "Client is already in the user's portfolio" });
+      return res.status(400).json({
+        success: false,
+        message: "Client is already in the user's portfolio",
+      });
     }
 
     user.clients.push(clientId);
 
     await user.save();
 
-    res.status(200).json({ message: "Client added to the user's portfolio" });
+    res
+      .status(200)
+      .json({ success: true, message: "Client added to the user's portfolio" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "An error occurred" });
+    res.status(500).json({ success: false, error: "An error occurred" });
   }
 };
 const removeClientFromPortfolio = async (req, res, next) => {
@@ -272,13 +282,12 @@ const removeClientFromPortfolio = async (req, res, next) => {
     const userId = req.user.userId;
     const clientId = req.body.clientId;
     const user = await User.findById(userId);
-
+    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-
-    const clientIndex = user.portfolio.findIndex(
-      (item) => item.client && item.client.toString() === clientId
+    const clientIndex = user.clients.findIndex(
+      (clientObjectId) => clientObjectId.toString() === clientId
     );
 
     if (clientIndex === -1) {
@@ -287,7 +296,7 @@ const removeClientFromPortfolio = async (req, res, next) => {
         .json({ message: "Client not found in the user's portfolio" });
     }
 
-    user.portfolio.splice(clientIndex, 1);
+    user.clients.splice(clientIndex, 1);
 
     await user.save();
 
