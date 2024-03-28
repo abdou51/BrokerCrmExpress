@@ -8,7 +8,7 @@ function generateAccessToken(userId, role) {
       role: role,
     },
     secret,
-    { expiresIn: "30m" }
+    { expiresIn: "1m" }
   );
 }
 

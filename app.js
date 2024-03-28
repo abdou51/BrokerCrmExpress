@@ -99,6 +99,7 @@ const supervisorMonthRoutes = require("./stats/routes/supervisorMonthRoutes");
 const adminMonthRoutes = require("./stats/routes/adminMonthRoutes");
 const delegateYearRoutes = require("./stats/routes/delegateYearRoutes");
 const supervisorYearRoutes = require("./stats/routes/supervisorYearRoutes");
+const adminYearRoutes = require("./stats/routes/adminYearRoutes");
 
 // dashboard routes
 const dashboardClientRoutes = require("./Admin/routes/clientRoutes");
@@ -139,6 +140,7 @@ app.use("/api/v1/stats/month/supervisor", supervisorMonthRoutes);
 app.use("/api/v1/stats/month/admin", adminMonthRoutes);
 app.use("/api/v1/stats/year/delegate", delegateYearRoutes);
 app.use("/api/v1/stats/year/supervisor", supervisorYearRoutes);
+app.use("/api/v1/stats/year/admin", adminYearRoutes);
 
 //dashboard routes
 app.use("/api/v1/dashboard/clients", dashboardClientRoutes);

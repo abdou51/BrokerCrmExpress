@@ -199,7 +199,7 @@ const getUniverse = async (req, res) => {
 
     const userWilayas = user.wilayas.map((wilaya) => wilaya._id);
     const userClients = user.clients.map((client) => client._id);
-    console.log(userWilayas);
+
     let baseQuery = {
       wilaya: { $in: userWilayas },
       _id: { $nin: userClients },
