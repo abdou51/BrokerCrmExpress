@@ -10,7 +10,7 @@ const getVisitsPerDay = async (req, res) => {
       sortDirection = "desc",
     } = req.body;
     let userIds = [];
-    let users;
+    let users = [];
     const date = new Date(req.body.date);
     const startOfDay = new Date(date.setHours(0, 0, 0, 0));
     const endOfDay = new Date(date.setHours(23, 59, 59, 999));
