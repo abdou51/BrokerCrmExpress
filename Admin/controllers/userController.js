@@ -89,7 +89,7 @@ const getUsers = async (req, res) => {
     console.error(error.message);
     res
       .status(500)
-      .json({ message: "Error fetching users", error: err.message });
+      .json({ message: "Error fetching users", error: error.message });
   }
 };
 
