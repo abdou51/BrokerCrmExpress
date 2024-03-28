@@ -375,15 +375,9 @@ async function refreshToken(req, res) {
   }
   try {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-    console.log(decoded);
-    const newRefreshToken = generateRefreshToken({
-      userId: decoded.userId,
-      role: decoded.role,
-    });
-    const accessToken = generateAccessToken({
-      userId: decoded.userId,
-      role: decoded.role,
-    });
+    console.log("Decoded userId: ", decoded.userId);
+    const newRefreshToken = generateRefreshToken(decoded.userId, decoded.role);
+    const accessToken = generateAccessToken(decoded.userId, decoded.role);
     const expiresIn = 15;
     const expirationDate = new Date(new Date().getTime() + expiresIn * 60000);
     res.status(200).json({
