@@ -177,6 +177,7 @@ const getPortfolio = async (req, res) => {
 const getMe = async (req, res) => {
   try {
     const userId = req.user.userId;
+    console.log(userId);
     const user = await User.findById(userId)
       .select("-passwordHash -clients")
       .populate({
